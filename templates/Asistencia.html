@@ -1,0 +1,65 @@
+ {% extends "layout.html" %}
+
+<head>
+    <title>home</title>
+</head>
+{% block content %}
+<div id="main-container">
+
+    <form action="/mostratrasistencia" method="POST">
+        <center>
+            <br><br>
+            <select name="seleccion">
+                    <option value="1">Enero</option>
+                    <option value="2">Febrero</option>
+                    <option value="3">Marzo</option>
+                    <option value="4">Abril</option>
+                    <option value="5">Mayo</option>
+                    <option value="6">Junio</option>
+                    <option value="7">Julio</option>
+                    <option value="8">Agosto</option>
+                    <option value="9">Septiembre</option>
+                    <option value="10">Octubre</option>
+                    <option value="11">Noviembre</option>
+                    <option value="12">Diciembre</option>
+            </select>
+
+            <select name="seleccion1">
+                    {% for fila in asist %}
+                    <tr>
+                        <option value='{{fila.Usuario}}'>{{ fila.Usuario }}</option>
+                    </tr>
+                    {% endfor %}
+            </select>
+            <button class="btn btn-primary" type="submit">GO</button>
+        </center>
+    </form>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Usuario</th>
+                <th scope="col">Fecha Entrada</th>
+                <th scope="col">Fecha Salida</th>
+                <th scope="col">Hora Entrada</th>
+                <th scope="col">Hora salida</th>
+                <th scope="col">Horas Trabajadas</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for fila in listas %}
+            <tr>
+                <td>{{ fila.Usuario }}</td>
+                <td>{{ fila.Fecha_entrada}}</td>
+                <td>{{ fila.Fecha_salida}}</td>
+                <td>{{ fila.Hora_entrada}}</td>
+                <td>{{ fila.Hora_salida}}</td>
+                <td>{{ fila.Horas_trabajadas}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+</div>
+{% endblock %}

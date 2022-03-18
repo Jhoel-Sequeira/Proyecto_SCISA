@@ -1,0 +1,114 @@
+
+from asyncio.windows_events import NULL
+from flask import Flask, flash, redirect, render_template, request, url_for
+from datetime import datetime
+import cs50
+from cs50 import SQL
+from flask_mysqldb import MySQL
+from tempfile import mkdtemp
+from sqlalchemy import null
+from werkzeug.exceptions import default_exceptions
+from werkzeug.security import check_password_hash, generate_password_hash
+app = Flask(__name__)
+
+db = cs50.SQL("sqlite:///base.db") 
+
+
+@app.route('/')
+def Index():
+    
+     return render_template('login.html')
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+     
+     # User reached route via POST (as by submitting a form via POST)
+    if request.method == "POST":
+        usuario = request.form['usuario']
+        contraseña = request.form['contraseña']
+        ###SELECT U.User, U.Contraseña, ur.idRole as Rol FROM Usuario as U inner join UserRole as ur on U.User=ur.idUser Where U.User=:username
+        # Query database for username
+        if usuario == "" or contraseña == "":
+            return render_template('login.html', hola = 1)
+        else:
+            rows = db.execute("SELECT Usuario, Contraseña FROM credenciales Where Usuario=:username",
+                          username=usuario)
+            #variable = rows[0]["Contra"]
+            print(rows)
+            if len(rows) == 0 or not rows[0]["Contraseña"] == contraseña:
+                return render_template('login.html', hola = 1)
+            else:
+                #Estas consultas son para mostrar la lista de personas y su asistencia
+                hi = datetime.now()
+                himes = hi.month
+                db.execute('INSERT INTO Registro VALUES (:usuario,:fecha,:salida,:horae,:horas,:trab,:mes)',
+                usuario= usuario, fecha = datetime.date(hi),salida = NULL, horae = datetime.time(hi),horas = NULL, trab =NULL, mes = himes )
+                consult_user = db.execute('SELECT Id_rol FROM credenciales WHERE Usuario = :u', u = usuario)
+                
+                return render_template('home.html',rol = int(consult_user[0]["Id_rol"]))
+        
+    else:
+        return render_template("index.html")
+
+@app.route('/asistencia', methods=["GET", "POST"])
+def asistencia():
+    meses = ["", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+    hi = datetime.now()
+    himes = hi.month            
+    prueba1 = db.execute('select Usuario, Fecha_entrada, Fecha_salida, Hora_entrada, Hora_salida,Horas_trabajadas from Registro where mes = :t ', t = himes)
+    asistencia = db.execute('select Usuario, Fecha_entrada, Fecha_salida, Hora_entrada, Hora_salida,Horas_trabajadas from Registro GROUP BY Usuario')
+
+    return render_template('Asistencia.html',mes = meses[himes], listas = prueba1, asist = asistencia,usuario = prueba1[0]["Usuario"])
+        
+
+
+@app.route('/mostratrasistencia', methods=["GET", "POST"])
+def mostrarasistencia():
+    if request.method == "POST":
+        hi = datetime.now()
+        himes = hi.month
+        sele = request.form['seleccion']
+        user = request.form['seleccion1']
+        meses = ["", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+        prueba1 = db.execute('select Usuario, Fecha_entrada from Registro where mes = :t AND Usuario = :us', t = int(sele),us = user)
+        asistencia = db.execute('select Usuario, Fecha_entrada from Registro GROUP BY Usuario')
+        return render_template('Asistencia.html',mes = meses[int(sele)], listas = prueba1, asist = asistencia)
+        
+    else:
+
+        return redirect(url_for("index"))
+@app.route('/deslog')
+def deslog():
+    hi = datetime.now()
+    himes = hi.month
+    db.execute('UPDATE  Registro SET Fecha_salida = :sal, Hora_salida = :horasal WHERE Fecha_entrada = :fe',
+    sal= datetime.date(hi), horasal = datetime.time(hi),  fe = datetime.date(hi))
+    hora_trabajadas = db.execute('SELECT (strftime("%s", Hora_salida) - strftime("%s", Hora_entrada))/3600 AS HorasTrab from Registro WHERE Fecha_entrada = :fe',
+    fe = datetime.date(hi))
+    db.execute('UPDATE  Registro SET Horas_trabajadas = :ht WHERE Fecha_entrada = :fe',
+    ht= hora_trabajadas[0]["HorasTrab"],  fe = datetime.date(hi))
+    print(hora_trabajadas)
+    return render_template('login.html')        
+
+@app.route('/tareas')
+def tareas():
+    
+     return render_template('tareas.html')
+
+@app.route('/home')
+def home():
+    
+     return render_template('home.html')     
+
+@app.route('/notificaciones')
+def notificaciones():
+    
+     return render_template('notificaciones.html')     
+
+@app.route('/usuario')
+def usuario():
+    
+     return render_template('usuario.html')     
+
+if __name__ == '__main__':
+ app.run(port = 3000, debug = True)
