@@ -33,7 +33,6 @@ def login():
         else:
             rows = db.execute("SELECT Usuario, Contraseña FROM credenciales Where Usuario=:username",
                           username=usuario)
-            #variable = rows[0]["Contra"]
             print(rows)
             if len(rows) == 0 or not rows[0]["Contraseña"] == contraseña:
                 return render_template('login.html', hola = 1)
