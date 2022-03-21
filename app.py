@@ -32,7 +32,6 @@ def login():
         else:
             rows = db.execute("SELECT Usuario, Contraseña FROM credenciales Where Usuario=:username",
                           username=usuario)
-            print(rows)
             if len(rows) == 0 or not check_password_hash(rows[0]["Contraseña"], contraseña):
                 return render_template('login.html', hola = 1)
             else:
@@ -85,7 +84,6 @@ def deslog():
     fe = datetime.date(hi))
     db.execute('UPDATE  Registro SET Horas_trabajadas = :ht WHERE Fecha_entrada = :fe',
     ht= hora_trabajadas[0]["HorasTrab"],  fe = datetime.date(hi))
-    print(hora_trabajadas)
     return render_template('login.html')        
 
 @app.route('/tareas')
