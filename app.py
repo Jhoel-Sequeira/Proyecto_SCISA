@@ -16,8 +16,7 @@ db = cs50.SQL("sqlite:///base.db")
 
 @app.route('/')
 def Index():
-    
-     return render_template('login.html')
+    return render_template('login.html')
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -34,7 +33,7 @@ def login():
             rows = db.execute("SELECT Usuario, Contraseña FROM credenciales Where Usuario=:username",
                           username=usuario)
             print(rows)
-            if len(rows) == 0 or not rows[0]["Contraseña"] == contraseña:
+            if len(rows) == 0 or not check_password_hash(rows[0]["Contraseña"], contraseña):
                 return render_template('login.html', hola = 1)
             else:
                 #Estas consultas son para mostrar la lista de personas y su asistencia
