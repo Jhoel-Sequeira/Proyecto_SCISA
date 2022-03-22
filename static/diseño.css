@@ -1,0 +1,231 @@
+*,
+*:before,
+*:after {
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+    background-color: #f4f4f4;
+}
+
+.menu-todo {
+    background-color: #286478;
+    height: 75px;
+    width: 100vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #fff;
+    box-shadow: 5px 0 10px rgba(0, 0, 0, .6);
+}
+
+.logo {
+    color: #fff;
+    font-size: 35px;
+    padding: 0 80px;
+    font-weight: bold;
+}
+
+.menu_items {
+    display: flex;
+    list-style: none;
+    margin-right: 30px;
+}
+
+.menu_items li {
+    border-radius: 3px;
+    margin: 0 5px;
+}
+
+.menu_items li a {
+    padding: 7px 13px;
+    text-decoration: none;
+    font-size: 18px;
+    display: block;
+    text-transform: uppercase;
+    color: #fff;
+}
+
+.menu_items li:hover {
+    background-color: #1e4a58;
+    transition: .4s;
+}
+
+.btn_menu {
+    margin-right: 30px;
+    font-size: 25px;
+    color: #fff;
+    cursor: pointer;
+    display: none;
+}
+
+ul.show {
+    top: 65px;
+}
+
+
+/* Le damos estilo al boton dropbox con los mismos estilos que los li a */
+
+.dropbtn {
+    background-color: #286478;
+    padding: 7px 13px;
+    text-decoration: none;
+    font-size: 17px;
+    display: block;
+    text-transform: uppercase;
+    border: none;
+    color: #fff;
+    font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+}
+
+
+/* el contenedor  configuramos la posicion*/
+
+.dropdown {
+    position: center;
+    display: block;
+}
+
+
+/* Dropdown Contenido (lo que esta oculto) */
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #286478;
+    min-width: 160px;
+    z-index: 1;
+}
+
+
+/* Texto dentro del dropbox */
+
+.dropdown-content a {
+    color: #fff;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+
+/* cambiamos el color del hover */
+
+.dropdown-content a:hover {
+    background-color: #1e4a58;
+}
+
+
+/* Show the dropdown menu on hover */
+
+.dropdown:hover .dropdown-content {
+    display: block;
+    align-content: center;
+}
+
+
+/* cambiamos el color del boton cuando lo presionamos */
+
+.dropdown:hover .dropbtn {
+    background-color: #1e4a58;
+}
+
+@media screen and (max-width: 952px) {
+    .logo {
+        font-size: 30px;
+        padding-left: 35px;
+    }
+    .menu_items li a {
+        font-size: 16px;
+    }
+}
+
+@media screen and (max-width: 858px) {
+    .menu {
+        height: 65px;
+    }
+    .btn_menu {
+        display: inline-flex;
+    }
+    .menu_items {
+        position: fixed;
+        width: 100vw;
+        height: calc(100% - 65px);
+        background: #183c48;
+        top: -100vh;
+        text-align: center;
+        transition: all .4s;
+        flex-direction: column;
+    }
+    .dropbtn {
+        background-color: #286478;
+        margin: 30px 0 0 0;
+        line-height: 30px;
+        text-decoration: none;
+        font-size: 20px;
+        display: block;
+        text-transform: uppercase;
+        border: none;
+        color: #fff;
+        font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+        font-weight: bold;
+    }
+    .dropdown {
+        display: flex;
+        width: 100vw;
+        background: #183c48;
+        top: -100vh;
+        text-align: center;
+        transition: all .4s;
+        flex-direction: column;
+    }
+    /* Texto dentro del dropbox */
+    .dropdown-content a {
+        color: #fff;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+    .dropdown-content {
+        display: none;
+        position: relative;
+        background-color: #286478;
+        min-width: 160px;
+        z-index: 1;
+    }
+    .menu_items li {
+        margin: 30px 0 0 0;
+        line-height: 30px;
+    }
+    .menu_items li:hover {
+        background-color: none;
+    }
+    .menu_items li a {
+        font-size: 20px;
+        color: #fff;
+        font-weight: bold;
+    }
+    .menu_items li a:hover {
+        color: #fff
+    }
+    .logo {
+        font-size: 25px;
+        padding-left: 35px;
+    }
+    .dropbtn {
+        background-color: #183c48;
+    }
+}
+
+@media screen and (max-width: 858px) and (orientation: landscape) {
+    .menu_items li {
+        margin: 5px 0 0 0;
+    }
+    .menu_items {
+        overflow: scroll;
+        height: calc(100% - 65px);
+    }
+}
