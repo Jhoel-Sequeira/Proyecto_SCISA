@@ -86,25 +86,40 @@ def deslog():
     ht= hora_trabajadas[0]["HorasTrab"],  fe = datetime.date(hi))
     return render_template('login.html')        
 
-@app.route('/tareas')
-def tareas():
+@app.route('/Cotizacion')
+def cotizacion():
     
-     return render_template('tareas.html')
+     return render_template('cotizacion.html')
 
 @app.route('/home')
 def home():
     
      return render_template('home.html')     
 
-@app.route('/notificaciones')
-def notificaciones():
+@app.route('/facturacion')
+def facturacion():
     
-     return render_template('notificaciones.html')     
+     return render_template('facturacion.html')     
 
-@app.route('/usuario')
-def usuario():
+@app.route('/RRHH')
+def rrhh():
     
-     return render_template('usuario.html')     
+     return render_template('RRHH.html') 
+
+@app.route('/planificacion')
+def planificacion():
+    
+     return render_template('planificacion.html')     
+
+@app.route('/ejecucion')
+def ejecucion():
+    
+     return render_template('ejecucion.html')     
+
+@app.route('/ayuda')
+def ayuda():
+    
+     return render_template('ayuda.html')     
 
 if __name__ == '__main__':
  app.run(port = 3000, debug = True)
