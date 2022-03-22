@@ -23,7 +23,7 @@
     <nav class="menu-todo">
         <label class="logo">SCISA</label>
         <ul class="menu_items">
-            <li><a href="">Home</a></li>
+            <li><a href="/home">Home</a></li>
             <div class="dropdown">
                 <button class="dropbtn">Modulos</button>
                 <div class="dropdown-content">
@@ -35,12 +35,13 @@
                 </div>
             </div>
             <li><a href="">Ayuda</a></li>
-            <li><a href="">Logout</a></li>
+            <li><a href="/deslog">Logout</a></li>
         </ul>
         <span class="btn_menu">
             <box-icon name='menu' color="#ffffff"></box-icon>
         </span>
     </nav>
+    {% block content %} {% endblock %}
 
 </body>
 
