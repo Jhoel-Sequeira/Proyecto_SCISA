@@ -27,11 +27,12 @@
             <div class="dropdown">
                 <button class="dropbtn">Modulos</button>
                 <div class="dropdown-content">
+                    {% if rol == 1 %}
                     <a href="/Cotizacion">Cotizacion</a>
-                    <a href="/facturacion">Facturacion</a>
-                    <a href="/RRHH">RRHH</a>
+                    <a href="/facturacion">Facturacion</a>{%endif%}
+                    <a href="/RRHH">RRHH</a> {% if rol == 1 %}
                     <a href="/planificacion">Planificacion</a>
-                    <a href="/ejecucion">Ejecucion</a>
+                    <a href="/ejecucion">Ejecucion</a>{%endif%}
                 </div>
             </div>
             <li><a href="/ayuda">Ayuda</a></li>
