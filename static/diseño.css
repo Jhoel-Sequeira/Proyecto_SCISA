@@ -13,32 +13,36 @@ body {
 }
 
 .menu-todo {
+    display: relative;
     background-color: #286478;
-    height: 75px;
-    width: 100vw;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    height: 100vh;
+    width: 200px;
+    padding: 20px 0;
     border-bottom: 1px solid #fff;
     box-shadow: 5px 0 10px rgba(0, 0, 0, .6);
 }
 
 .logo {
+    display: relative;
     color: #fff;
     font-size: 35px;
-    padding: 0 80px;
     font-weight: bold;
+    padding-left: 50px;
 }
 
 .menu_items {
-    display: flex;
+    display: relative;
     list-style: none;
-    margin-right: 30px;
+    margin-left: 30px;
+    margin-top: 30px;
 }
 
 .menu_items li {
     border-radius: 3px;
     margin: 0 5px;
+    padding: 0 -50px;
+    border: none;
+    border-bottom: solid 2px #fff;
 }
 
 .menu_items li a {
@@ -53,6 +57,20 @@ body {
 .menu_items li:hover {
     background-color: #1e4a58;
     transition: .4s;
+}
+
+#logout {
+    border: none;
+    position: absolute;
+    bottom: 5px;
+    left: 70px;
+}
+
+#logout-icon {
+    border: none;
+    position: absolute;
+    bottom: 10px;
+    left: 50px;
 }
 
 .btn_menu {
@@ -72,7 +90,7 @@ ul.show {
 
 .dropbtn {
     background-color: #286478;
-    padding: 7px 13px;
+    padding: 7px 12.5px;
     text-decoration: none;
     font-size: 17px;
     display: block;
@@ -88,6 +106,8 @@ ul.show {
 .dropdown {
     position: center;
     display: block;
+    margin: 0 5px;
+    border-bottom: solid 2px #fff;
 }
 
 
@@ -133,6 +153,16 @@ ul.show {
     background-color: #1e4a58;
 }
 
+.div-contenido {
+    display: absolute;
+    position: absolute;
+    top: 0;
+    left: 210px;
+    background-color: red;
+    width: calc(100% - 210px);
+    height: 100vh;
+}
+
 @media screen and (max-width: 952px) {
     .logo {
         font-size: 30px;
@@ -147,11 +177,22 @@ ul.show {
     .menu {
         height: 65px;
     }
+    .menu-todo {
+        background-color: #286478;
+        width: 100vw;
+        height: calc(100% - 65px);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #fff;
+        box-shadow: 5px 0 10px rgba(0, 0, 0, .6);
+    }
     .btn_menu {
         display: inline-flex;
     }
     .menu_items {
         position: fixed;
+        margin: 0;
         width: 100vw;
         height: calc(100% - 65px);
         background: #183c48;
@@ -159,6 +200,14 @@ ul.show {
         text-align: center;
         transition: all .4s;
         flex-direction: column;
+    }
+    #logout {
+        border-bottom: 2px solid #fff;
+        position: relative;
+        left: 0px;
+    }
+    #logout-icon {
+        display: none;
     }
     .dropbtn {
         background-color: #286478;
@@ -175,6 +224,7 @@ ul.show {
     }
     .dropdown {
         display: flex;
+        margin: 0;
         width: 100vw;
         background: #183c48;
         top: -100vh;
@@ -217,6 +267,15 @@ ul.show {
     }
     .dropbtn {
         background-color: #183c48;
+    }
+    .div-contenido {
+        display: absolute;
+        position: absolute;
+        top: 80px;
+        left: 0;
+        background-color: red;
+        width: 100vw;
+        height: 100vh;
     }
 }
 

@@ -8,22 +8,22 @@
     <!----===== Boxicons CSS ===== -->
     <script src="https://unpkg.com/boxicons@2.1.2/dist/boxicons.js"></script>
     <!----===== CSS ===== -->
-    <link rel="stylesheet" href="../static/diseño.css">
+    <link rel="stylesheet" href="./static/diseño.css">
 
-    <title>SCISA</title>
+    <title>navbar</title>
     <!----===== GOOGLE FONT ===== -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Open+Sans&display=swap" rel="stylesheet">
     <!----===== JS ===== -->
-    <script src="../static/js/index.js" defer></script>
+    <script src="./static/index.js" defer></script>
 </head>
 
 <body>
     <nav class="menu-todo">
         <label class="logo">SCISA</label>
         <ul class="menu_items">
-            <li><a href="/home">Home</a></li>
+            <li><a href="">Home</a></li>
             <div class="dropdown">
                 <button class="dropbtn">Modulos</button>
                 <div class="dropdown-content">
@@ -35,14 +35,19 @@
                     <a href="/ejecucion">Ejecucion</a>{%endif%}
                 </div>
             </div>
-            <li><a href="/ayuda">Ayuda</a></li>
-            <li><a href="/deslog">Logout</a></li>
+            <li><a href="">Ayuda</a></li>
+            <li id="logout"><a href="">Logout</a></li>
         </ul>
+        <box-icon id="logout-icon" name='user-circle' type='solid' color='#ffffff'></box-icon>
         <span class="btn_menu">
             <box-icon name='menu' color="#ffffff"></box-icon>
         </span>
     </nav>
-    {% block content %} {% endblock %}
+    <div class="div-contenido">
+        {% block content %} {% endblock %}
+
+    </div>
+
 
 </body>
 
