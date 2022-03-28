@@ -1,18 +1,15 @@
 
 from asyncio.windows_events import NULL
-from flask import Flask, flash, redirect, render_template, request, url_for
+from flask import Flask, flash, redirect, render_template, request, url_for,session
 from datetime import datetime
 import cs50
 from cs50 import SQL
-from flask_mysqldb import MySQL
-from tempfile import mkdtemp
-from sqlalchemy import null
 from werkzeug.exceptions import default_exceptions
 from werkzeug.security import check_password_hash, generate_password_hash
 app = Flask(__name__)
 
 db = cs50.SQL("sqlite:///base.db") 
-
+app.secret_key = "super secret key"
 
 @app.route('/')
 def Index():
@@ -20,7 +17,7 @@ def Index():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-     
+    session.clear()
      # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
         usuario = request.form['usuario']
@@ -30,7 +27,7 @@ def login():
         if usuario == "" or contraseña == "":
             return render_template('login.html', hola = 1)
         else:
-            rows = db.execute("SELECT Usuario, Contraseña FROM credenciales Where Usuario=:username",
+            rows = db.execute("SELECT * FROM credenciales Where Usuario=:username",
                           username=usuario)
             if len(rows) == 0 or not check_password_hash(rows[0]["Contraseña"], contraseña):
                 return render_template('login.html', hola = 1)
@@ -41,7 +38,7 @@ def login():
                 db.execute('INSERT INTO Registro VALUES (:usuario,:fecha,:salida,:horae,:horas,:trab,:mes)',
                 usuario= usuario, fecha = datetime.date(hi),salida = NULL, horae = datetime.time(hi),horas = NULL, trab =NULL, mes = himes )
                 consult_user = db.execute('SELECT Id_rol FROM credenciales WHERE Usuario = :u', u = usuario)
-                
+                session["user_id"] = rows[0]["Id_Usuario"]
                 return render_template('home.html',rol = int(consult_user[0]["Id_rol"]))
         
     else:
@@ -84,6 +81,7 @@ def deslog():
     fe = datetime.date(hi))
     db.execute('UPDATE  Registro SET Horas_trabajadas = :ht WHERE Fecha_entrada = :fe',
     ht= hora_trabajadas[0]["HorasTrab"],  fe = datetime.date(hi))
+    session.clear()
     return render_template('login.html')        
 
 @app.route('/Cotizacion')
