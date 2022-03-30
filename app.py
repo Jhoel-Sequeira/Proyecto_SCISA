@@ -39,7 +39,7 @@ def login():
                 usuario= usuario, fecha = datetime.date(hi),salida = NULL, horae = datetime.time(hi),horas = NULL, trab =NULL, mes = himes )
                 consult_user = db.execute('SELECT Id_rol FROM credenciales WHERE Usuario = :u', u = usuario)
                 session["user_id"] = rows[0]["Id_Usuario"]
-                return render_template('home.html',rol = int(consult_user[0]["Id_rol"]))
+                return render_template('home.html',rol = int(consult_user[0]["Id_rol"]),nombre = rows[0]["Usuario"])
         
     else:
         return render_template("index.html")
