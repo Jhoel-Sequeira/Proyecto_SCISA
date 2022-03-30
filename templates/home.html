@@ -1,4 +1,49 @@
 {% extends "layout.html" %} {% block content %}
-<div class="calendario">
-    <iframe class="calendario" src="https://calendar.google.com/calendar/embed?src=jhoel05sequeira%40gmail.com&ctz=America%2FManagua"></iframe>
-</div> {% endblock %}
+<!----===== HOME ===== -->
+<nav class="div-encabezado">
+    <label class="texto-encabezado-nav">HOME</label>
+    <!-- <ul class="menu-barratop-items">
+                <li><a href="">Proyecto2</a></li>
+                <li><a href="">Proyecto3</a></li>
+            </ul> -->
+</nav>
+
+<nav class="div-encabezado-opciones">
+    <div class="barra-busqueda">
+        <form action="#">
+            <button>
+                        <box-icon name='search'></box-icon>
+                    </button>
+            <input type="text" placeholder=" Busqueda de Proyecto" name="busqueda">
+
+        </form>
+    </div>
+    <span class="btn_menu1">
+            <ul class="menu-barratop-opciones-items">
+                <box-icon name='list-ul'></box-icon>
+                <li ><a href="#">Agenda</a></li>
+                <box-icon type='solid' name='user'  onclick="empleados()"></box-icon>
+                <li><a href="#" onclick="empleados()">Empleados</a></li>
+                <box-icon name='calendar' onclick="calendario()"></box-icon>
+                <li><a  href="#" onclick="calendario()">Calendario</a></li>
+                
+            </ul>
+        </span>
+
+</nav>
+<div class="div-listaproyecto">
+    <h1>PROYECTOS</h1>
+
+</div>
+<div class="div-calendario">
+    <h1>CALENDARIO</h1>
+    <label for="start">Seleccionar Fecha</label>
+
+    <input type="date" id="start" name="trip-start" min="2018-01-01" max="2050-12-31">
+
+</div>
+<div class="div-empleados">
+    <h1>EMPLEADOS</h1>
+</div>
+<!----===== FIN HOME ===== -->
+{% endblock %}

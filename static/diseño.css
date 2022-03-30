@@ -73,6 +73,33 @@ body {
     left: 50px;
 }
 
+.main_content {
+    position: absolute;
+    top: 0;
+    background-color: White;
+    height: 100vh;
+    margin-left: 210px;
+    width: calc(100% - 200px);
+    padding: 20px 0;
+}
+
+.main_content .header {
+    padding: 20px;
+    background: #fff;
+    color: #717171;
+    border-bottom: 1px solid #e0e4e8;
+}
+
+.main_content .info {
+    margin: 20px;
+    color: #717171;
+    line-height: 25px;
+}
+
+.main_content .info div {
+    margin-bottom: 20px;
+}
+
 .btn_menu {
     margin-right: 30px;
     font-size: 25px;
@@ -158,10 +185,189 @@ ul.show {
     position: absolute;
     top: 0;
     left: 210px;
-    background-color: red;
+    background-color: #fff;
     width: calc(100% - 210px);
     height: 100vh;
 }
+
+
+/*====CSS DEL HOME====*/
+
+
+/*== Aca encontraremos lod estilos que usaremos para los textos*/
+
+
+/*de cada pantalla en el encabezado==*/
+
+
+/*===BARRA DE BUSQUEDA===*/
+
+.barra-busqueda {
+    display: flex;
+}
+
+.barra-busqueda form {
+    display: flex;
+    margin-left: 20px;
+    align-items: center;
+}
+
+.barra-busqueda input {
+    height: 30px;
+    border-radius: 10px;
+    border: 1px solid rgb(245, 245, 245);
+}
+
+.barra-busqueda button {
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    border-radius: 5px;
+}
+
+
+/*===FIN BARRA BUSQUEDA==*/
+
+.div-encabezado {
+    display: flex;
+    background-color: #fff;
+    height: 50px;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgb(233, 233, 233);
+}
+
+.menu-barratop-items {
+    display: flex;
+    list-style: none;
+    margin-right: 80px;
+}
+
+.menu-barratop-items li {
+    border-radius: 3px;
+}
+
+.menu-barratop-items li a {
+    padding: 7px 13px;
+    text-decoration: none;
+    font-size: 10px;
+    display: block;
+    text-transform: uppercase;
+    color: #333;
+}
+
+.menu-barratop-items li a:hover {
+    padding: 7px 13px;
+    text-decoration: none;
+    font-size: 20px;
+    display: block;
+    text-transform: uppercase;
+    color: #1e4a58;
+    transition: 1s;
+}
+
+.texto-encabezado-nav {
+    display: relative;
+    color: #343434;
+    font-size: 25px;
+    font-weight: bold;
+    padding-left: 50px;
+}
+
+.div-encabezado-opciones {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    height: 35px;
+    width: 100%;
+    border-bottom: 1px solid rgb(233, 233, 233);
+}
+
+.menu-barratop-opciones-items {
+    display: flex;
+    list-style: none;
+    margin-right: 5px;
+}
+
+.menu-barratop-opciones-items li {
+    border-radius: 3px;
+}
+
+.menu-barratop-opciones-items li a {
+    padding: 4px 13px;
+    text-decoration: none;
+    font-size: 10px;
+    display: block;
+    color: #333;
+}
+
+.menu-barratop-opciones-items li a:hover {
+    text-decoration: none;
+    color: blue;
+    transition: 1s;
+    font-weight: bold;
+}
+
+.btn_menu1 box-icon {
+    color: #fff;
+    cursor: pointer;
+    display: none;
+}
+
+
+/*==PROYECTOS==*/
+
+.div-listaproyecto {
+    display: relative;
+    background-color: purple;
+    width: 100%;
+    height: calc(100% - 85px);
+}
+
+
+/*==FIN ==*/
+
+
+/*==CALENDARIO==*/
+
+.div-calendario {
+    display: none;
+    position: relative;
+    left: calc(90% - 200px);
+    bottom: calc(100% - 85px);
+    background-color: pink;
+    width: calc(10% + 200px);
+    height: calc(100% - 50%);
+}
+
+.div-calendario label input {
+    display: block;
+}
+
+
+/*==FIN ==*/
+
+
+/*==EMPLEADOS==*/
+
+.div-empleados {
+    display: none;
+    position: relative;
+    left: calc(90% - 200px);
+    bottom: 100%;
+    background-color: RED;
+    width: calc(10% + 200px);
+    height: calc(100% - 50%)
+}
+
+
+/*==FIN ==*/
+
+
+/*====FIN DEL HOME====*/
 
 @media screen and (max-width: 952px) {
     .logo {
@@ -179,6 +385,7 @@ ul.show {
     }
     .menu-todo {
         background-color: #286478;
+        z-index: 3;
         width: 100vw;
         height: calc(100% - 65px);
         display: flex;
@@ -192,11 +399,12 @@ ul.show {
     }
     .menu_items {
         position: fixed;
+        z-index: 3;
         margin: 0;
         width: 100vw;
         height: calc(100% - 65px);
         background: #183c48;
-        top: -100vh;
+        top: -150vh;
         text-align: center;
         transition: all .4s;
         flex-direction: column;
@@ -273,10 +481,35 @@ ul.show {
         position: absolute;
         top: 80px;
         left: 0;
-        background-color: red;
+        background-color: transparent;
         width: 100vw;
-        height: 100vh;
+        height: calc(100% - 80px);
     }
+    .div-encabezado {
+        display: absolute;
+    }
+    .btn_menu1 box-icon {
+        display: inline-flex;
+        margin-left: 10px;
+        margin-right: 5px;
+    }
+    .div-encabezado-opciones li {
+        display: none;
+    }
+    .div-encabezado-opciones {
+        display: absolute;
+    }
+    /*empleados*/
+    .div-empleados {
+        display: none;
+        position: relative;
+        left: calc(90% - 200px);
+        bottom: 100%;
+        background-color: RED;
+        width: calc(10% + 200px);
+        height: calc(100% - 50%);
+    }
+    /*fin empleados*/
 }
 
 @media screen and (max-width: 858px) and (orientation: landscape) {
