@@ -134,6 +134,7 @@ ul.show {
     position: center;
     display: block;
     margin: 0 5px;
+    width: auto;
     border-bottom: solid 2px #fff;
 }
 
@@ -142,9 +143,8 @@ ul.show {
 
 .dropdown-content {
     display: none;
-    position: absolute;
-    background-color: #286478;
-    min-width: 160px;
+    position: relative;
+    background-color: #1c4755;
     z-index: 1;
 }
 
@@ -153,7 +153,7 @@ ul.show {
 
 .dropdown-content a {
     color: #fff;
-    padding: 12px 16px;
+    padding: 12px 40px;
     text-decoration: none;
     display: block;
 }
@@ -162,7 +162,7 @@ ul.show {
 /* cambiamos el color del hover */
 
 .dropdown-content a:hover {
-    background-color: #1e4a58;
+    background-color: #265c6d;
 }
 
 

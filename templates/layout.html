@@ -23,20 +23,23 @@
     <nav class="menu-todo">
         <label class="logo">SCISA</label>
         <ul class="menu_items">
-            <li><a href="">Home</a></li>
+            <li><a href="/home">Home</a></li>
             <div class="dropdown">
                 <button class="dropbtn">Modulos</button>
                 <div class="dropdown-content">
-                    {% if rol == 1 %}
+                    {% if session.user_id %} {% if session.userrole == 1%}
                     <a href="/Cotizacion">Cotizacion</a>
-                    <a href="/facturacion">Facturacion</a>{%endif%}
-                    <a href="/RRHH">RRHH</a> {% if rol == 1 %}
+                    <a href="/facturacion">Facturacion</a>{% endif %}{% endif %}
+                    <a href="/RRHH">RRHH</a>{% if session.user_id %} {% if session.userrole == 1%}
                     <a href="/planificacion">Planificacion</a>
-                    <a href="/ejecucion">Ejecucion</a>{%endif%}
+                    <a href="/ejecucion">Ejecucion</a>{% endif %}{% endif %}
                 </div>
             </div>
+            {% if session.user_id %} {% if session.userrole == 1%}
+            <li><a href="">Empleados</a></li>{% endif %}{% endif %}
             <li><a href="">Ayuda</a></li>
-            <li id="logout"><a href="/deslog">{{ nombre }}</a></li>
+
+            <li id="logout"><a href="/deslog">{{ session.user_id }}</a></li>
         </ul>
         <box-icon id="logout-icon" name='user-circle' type='solid' color='#ffffff'></box-icon>
         <span class="btn_menu">

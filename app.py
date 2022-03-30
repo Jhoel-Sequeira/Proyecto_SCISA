@@ -37,9 +37,11 @@ def login():
                 himes = hi.month
                 db.execute('INSERT INTO Registro VALUES (:usuario,:fecha,:salida,:horae,:horas,:trab,:mes)',
                 usuario= usuario, fecha = datetime.date(hi),salida = NULL, horae = datetime.time(hi),horas = NULL, trab =NULL, mes = himes )
-                consult_user = db.execute('SELECT Id_rol FROM credenciales WHERE Usuario = :u', u = usuario)
-                session["user_id"] = rows[0]["Id_Usuario"]
-                return render_template('home.html',rol = int(consult_user[0]["Id_rol"]),nombre = rows[0]["Usuario"])
+                # Recordar el usuario y rol que se logeo
+                session["user_id"] = rows[0]["Usuario"]
+                session["userrole"]=rows[0]["Id_rol"]
+
+                return render_template('home.html')
         
     else:
         return render_template("index.html")
