@@ -202,16 +202,31 @@ ul.show {
 
 /*===TABLA===*/
 
-.custab {
-    display: relative;
-    border: 1px solid #ccc;
-    padding: 5px;
-    margin: 5% 0;
-    box-shadow: 3px 3px 2px #ccc;
-    transition: 0.5s;
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: 0;
+    justify-content: center;
+    color: #858796;
 }
 
-thead tr {
+.custab {
+    border: 1px solid rgb(160, 160, 160);
+    padding: 5px;
+    margin: 5% 0;
+    transition: 0.5s;
+    border-collapse: collapse;
+    box-shadow: -5px 0px 5px #999;
+}
+
+.custab td {
+    border: 1px solid #dee2e6;
+    padding: 5px 5px 5px 5px;
+}
+
+thead tr th {
+    padding: 5px 5px 5px 5px;
+    border: 1px solid #dee2e6;
     margin: 50px;
 }
 
@@ -220,19 +235,12 @@ tr {
     padding: 5px;
 }
 
-.cuerpo-tabla {
-    margin: 5px 5px 5px 5px;
+thead th {
+    font-style: bold;
 }
 
 .cuerpo-tabla tr:hover {
     background-color: #286478;
-}
-
-.container {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: 0;
-    justify-content: start;
 }
 
 
@@ -359,11 +367,27 @@ tr {
 
 /*==PROYECTOS==*/
 
-.div-listaproyecto {
-    display: relative;
-    background-color: purple;
+.main-cont {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.tabla
+/*==FIN ==*/
+
+.div-listaproyecto,
+.div-calendario,
+.div-empleados {
     width: 100%;
-    height: calc(100% - 85px);
+    min-width: 150px;
+    height: 150px;
+}
+
+
+/*==PROYECTOS==*/
+
+.div-listaproyecto {
+    background-color: purple;
 }
 
 
@@ -373,13 +397,7 @@ tr {
 /*==CALENDARIO==*/
 
 .div-calendario {
-    display: none;
-    position: relative;
-    left: calc(90% - 200px);
-    bottom: calc(100% - 85px);
     background-color: pink;
-    width: calc(10% + 200px);
-    height: calc(100% - 50%);
 }
 
 .div-calendario label input {
@@ -393,13 +411,7 @@ tr {
 /*==EMPLEADOS==*/
 
 .div-empleados {
-    display: none;
-    position: relative;
-    left: calc(90% - 200px);
-    bottom: 100%;
     background-color: RED;
-    width: calc(10% + 200px);
-    height: calc(100% - 50%)
 }
 
 
@@ -407,6 +419,24 @@ tr {
 
 
 /*====FIN DEL HOME====*/
+
+@media (min-width: 600px) {
+    .div-listaproyecto {
+        width: 75%;
+        order: 0;
+    }
+    .div-calendario {
+        width: 25%;
+        order: 1;
+    }
+    .div-empleados {
+        width: 100%;
+        order: 2;
+    }
+    .div-calendario h1 {
+        font-size: 20px;
+    }
+}
 
 @media screen and (max-width: 952px) {
     .logo {
@@ -538,17 +568,6 @@ tr {
     .div-encabezado-opciones {
         display: absolute;
     }
-    /*empleados*/
-    .div-empleados {
-        display: none;
-        position: relative;
-        left: calc(90% - 200px);
-        bottom: 100%;
-        background-color: RED;
-        width: calc(10% + 200px);
-        height: calc(100% - 50%);
-    }
-    /*fin empleados*/
 }
 
 @media screen and (max-width: 858px) and (orientation: landscape) {
