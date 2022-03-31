@@ -387,6 +387,7 @@ thead th {
 /*==PROYECTOS==*/
 
 .div-listaproyecto {
+    width: 100%;
     background-color: purple;
 }
 
