@@ -9,7 +9,7 @@
 
 body {
     font-family: 'Open Sans', Arial, Helvetica, sans-serif;
-    background-color: #f4f4f4;
+    background-color: #dee2e6;
 }
 
 .menu-todo {
@@ -108,7 +108,7 @@ body {
     display: none;
 }
 
-ul.show {
+.menu_items.show {
     top: 65px;
 }
 
@@ -225,12 +225,14 @@ ul.show {
 }
 
 thead tr th {
+    justify-content: center;
     padding: 5px 5px 5px 5px;
     border: 1px solid #dee2e6;
     margin: 50px;
 }
 
 tr {
+    justify-content: center;
     background-color: #fff;
     padding: 5px;
 }
@@ -241,6 +243,11 @@ thead th {
 
 .cuerpo-tabla tr:hover {
     background-color: #286478;
+}
+
+.cuerpo-tabla tr td {
+    text-align: center;
+    border: 1px solid #dee2e6;
 }
 
 
@@ -376,7 +383,6 @@ thead th {
 /*==FIN ==*/
 
 .div-listaproyecto,
-.div-calendario,
 .div-empleados {
     width: 100%;
     min-width: 150px;
@@ -388,7 +394,7 @@ thead th {
 
 .div-listaproyecto {
     width: 100%;
-    background-color: purple;
+    background-color: #fff;
 }
 
 
@@ -397,14 +403,6 @@ thead th {
 
 /*==CALENDARIO==*/
 
-.div-calendario {
-    background-color: pink;
-}
-
-.div-calendario label input {
-    display: block;
-}
-
 
 /*==FIN ==*/
 
@@ -412,7 +410,7 @@ thead th {
 /*==EMPLEADOS==*/
 
 .div-empleados {
-    background-color: RED;
+    background-color: #fff;
 }
 
 
@@ -423,12 +421,8 @@ thead th {
 
 @media (min-width: 600px) {
     .div-listaproyecto {
-        width: 75%;
+        width: 100%;
         order: 0;
-    }
-    .div-calendario {
-        width: 25%;
-        order: 1;
     }
     .div-empleados {
         width: 100%;
@@ -480,9 +474,10 @@ thead th {
         flex-direction: column;
     }
     #logout {
-        border-bottom: 2px solid #fff;
+        border-top: 2px solid #fff;
         position: relative;
         left: 0px;
+        margin-top: 350px;
     }
     #logout-icon {
         display: none;
@@ -504,8 +499,7 @@ thead th {
         display: flex;
         margin: 0;
         width: 100vw;
-        background: #183c48;
-        top: -100vh;
+        background: #286478;
         text-align: center;
         transition: all .4s;
         flex-direction: column;
@@ -518,7 +512,7 @@ thead th {
         display: block;
     }
     .dropdown-content {
-        display: none;
+        display: relative;
         position: relative;
         background-color: #286478;
         min-width: 160px;
@@ -544,6 +538,7 @@ thead th {
         padding-left: 35px;
     }
     .dropbtn {
+        display: block;
         background-color: #183c48;
     }
     .div-contenido {
@@ -568,6 +563,9 @@ thead th {
     }
     .div-encabezado-opciones {
         display: absolute;
+    }
+    .main-cont {
+        display: relative;
     }
 }
 
