@@ -1,12 +1,8 @@
 {% extends "layout.html" %} {% block content %}
 <!----===== HOME ===== -->
 
-<head>
-    <title>Bootstrap Example</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SCISA-Home</title>
 
-</head>
 <nav class="div-encabezado">
     <label class="texto-encabezado-nav">HOME</label>
 
@@ -24,10 +20,10 @@
     </div>
     <span class="btn_menu1">
             <ul class="menu-barratop-opciones-items">
-                <box-icon name='list-ul'></box-icon>
-                <li ><a href="#">Agenda</a></li>
+                <box-icon type='solid' name='bell'></box-icon>
+                <li ><a href="#">Notificaciones</a></li>
                 <box-icon type='solid' name='user'  onclick="empleados()"></box-icon>
-                <li><a href="#" onclick="empleados()">Empleados</a></li>
+                <li><a href="#" onclick="empleados()">Reportes</a></li>
                 <box-icon name='calendar'data-toggle="modal" data-target="#myModal" onclick="calendario()"></box-icon>
                 <li><a  href="#" data-toggle="modal" data-target="#myModal" onclick="calendario()">Calendario</a></li>
                 
@@ -37,15 +33,69 @@
 </nav>
 <main class="main-cont">
     <div class="div-listaproyecto">
+        <label class="texto-encabezado-nav">Proyectos</label>
+        <div class="container">
+            <div class="tabla">
+                <form action="/modals" method="POST">
+                    <table class="custab">
+                        <thead>
+                            <tr>
+                                <th>ID Proyecto</th>
+                                <th>Nombre Proyecto</th>
+                                <th>Fecha Inicio</th>
+                                <th>Fecha Fin</th>
+                                <th>Estado</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="cuerpo-tabla">
+                            {% for fila in pro %}
+                            <tr>
+                                <td>{{ fila.Id_Proyecto }}</td>
+                                <td>{{ fila.Nombre}}</td>
+                                <td>{{ fila.FechaInicio}}</td>
+                                {% if fila.FechaFin == "NULL"%}
+                                <td>--</td>
+                                {%else%}
+                                <td>{{ fila.FechaFin}}</td>
+                                {% endif%} {% if fila.Estado == "Completado"%}
+                                <td id="estado"><text id="texto">{{ fila.Estado}}</text></td>
+                                {% elif fila.Estado == "Incompleto"%}
+                                <td id="Incompleto"><text id="texto1">{{ fila.Estado}}</text></td>
+                                {%else%}
+                                <td id="Progreso"><text id="texto2">{{ fila.Estado}}</text></td>
+                                {% endif%}
+                                <td class="text-center">
+                                    <a href="{{url_for('modal')}}">
+                                        <box-icon name='show' type="solid" color='#3075c9'></box-icon>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="div-grafico">
+        <label class="texto-encabezado-nav">Estadísticas del mes</label>
+
+    </div>
+
+
+    <div class="div-reportes">
+        <label class="texto-encabezado-nav">Reportes</label>
         <div class="container">
             <div class="tabla">
                 <table class="custab">
                     <thead>
                         <tr>
-                            <th>ID Proyecto</th>
-                            <th>Nombre Proyecto</th>
-                            <th>Fecha Inicio</th>
-                            <th>Fecha Fin</th>
+                            <th>ID Empleado</th>
+                            <th>Nombre Empleado</th>
+                            <th>Motivo</th>
                             <th>Estado</th>
                             <th class="text-center">Action</th>
                         </tr>
@@ -53,12 +103,11 @@
                     <tbody class="cuerpo-tabla">
                         <tr>
                             <td>1</td>
-                            <td>News</td>
-                            <td>News Cate</td>
-                            <td>News Cate</td>
-                            <td>News Cate</td>
+                            <td>Juan</td>
+                            <td>Adelanto de Salario</td>
+                            <td>Pendiente</td>
                             <td class="text-center">
-                                <box-icon name='show' data-toggle="modal" data-target="#modalProyecto" type="solid" color='#3075c9'></box-icon>
+                                <box-icon name='show' data-toggle="modal" data-target="#modalReporte" type="solid" color='#3075c9'></box-icon>
                             </td>
                         </tr>
                         <tr>
@@ -66,9 +115,8 @@
                             <td>News</td>
                             <td>News Cate</td>
                             <td>News Cate</td>
-                            <td>News Cate</td>
                             <td class="text-center">
-                                <box-icon name='show' data-toggle="modal" data-target="#modalProyecto" type="solid" color='#3075c9'></box-icon>
+                                <box-icon name='show' data-toggle="modal" data-target="#modalReporte" type="solid" color='#3075c9'></box-icon>
                             </td>
                         </tr>
                         <tr>
@@ -76,9 +124,53 @@
                             <td>News</td>
                             <td>News Cate</td>
                             <td>News Cate</td>
+                            <td class="text-center">
+                                <box-icon name='show' data-toggle="modal" data-target="#modalReporte" type="solid" color='#3075c9'></box-icon>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>News</td>
+                            <td>News Cate</td>
                             <td>News Cate</td>
                             <td class="text-center">
-                                <box-icon name='show' data-toggle="modal" data-target="#modalProyecto" type="solid" color='#3075c9'></box-icon>
+                                <box-icon name='show' data-toggle="modal" data-target="#modalReporte" type="solid" color='#3075c9'></box-icon>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>News</td>
+                            <td>News Cate</td>
+                            <td>News Cate</td>
+                            <td class="text-center">
+                                <box-icon name='show' data-toggle="modal" data-target="#modalReporte" type="solid" color='#3075c9'></box-icon>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>News</td>
+                            <td>News Cate</td>
+                            <td>News Cate</td>
+                            <td class="text-center">
+                                <box-icon name='show' data-toggle="modal" data-target="#modalReporte" type="solid" color='#3075c9'></box-icon>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>News</td>
+                            <td>News Cate</td>
+                            <td>News Cate</td>
+                            <td class="text-center">
+                                <box-icon name='show' data-toggle="modal" data-target="#modalReporte" type="solid" color='#3075c9'></box-icon>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>News</td>
+                            <td>News Cate</td>
+                            <td>News Cate</td>
+                            <td class="text-center">
+                                <box-icon name='show' data-toggle="modal" data-target="#modalReporte" type="solid" color='#3075c9'></box-icon>
                             </td>
                         </tr>
                     </tbody>
@@ -87,14 +179,15 @@
             </div>
         </div>
     </div>
-    <!--Modal -->
-    <div class="modal" id="myModal">
+    {%block modal%}{% endblock %}
+    <!--Modal reporte -->
+    <div class="modal" id="modalReporte">
         <div class="modal-dialog">
             <div class="modal-content">
 
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">CALENDARIO</h4>
+                    <h4 class="modal-title">Reportes</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
 
@@ -110,34 +203,6 @@
 
             </div>
         </div>
-    </div>
-    <!--Modal Proyecto -->
-    <div class="modal" id="modalProyecto">
-        <div class="modal-dialog">
-            <div class="modal-content">
-
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">Proyectos</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-
-                <!-- Modal body -->
-                <div class="modal-body">
-                    Modal body..
-                </div>
-
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <div class="div-empleados">
-        <h1>EMPLEADOS</h1>
     </div>
 </main>
 

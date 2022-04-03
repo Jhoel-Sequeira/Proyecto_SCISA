@@ -40,8 +40,8 @@ def login():
                 # Recordar el usuario y rol que se logeo
                 session["user_id"] = rows[0]["Usuario"]
                 session["userrole"]=rows[0]["Id_rol"]
-
-                return render_template('home.html')
+                proyectos = db.execute("SELECT * FROM Proyectos")
+                return render_template('home.html', pro = proyectos)
         
     else:
         return render_template("index.html")
@@ -93,8 +93,17 @@ def cotizacion():
 
 @app.route('/home')
 def home():
-    
-     return render_template('home.html')     
+    proyectos = db.execute("SELECT * FROM Proyectos")
+    return render_template('home.html', pro = proyectos)  
+
+ 
+# mostrar los modals segun su seleccion
+@app.route('/modal')
+def modal():
+    proyectos = db.execute("SELECT * FROM Proyectos")
+    return render_template('modal.html', pro = proyectos)
+        
+
 
 @app.route('/facturacion')
 def facturacion():

@@ -212,7 +212,6 @@ body {
 
 .custab {
     border: 1px solid rgb(160, 160, 160);
-    padding: 5px;
     margin: 5% 0;
     transition: 0.5s;
     border-collapse: collapse;
@@ -375,8 +374,12 @@ thead th {
 /*==PROYECTOS==*/
 
 .main-cont {
+    overflow: scroll;
+    height: calc(100% - 85px);
     display: flex;
     flex-wrap: wrap;
+    background-color: #fff;
+    height: calc();
 }
 
 .tabla
@@ -386,7 +389,6 @@ thead th {
 .div-empleados {
     width: 100%;
     min-width: 150px;
-    height: 150px;
 }
 
 
@@ -394,14 +396,19 @@ thead th {
 
 .div-listaproyecto {
     width: 100%;
-    background-color: #fff;
+    background-color: transparent;
 }
 
 
 /*==FIN ==*/
 
 
-/*==CALENDARIO==*/
+/*==GRAFICOS==*/
+
+.div-grafico {
+    width: 100%;
+    background-color: transparent;
+}
 
 
 /*==FIN ==*/
@@ -409,8 +416,9 @@ thead th {
 
 /*==EMPLEADOS==*/
 
-.div-empleados {
-    background-color: #fff;
+.div-reportes {
+    width: 100%;
+    background-color: transparent;
 }
 
 
@@ -419,12 +427,16 @@ thead th {
 
 /*====FIN DEL HOME====*/
 
-@media (min-width: 600px) {
+@media (min-width: 800px) {
     .div-listaproyecto {
-        width: 100%;
+        width: 75%;
         order: 0;
     }
-    .div-empleados {
+    .div-grafico {
+        width: 25%;
+        order: 1;
+    }
+    .div-reportes {
         width: 100%;
         order: 2;
     }
@@ -477,7 +489,7 @@ thead th {
         border-top: 2px solid #fff;
         position: relative;
         left: 0px;
-        margin-top: 350px;
+        margin-top: 55vh;
     }
     #logout-icon {
         display: none;
