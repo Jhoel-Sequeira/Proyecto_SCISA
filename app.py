@@ -41,9 +41,10 @@ def login():
                 session["user_id"] = rows[0]["Usuario"]
                 session["userrole"]=rows[0]["Id_rol"]
                 proyectos = db.execute("SELECT * FROM Proyectos")
+                proyectos_user = db.execute("SELECT * FROM Proyectos WHERE Empleado = :user",user = rows[0]["Usuario"])
                 permisos = db.execute("SELECT * FROM Solicitudes")
                 print(permisos)
-                return render_template('home.html', pro = proyectos, permiso = permisos)
+                return render_template('home.html', pro = proyectos, permiso = permisos, pro_user = proyectos_user )
         
     else:
         return render_template("index.html")
@@ -96,7 +97,8 @@ def cotizacion():
 @app.route('/home')
 def home():
     proyectos = db.execute("SELECT * FROM Proyectos")
-    return render_template('home.html', pro = proyectos)  
+    proyectos_user = db.execute("SELECT * FROM Proyectos WHERE Empleado = :user",user = session["user_id"])
+    return render_template('home.html', pro = proyectos,pro_user = proyectos_user)  
 
  
 # mostrar los modals segun su seleccion

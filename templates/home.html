@@ -37,6 +37,7 @@
     </span>
 
 </nav>
+{% if session.user_id %} {% if session.userrole == 1%}
 <main class="main-cont">
     <div class="div-listaproyecto">
         <label class="texto-encabezado-nav">Proyectos</label>
@@ -62,8 +63,10 @@
                                 <td>{{ fila.FechaInicio}}</td>
                                 {% if fila.FechaFin == "NULL"%}
                                 <td>--</td>
+                                <td>{{ fila.Empleado}}</td>
                                 {%else%}
                                 <td>{{ fila.FechaFin}}</td>
+                                <td>{{ fila.Empleado}}</td>
                                 {% endif%} {% if fila.Estado == "Completado"%}
                                 <td id="estado"><text id="texto">{{ fila.Estado}}</text></td>
                                 {% elif fila.Estado == "Incompleto"%}
@@ -213,6 +216,95 @@
         </div>
     </div>
 </main>
+{%else%}
+<main class="main-cont">
+    <div class="div-listaproyecto">
+        <label class="texto-encabezado-nav">Mis Proyectos</label>
+        <div class="container">
+            <div class="tabla">
+                <form action="/modals" method="POST">
+                    <table class="custab">
+                        <thead>
+                            <tr>
+                                <th>ID Proyecto</th>
+                                <th>Nombre Proyecto</th>
+                                <th>Fecha Inicio</th>
+                                <th>Fecha Fin</th>
+                                <th>Estado</th>
+                                <th>Responsable</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="cuerpo-tabla">
+                            {% for fila in pro_user %}
+                            <tr>
+                                <td>{{ fila.Id_Proyecto }}</td>
+                                <td>{{ fila.Nombre}}</td>
+                                <td>{{ fila.FechaInicio}}</td>
+                                {% if fila.FechaFin == "NULL"%}
+                                <td>--</td>
+                                <td>{{ fila.Empleado}}</td>
+                                {%else%}
+                                <td>{{ fila.FechaFin}}</td>
+                                <td>{{ fila.Empleado}}</td>
+                                {% endif%} {% if fila.Estado == "Completado"%}
+                                <td id="estado"><text id="texto">{{ fila.Estado}}</text></td>
+                                {% elif fila.Estado == "Incompleto"%}
+                                <td id="Incompleto"><text id="texto1">{{ fila.Estado}}</text></td>
+                                {%else%}
+                                <td id="Progreso"><text id="texto2">{{ fila.Estado}}</text></td>
+                                {% endif%}
+                                <td class="text-center">
+                                    <a href="{{url_for('modal')}}">
+                                        <box-icon name='show' type="solid" color='#3075c9'></box-icon>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="div-grafico">
+        <label class="texto-encabezado-nav">Mis Estadisticas</label>
+
+    </div>
+
+
+    <div class="div-reportes">
+        <label class="texto-encabezado-nav">Mis Reportes</label>
+
+    </div>
+    <!--Modal reporte -->
+    <div class="modal" id="modalReporte">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Reportes</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    Modal body..
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</main>
+{% endif%}{% endif%}
 
 
 
