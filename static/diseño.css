@@ -202,6 +202,8 @@ body {
 
 /*===TABLA===*/
 
+.tabla {}
+
 .container {
     display: flex;
     flex-wrap: wrap;
@@ -211,22 +213,21 @@ body {
 }
 
 .custab {
-    border: 1px solid rgb(160, 160, 160);
+    border: 1px solid rgb(146, 146, 146);
     margin: 5% 0;
     transition: 0.5s;
     border-collapse: collapse;
-    box-shadow: -5px 0px 5px #999;
 }
 
 .custab td {
-    border: 1px solid #dee2e6;
+    border: 1px solid rgb(146, 146, 146);
     padding: 5px 5px 5px 5px;
 }
 
 thead tr th {
     justify-content: center;
     padding: 5px 5px 5px 5px;
-    border: 1px solid #dee2e6;
+    border: 1px solid rgb(146, 146, 146);
     margin: 50px;
 }
 
@@ -246,7 +247,7 @@ thead th {
 
 .cuerpo-tabla tr td {
     text-align: center;
-    border: 1px solid #dee2e6;
+    border: 1px solid rgb(146, 146, 146);
 }
 
 
@@ -382,7 +383,7 @@ thead th {
     height: calc();
 }
 
-.tabla
+
 /*==FIN ==*/
 
 .div-listaproyecto,
@@ -407,7 +408,11 @@ thead th {
 
 .div-grafico {
     width: 100%;
-    background-color: transparent;
+    background-color: pink;
+}
+
+.div-grafico-gra {
+    padding-bottom: 50px;
 }
 
 
@@ -429,11 +434,11 @@ thead th {
 
 @media (min-width: 800px) {
     .div-listaproyecto {
-        width: 75%;
+        width: 65%;
         order: 0;
     }
     .div-grafico {
-        width: 25%;
+        width: 35%;
         order: 1;
     }
     .div-reportes {
@@ -442,6 +447,12 @@ thead th {
     }
     .div-calendario h1 {
         font-size: 20px;
+    }
+}
+
+@media (max-width: 400px) {
+    .tabla {
+        overflow: scroll;
     }
 }
 
@@ -458,6 +469,11 @@ thead th {
 @media screen and (max-width: 858px) {
     .menu {
         height: 65px;
+    }
+    thead tr th {
+        justify-content: center;
+        padding: 5px 5px 5px 5px;
+        border: 1px solid rgb(146, 146, 146);
     }
     .menu-todo {
         background-color: #286478;

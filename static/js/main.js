@@ -21,6 +21,36 @@ function empleados() {
         empleados.style.display = "none";
     }
 }
+// Grafico
+const ctx = document.getElementById('myChart');
+const myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Incompletos', 'Completados', 'En Progreso'],
+        datasets: [{
+            label: '# of Votes',
+            data: [12, 19, 3],
+            backgroundColor: [
+                'red',
+                'green',
+                'yellow'
+
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+
+
+
+
 // Esto es para cambiar los colores de la tabla
 var x;
 
