@@ -395,7 +395,7 @@ thead th {
     height: calc(100% - 85px);
     display: flex;
     flex-wrap: wrap;
-    background-color: #fff;
+    background-color: rgb(214, 214, 214);
     height: calc();
 }
 
@@ -405,7 +405,7 @@ thead th {
 .div-listaproyecto,
 .div-empleados {
     width: 100%;
-    min-width: 150px;
+    min-width: 50px;
 }
 
 
@@ -413,7 +413,9 @@ thead th {
 
 .div-listaproyecto {
     width: 100%;
-    background-color: transparent;
+    margin: 10px 0px 10px 10px;
+    background-color: #fff;
+    border-radius: 20px;
 }
 
 
@@ -424,7 +426,10 @@ thead th {
 
 .div-grafico {
     width: 100%;
-    background-color: transparent;
+    margin: 10px 0px 10px 10px;
+    padding-left: 10px;
+    background-color: #fff;
+    border-radius: 20px;
 }
 
 .div-grafico-gra {
@@ -439,7 +444,9 @@ thead th {
 
 .div-reportes {
     width: 100%;
-    background-color: transparent;
+    margin: 0px 10px 10px 10px;
+    background-color: #fff;
+    border-radius: 20px;
 }
 
 
@@ -450,11 +457,11 @@ thead th {
 
 @media (min-width: 800px) {
     .div-listaproyecto {
-        width: 65%;
+        width: 58.5%;
         order: 0;
     }
     .div-grafico {
-        width: 35%;
+        width: 39%;
         order: 1;
     }
     .div-reportes {
