@@ -41,7 +41,9 @@ def login():
                 session["user_id"] = rows[0]["Usuario"]
                 session["userrole"]=rows[0]["Id_rol"]
                 proyectos = db.execute("SELECT * FROM Proyectos")
-                return render_template('home.html', pro = proyectos)
+                permisos = db.execute("SELECT * FROM Solicitudes")
+                print(permisos)
+                return render_template('home.html', pro = proyectos, permiso = permisos)
         
     else:
         return render_template("index.html")
@@ -101,7 +103,8 @@ def home():
 @app.route('/modal')
 def modal():
     proyectos = db.execute("SELECT * FROM Proyectos")
-    return render_template('modal.html', pro = proyectos)
+    permisos = db.execute("SELECT * FROM Solicitudes")
+    return render_template('modal.html', pro = proyectos, permiso = permisos)
         
 
 

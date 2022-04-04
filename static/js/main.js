@@ -13,12 +13,12 @@ $(Document).ready(function() {
     $("#exampleModal").modal("show")
 })
 
-function empleados() {
-    var empleados = document.querySelector(".div-reportes");
-    if (empleados.style.display === "none") {
-        empleados.style.display = "block";
+function reportes() {
+    var reportes = document.querySelector(".div-reportes");
+    if (reportes.style.display === "none") {
+        reportes.style.display = "block";
     } else {
-        empleados.style.display = "none";
+        reportes.style.display = "none";
     }
 }
 // Grafico
@@ -28,7 +28,7 @@ const myChart = new Chart(ctx, {
     data: {
         labels: ['Incompletos', 'Completados', 'En Progreso'],
         datasets: [{
-            label: '# of Votes',
+            label: 'Cantidad de Proyectos',
             data: [12, 19, 3],
             backgroundColor: [
                 'red',

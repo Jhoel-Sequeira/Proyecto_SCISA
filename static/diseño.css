@@ -372,6 +372,22 @@ thead th {
 }
 
 
+/*notificaciones*/
+
+#burbuja {
+    position: absolute;
+    background-color: red;
+    width: 10px;
+    height: 10px;
+    -moz-border-radius: 5%;
+    -webkit-border-radius: 5%;
+    border-radius: 50%;
+}
+
+
+/*=================*/
+
+
 /*==PROYECTOS==*/
 
 .main-cont {
@@ -408,11 +424,10 @@ thead th {
 
 .div-grafico {
     width: 100%;
-    background-color: pink;
+    background-color: transparent;
 }
 
 .div-grafico-gra {
-    width: 500px;
     padding-bottom: 50px;
 }
 
@@ -592,6 +607,19 @@ thead th {
     }
     .div-encabezado-opciones {
         display: absolute;
+    }
+    #burbuja {
+        display: none;
+    }
+    #burbuja1 {
+        position: absolute;
+        right: 87px;
+        background-color: red;
+        width: 10px;
+        height: 10px;
+        -moz-border-radius: 5%;
+        -webkit-border-radius: 5%;
+        border-radius: 50%;
     }
     .main-cont {
         display: relative;

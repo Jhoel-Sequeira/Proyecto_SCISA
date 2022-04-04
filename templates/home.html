@@ -20,15 +20,21 @@
     </div>
     <span class="btn_menu1">
             <ul class="menu-barratop-opciones-items">
-                <box-icon type='solid' name='bell'></box-icon>
-                <li ><a href="#">Notificaciones</a></li>
-                <box-icon type='solid' name='user'  onclick="empleados()"></box-icon>
-                <li><a href="#" onclick="empleados()">Reportes</a></li>
-                <box-icon name='calendar'data-toggle="modal" data-target="#myModal" onclick="calendario()"></box-icon>
-                <li><a  href="#" data-toggle="modal" data-target="#myModal" onclick="calendario()">Calendario</a></li>
-                
-            </ul>
-        </span>
+                {% if permiso %}
+                <box-icon type='solid' name='bell'></box-icon><span id="burbuja1" ></span>
+    <li><a href="#">Notificaciones<span id="burbuja" ></span></a>
+    </li>
+    {%else%}
+    <box-icon type='solid' name='bell'></box-icon>
+    <li><a href="#">Notificaciones</a></li>{% endif%}
+
+    <box-icon type='solid' onclick="reportes()" name='report'></box-icon>
+    <li><a href="#" onclick="reportes()">Reportes</a></li>
+    <box-icon name='calendar' data-toggle="modal" data-target="#myModal" onclick="calendario()"></box-icon>
+    <li><a href="#" data-toggle="modal" data-target="#myModal" onclick="calendario()">Calendario</a></li>
+
+    </ul>
+    </span>
 
 </nav>
 <main class="main-cont">
