@@ -43,7 +43,6 @@ def login():
                 session["userrole"]=rows[0]["Id_rol"]
                 proyectos = db.execute("SELECT * FROM Proyectos")
                 proyectos_user = db.execute("SELECT * FROM Proyectos WHERE Empleado = :user",user = rows[0]["Usuario"])
-               
                 solicitudes = db.execute("SELECT * FROM Solicitudes")
                 return render_template('home.html', pro = proyectos, proUser = proyectos_user, soli = solicitudes)  
         
@@ -99,7 +98,8 @@ def cotizacion():
 def home():
     proyectos = db.execute("SELECT * FROM Proyectos")
     proyectos_user = db.execute("SELECT * FROM Proyectos WHERE Empleado = :user",user = session["user_id"])
-    solicitudes = db.execute("SELECT * FROM Solicitudes")
+    solicitudes = db.execute("SELECT Estado FROM Solicitudes")
+    print(solicitudes)
     return render_template('home.html', pro = proyectos, proUser = proyectos_user, soli = solicitudes)   
 
  
@@ -129,6 +129,7 @@ def solicitud():
        proyectos = db.execute("SELECT * FROM Proyectos")
        proyectos_user = db.execute("SELECT * FROM Proyectos WHERE Empleado = :user",user = session["user_id"])
        solicitudes = db.execute("SELECT * FROM Solicitudes")
+       
        return render_template('home.html', pro = proyectos, proUser = proyectos_user, soli = solicitudes)  
     else:
 
@@ -143,6 +144,7 @@ def AceptarSoli():
         solicitudes = db.execute("SELECT * FROM Solicitudes")
         db.execute('UPDATE  Solicitudes SET Estado = :est,Vigente = :vi WHERE Id_Solicitud = :Id',
         est = "Aprobado",vi = 0, Id = id)
+        print(solicitudes[0]["Vigente"])
         return render_template('home.html', pro = proyectos, proUser = proyectos_user, soli = solicitudes)  
      else:
 
