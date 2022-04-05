@@ -254,6 +254,60 @@ thead th {
 /*===FIN TABLA===*/
 
 
+/*===TABLA EMP===*/
+
+.container-emp {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: 0;
+    justify-content: center;
+    color: #858796;
+}
+
+.custab-emp {
+    border: 1px solid rgb(146, 146, 146);
+    margin: 5% 0;
+    transition: 0.5s;
+    border-collapse: collapse;
+}
+
+.custab-emp td {
+    border: 1px solid rgb(146, 146, 146);
+    padding: 5px 5px 5px 5px;
+}
+
+.custab-emp thead tr th {
+    justify-content: center;
+    padding: 5px 5px 5px 5px;
+    border: 1px solid rgb(146, 146, 146);
+    margin: 50px;
+}
+
+.custab-emp tr {
+    justify-content: center;
+    background-color: #fff;
+    padding: 5px;
+}
+
+.custab-emp thead th {
+    font-style: bold;
+}
+
+.cuerpo-tabla-emp tr:hover {
+    background-color: #286478;
+}
+
+.cuerpo-tabla-emp tr td {
+    text-align: center;
+    border: 1px solid rgb(146, 146, 146);
+}
+
+.pint {}
+
+
+/*=======FIN======*/
+
+
 /*===BARRA DE BUSQUEDA===*/
 
 .barra-busqueda {
@@ -445,8 +499,40 @@ thead th {
 .div-reportes {
     width: 100%;
     margin: 0px 10px 10px 10px;
+    padding: 0 20px 10px 20px;
     background-color: #fff;
     border-radius: 20px;
+}
+
+.div-solicitud {
+    display: none;
+    position: absolute;
+    padding: 10px 10px 10px 10px;
+    border: 2px solid #000;
+    border-radius: 10px;
+    left: 30%;
+    top: 10%;
+    width: 700px;
+    height: 500px;
+    background-color: #fff;
+}
+
+.div-not {
+    display: none;
+    position: absolute;
+    padding: 10px 10px 10px 10px;
+    border: 2px solid #000;
+    border-radius: 10px;
+    left: 30%;
+    top: 10%;
+    width: 700px;
+    height: 500px;
+    background-color: #fff;
+}
+
+.boton-invisible {
+    border: none;
+    background-color: transparent;
 }
 
 

@@ -1,5 +1,6 @@
 
 from asyncio.windows_events import NULL
+from re import S
 from flask import Flask, flash, redirect, render_template, request, url_for,session
 from datetime import datetime
 import cs50
@@ -42,9 +43,9 @@ def login():
                 session["userrole"]=rows[0]["Id_rol"]
                 proyectos = db.execute("SELECT * FROM Proyectos")
                 proyectos_user = db.execute("SELECT * FROM Proyectos WHERE Empleado = :user",user = rows[0]["Usuario"])
-                permisos = db.execute("SELECT * FROM Solicitudes")
-                print(permisos)
-                return render_template('home.html', pro = proyectos, permiso = permisos, pro_user = proyectos_user )
+               
+                solicitudes = db.execute("SELECT * FROM Solicitudes")
+                return render_template('home.html', pro = proyectos, proUser = proyectos_user, soli = solicitudes)  
         
     else:
         return render_template("index.html")
@@ -98,7 +99,8 @@ def cotizacion():
 def home():
     proyectos = db.execute("SELECT * FROM Proyectos")
     proyectos_user = db.execute("SELECT * FROM Proyectos WHERE Empleado = :user",user = session["user_id"])
-    return render_template('home.html', pro = proyectos,pro_user = proyectos_user)  
+    solicitudes = db.execute("SELECT * FROM Solicitudes")
+    return render_template('home.html', pro = proyectos, proUser = proyectos_user, soli = solicitudes)   
 
  
 # mostrar los modals segun su seleccion
@@ -109,6 +111,42 @@ def modal():
     return render_template('modal.html', pro = proyectos, permiso = permisos)
         
 
+@app.route('/reporte')
+def reporte():
+    
+     return render_template('home.html')    
+
+@app.route('/solicitud', methods=["GET", "POST"])
+def solicitud():
+    if request.method == "POST":
+       hi = datetime.now()
+       nombre = request.form['nombre']
+       titulo = request.form['titulo']
+       justificacion = request.form['justificacion']
+       print(nombre)
+       db.execute('INSERT INTO solicitudes VALUES (NULL,:nom,:jus,:fech,:titu,:estado,:vi)',nom = nombre, jus = justificacion,fech = datetime.date(hi),titu =titulo
+       ,estado = "Pendiente",vi = 1 )
+       proyectos = db.execute("SELECT * FROM Proyectos")
+       proyectos_user = db.execute("SELECT * FROM Proyectos WHERE Empleado = :user",user = session["user_id"])
+       solicitudes = db.execute("SELECT * FROM Solicitudes")
+       return render_template('home.html', pro = proyectos, proUser = proyectos_user, soli = solicitudes)  
+    else:
+
+        return redirect(url_for("index"))
+@app.route('/AceptarSoli', methods=["GET", "POST"])
+def AceptarSoli():
+     if request.method == "POST":
+        id = request.form['resp']
+        print(id)
+        proyectos = db.execute("SELECT * FROM Proyectos")
+        proyectos_user = db.execute("SELECT * FROM Proyectos WHERE Empleado = :user",user = session["user_id"])     
+        solicitudes = db.execute("SELECT * FROM Solicitudes")
+        db.execute('UPDATE  Solicitudes SET Estado = :est,Vigente = :vi WHERE Id_Solicitud = :Id',
+        est = "Aprobado",vi = 0, Id = id)
+        return render_template('home.html', pro = proyectos, proUser = proyectos_user, soli = solicitudes)  
+     else:
+
+        return redirect(url_for("index"))         
 
 @app.route('/facturacion')
 def facturacion():

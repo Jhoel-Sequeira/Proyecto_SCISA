@@ -20,18 +20,47 @@
     </div>
     <span class="btn_menu1">
             <ul class="menu-barratop-opciones-items">
-                {% if permiso %}
-                <box-icon type='solid' name='bell'></box-icon><span id="burbuja1" ></span>
-    <li><a href="#">Notificaciones<span id="burbuja" ></span></a>
+    {% if session.user_id %} {% if session.userrole == 1%}
+    <!-- admin -->
+        {% if soli%}
+        {% for fila in soli if not soli.Estado == "Pendientes" %}
+                            <box-icon type='solid' name='bell'></box-icon><span id="burbuja1" ></span>
+    <li><a href="#" onclick="solicitud()">Notificaciones<span id="burbuja" ></span></a>
     </li>
-    {%else%}
+
+
+    {% endfor %} {% for fila in soli if not soli.Estado == "Aprobados" %}
     <box-icon type='solid' name='bell'></box-icon>
-    <li><a href="#">Notificaciones</a></li>{% endif%}
+    <li><a href="#">Notificaciones</a></li>
+
+
+    {% endfor %} {%else%}
+    <box-icon type='solid' name='bell'></box-icon>
+    <li><a href="#">Notificaciones</a></li>
+    {% endif%}
 
     <box-icon type='solid' onclick="reportes()" name='report'></box-icon>
     <li><a href="#" onclick="reportes()">Reportes</a></li>
     <box-icon name='calendar' data-toggle="modal" data-target="#myModal" onclick="calendario()"></box-icon>
     <li><a href="#" data-toggle="modal" data-target="#myModal" onclick="calendario()">Calendario</a></li>
+    {%else%}
+    <!-- Empleado -->
+    {% if soli%} {% for fila in soli %} {% if fila.Vigente == 0 and fila.Estado == "Pendiente"%}
+    <box-icon type='solid' name='bell'></box-icon><span id="burbuja1"></span>
+    <li><a href="#" onclick="not()">Notificaciones<span id="burbuja" ></span></a>
+    </li>
+    {%else%}
+    <box-icon type='solid' name='bell'></box-icon>
+    <li><a href="#">Notificaciones</a></li>
+    {% endif%} {% endfor %} {%else%}
+    <box-icon type='solid' name='bell'></box-icon>
+    <li><a href="#">Notificaciones</a></li>
+    {% endif%}
+    <box-icon name='spreadsheet'></box-icon>
+    <li><a href="#" onclick="solicitud()">Solicitud</a></li>
+    {% endif%}{% endif%}
+
+
 
     </ul>
     </span>
@@ -52,6 +81,7 @@
                                 <th>Fecha Inicio</th>
                                 <th>Fecha Fin</th>
                                 <th>Estado</th>
+                                <th>Responsable</th>
                                 <th class="text-center">Action</th>
                             </tr>
                         </thead>
@@ -63,22 +93,22 @@
                                 <td>{{ fila.FechaInicio}}</td>
                                 {% if fila.FechaFin == "NULL"%}
                                 <td>--</td>
-                                <td>{{ fila.Empleado}}</td>
                                 {%else%}
                                 <td>{{ fila.FechaFin}}</td>
-                                <td>{{ fila.Empleado}}</td>
                                 {% endif%} {% if fila.Estado == "Completado"%}
-                                <td id="estado"><text id="texto">{{ fila.Estado}}</text></td>
+                                <td class="completo"><text class="textoc">{{ fila.Estado}}</text></td>
                                 {% elif fila.Estado == "Incompleto"%}
-                                <td id="Incompleto"><text id="texto1">{{ fila.Estado}}</text></td>
+                                <td class="incompleto"><text class="textoi">{{ fila.Estado}}</text></td>
                                 {%else%}
-                                <td id="Progreso"><text id="texto2">{{ fila.Estado}}</text></td>
+                                <td class="progreso"><text class="textop">{{ fila.Estado}}</text></td>
                                 {% endif%}
+                                <td>{{ fila.Empleado}}</td>
                                 <td class="text-center">
                                     <a href="{{url_for('modal')}}">
                                         <box-icon name='show' type="solid" color='#3075c9'></box-icon>
                                     </a>
                                 </td>
+
                             </tr>
                             {% endfor %}
 
@@ -95,7 +125,48 @@
             <canvas id="myChart"></canvas>
         </div>
     </div>
+    <div class="div-solicitud">
+        <label class="texto-encabezado-nav">Notificaciones</label>
+        <div class="container">
+            <div class="tabla">
+                <form action="/AceptarSoli" method="POST">
+                    <table class="custab">
+                        <thead>
+                            <tr>
+                                <th>ID Solicitud</th>
+                                <th>Nombre</th>
+                                <th>Titulo</th>
+                                <th>justificacion</th>
+                                <th>Fecha Solicitud</th>
+                                <th>Estado</th>
+                                <th class="text-center">Accción</th>
+                            </tr>
+                        </thead>
+                        <tbody class="cuerpo-tabla">
+                            {% for fila in soli %}
+                            <tr>
+                                <td>{{ fila.Id_Solicitud }}</td>
+                                <td>{{ fila.Nombre}}</td>
+                                <td>{{ fila.Titulo}}</td>
+                                <td>{{ fila.Justificacion}}</td>
+                                <td>{{ fila.FechaSoli}}</td>
+                                <td>{{ fila.Estado}}</td>
+                                <td class="text-center">
+                                    <button class="boton-invisible" name="resp" value="{{fila.Id_Solicitud}}" type="submit">
+                                        <box-icon name='show' type="solid" color='#3075c9'></box-icon>
+                                    </button>
+                                </td>
 
+                            </tr>
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <div class="div-reportes">
         <label class="texto-encabezado-nav">Reportes</label>
@@ -217,13 +288,14 @@
     </div>
 </main>
 {%else%}
+<!-- VISTA DE EMPLEADOS -->
 <main class="main-cont">
     <div class="div-listaproyecto">
         <label class="texto-encabezado-nav">Mis Proyectos</label>
-        <div class="container">
-            <div class="tabla">
+        <div class="container-emp">
+            <div class="tabla-emp">
                 <form action="/modals" method="POST">
-                    <table class="custab">
+                    <table class="custab-emp">
                         <thead>
                             <tr>
                                 <th>ID Proyecto</th>
@@ -235,25 +307,24 @@
                                 <th class="text-center">Action</th>
                             </tr>
                         </thead>
-                        <tbody class="cuerpo-tabla">
-                            {% for fila in pro_user %}
+                        <tbody class="cuerpo-tabla-emp">
+                            {% for fila in proUser %}
                             <tr>
                                 <td>{{ fila.Id_Proyecto }}</td>
                                 <td>{{ fila.Nombre}}</td>
                                 <td>{{ fila.FechaInicio}}</td>
                                 {% if fila.FechaFin == "NULL"%}
                                 <td>--</td>
-                                <td>{{ fila.Empleado}}</td>
                                 {%else%}
                                 <td>{{ fila.FechaFin}}</td>
-                                <td>{{ fila.Empleado}}</td>
                                 {% endif%} {% if fila.Estado == "Completado"%}
-                                <td id="estado"><text id="texto">{{ fila.Estado}}</text></td>
+                                <td id="estado1"><text id="emp1">1</text></td>
                                 {% elif fila.Estado == "Incompleto"%}
-                                <td id="Incompleto"><text id="texto1">{{ fila.Estado}}</text></td>
+                                <td id="celda2"><text id="text">2</text></td>
                                 {%else%}
-                                <td id="Progreso"><text id="texto2">{{ fila.Estado}}</text></td>
+                                <td id="celda3"><text id="emp3">3</text></td>
                                 {% endif%}
+                                <td>{{ fila.Empleado}}</td>
                                 <td class="text-center">
                                     <a href="{{url_for('modal')}}">
                                         <box-icon name='show' type="solid" color='#3075c9'></box-icon>
@@ -271,13 +342,97 @@
     </div>
     <div class="div-grafico">
         <label class="texto-encabezado-nav">Mis Estadisticas</label>
+        <br>
+        <label class="texto-encabezado-nav">Horas Logeadas:</label>
+        <br>
+        <label class="texto-encabezado-nav">Tareas Realizadas:</label>
 
+    </div>
+    <div class="div-solicitud">
+        <form action="/solicitud" method="POST">
+            <div class="form-group">
+                <label for="exampleFormControlInput1">Nombre</label>
+                <input type="text" class="form-control" name="nombre" id="exampleFormControlInput1" placeholder="Nombre">
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlInput1">Titulo Solicitud</label>
+                <input type="text" class="form-control" name="titulo" id="exampleFormControlInput1" placeholder="Titulo">
+            </div>
+
+            <div class="form-group">
+                <label for="exampleFormControlTextarea1">Justificación</label>
+                <textarea class="form-control" name="justificacion" id="exampleFormControlTextarea1" rows="3"></textarea>
+            </div>
+            <div class="col text-center">
+                <button type="submit" class="btn btn-primary" type="submit">Enviar</button>
+            </div>
+        </form>
+    </div>
+    <div class="div-not">
+        <label class="texto-encabezado-nav">Notificaciones</label>
+        <div class="container">
+            <div class="tabla">
+                <form action="/borrarSoli" method="POST">
+                    <table class="custab">
+                        <thead>
+                            <tr>
+                                <th>ID Solicitud</th>
+                                <th>Nombre</th>
+                                <th>Titulo</th>
+                                <th>justificacion</th>
+                                <th>Fecha Solicitud</th>
+                                <th>Estado</th>
+                                <th class="text-center">Accción</th>
+                            </tr>
+                        </thead>
+                        <tbody class="cuerpo-tabla">
+                            {% for fila in soli %}
+                            <tr>
+                                <td>{{ fila.Id_Solicitud }}</td>
+                                <td>{{ fila.Nombre}}</td>
+                                <td>{{ fila.Titulo}}</td>
+                                <td>{{ fila.Justificacion}}</td>
+                                <td>{{ fila.FechaSoli}}</td>
+                                <td>{{ fila.Estado}}</td>
+                                <td class="text-center">
+                                    <!-- <button class="boton-invisible" name="resp" value="{{fila.Id_Solicitud}}" type="submit">
+                                        <box-icon name='show' type="solid" color='#3075c9'></box-icon>
+                                    </button> -->
+                                </td>
+
+                            </tr>
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+                </form>
+            </div>
+        </div>
     </div>
 
 
     <div class="div-reportes">
         <label class="texto-encabezado-nav">Mis Reportes</label>
-
+        <form action="/reporte" method="POST">
+            <div class="form-group">
+                <label for="exampleFormControlInput1">Nombre Tarea</label>
+                <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Nombre">
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlInput1">Porcentaje Completado</label>
+                <input type="number" class="form-control" id="exampleFormControlInput1" placeholder="Porcentaje">
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlTextarea1">Descripción</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlFile1">Insertar Imagen de los Avances</label>
+                <input type="file" class="form-control-file" id="exampleFormControlFile1">
+            </div>
+            <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
     </div>
     <!--Modal reporte -->
     <div class="modal" id="modalReporte">
