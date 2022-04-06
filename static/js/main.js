@@ -40,27 +40,30 @@ function not() {
     }
 }
 // Esto es para cambiar los colores de la tabla
-var x, x1, x2;
-x = document.querySelector(".textoc").textContent;
-x1 = document.querySelector(".textoi").textContent;
-x2 = document.querySelector(".textop").textContent;
+// var x, x1, x2;
+// x = document.querySelector(".textoc").textContent;
+// x1 = document.querySelector(".textoi").textContent;
+// x2 = document.querySelector(".textop").textContent;
 
 
 
-document.querySelector(".completo").style.backgroundColor = "green";
-document.querySelector(".textoc").style.color = "White";
+// document.querySelector(".completo").style.backgroundColor = "green";
+// document.querySelector(".textoc").style.color = "White";
 
-document.querySelector(".incompleto").style.backgroundColor = "red";
-document.querySelector(".textoi").style.color = "White";
+// document.querySelector(".incompleto").style.backgroundColor = "red";
+// document.querySelector(".textoi").style.color = "White";
 
-document.querySelector(".progreso").style.backgroundColor = "yellow";
-document.querySelector(".textop").style.color = "black";
+// document.querySelector(".progreso").style.backgroundColor = "yellow";
+// document.querySelector(".textop").style.color = "black";
 // vista empleado
 
 
 
 
 // Grafico
+var1 = document.getElementById('completado').innerHTML
+var2 = document.getElementById('incompleto').innerHTML
+var3 = document.getElementById('progreso').innerHTML
 const ctx = document.getElementById('myChart');
 const myChart = new Chart(ctx, {
     type: 'bar',
@@ -68,7 +71,7 @@ const myChart = new Chart(ctx, {
         labels: ['Incompletos', 'Completados', 'En Progreso'],
         datasets: [{
             label: 'Cantidad de Proyectos',
-            data: [12, 19, 3],
+            data: [var2, var1, var3],
             backgroundColor: [
                 'red',
                 'green',

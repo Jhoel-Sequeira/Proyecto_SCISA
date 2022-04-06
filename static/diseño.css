@@ -535,6 +535,25 @@ thead th {
     background-color: transparent;
 }
 
+.completo {
+    background-color: green;
+    color: white;
+}
+
+.incompleto {
+    background-color: red;
+    color: white;
+}
+
+.progreso {
+    background-color: yellow;
+    color: #000;
+}
+
+.oculto {
+    display: none;
+}
+
 
 /*==FIN ==*/
 
