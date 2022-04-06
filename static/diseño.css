@@ -582,6 +582,10 @@ thead th {
     .tabla {
         overflow: scroll;
     }
+    .tabla-emp {
+        overflow: scroll;
+        padding: 0 10px 0 5px;
+    }
 }
 
 @media screen and (max-width: 952px) {
@@ -725,7 +729,7 @@ thead th {
     }
     #burbuja1 {
         position: absolute;
-        right: 87px;
+        right: 50px;
         background-color: red;
         width: 10px;
         height: 10px;
@@ -735,6 +739,14 @@ thead th {
     }
     .main-cont {
         display: relative;
+    }
+    .div-listaproyecto,
+    .div-empleados,
+    .div-grafico {
+        margin: 10px 0 0 0;
+    }
+    .div-reportes {
+        margin: 10px 0 0 0;
     }
 }
 
