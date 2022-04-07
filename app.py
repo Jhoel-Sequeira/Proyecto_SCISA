@@ -50,8 +50,8 @@ def login():
                 Incompleto = db.execute("SELECT COUNT(Estado) From Proyectos WHERE Estado = :estado",estado = "Incompleto")
                 Progreso = db.execute("SELECT COUNT(Estado) From Proyectos WHERE Estado = :estado",estado = "Progreso")
                 print(completado[0]["COUNT(Estado)"])
-                return render_template('home.html', pro = proyectos, proUser = proyectos_user, soli = solicitudes,comp = completado[0]["COUNT(Estado)"],inco = Incompleto[0]["COUNT(Estado)"],prog = Progreso[0]["COUNT(Estado)"])  
-        
+                #return render_template('home.html', pro = proyectos, proUser = proyectos_user, soli = solicitudes,comp = completado[0]["COUNT(Estado)"],inco = Incompleto[0]["COUNT(Estado)"],prog = Progreso[0]["COUNT(Estado)"])  
+                return redirect(url_for('home'))  
     else:
         return render_template("index.html")
 
@@ -104,14 +104,14 @@ def cotizacion():
 def home():
     proyectos = db.execute("SELECT * FROM Proyectos")
     proyectos_user = db.execute("SELECT * FROM Proyectos WHERE Empleado = :user",user = session["user_id"])
-    solicitudes = db.execute("SELECT Estado FROM Solicitudes")
+    solicitudes = db.execute("SELECT * FROM Solicitudes")
     print(solicitudes)
     #contar los proyectos aprobados, incompletos y en progreso
     completado = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado",estado = "Completado")
     Incompleto = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado",estado = "Incompleto")
     Progreso = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado",estado = "Progreso")
     return render_template('home.html', pro = proyectos, proUser = proyectos_user, soli = solicitudes,comp = completado[0]["COUNT(Estado)"],inco = Incompleto[0]["COUNT(Estado)"],prog = Progreso[0]["COUNT(Estado)"])  
-
+    
  
 # mostrar los modals segun su seleccion
 @app.route('/modal')
@@ -143,7 +143,8 @@ def solicitud():
        completado = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado",estado = "Completado")
        Incompleto = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado",estado = "Incompleto")
        Progreso = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado",estado = "Progreso")
-       return render_template('home.html', pro = proyectos, proUser = proyectos_user, soli = solicitudes,comp = completado[0]["COUNT(Estado)"],inco = Incompleto[0]["COUNT(Estado)"],prog = Progreso[0]["COUNT(Estado)"])
+       #return render_template('home.html', pro = proyectos, proUser = proyectos_user, soli = solicitudes,comp = completado[0]["COUNT(Estado)"],inco = Incompleto[0]["COUNT(Estado)"],prog = Progreso[0]["COUNT(Estado)"])
+       return redirect(url_for('home'))  
     else:
 
         return redirect(url_for("index"))
@@ -162,7 +163,9 @@ def AceptarSoli():
         completado = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado",estado = "Completado")
         Incompleto = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado",estado = "Incompleto")
         Progreso = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado",estado = "Progreso")
-        return render_template('home.html', pro = proyectos, proUser = proyectos_user, soli = solicitudes,comp = completado[0]["COUNT(Estado)"],inco = Incompleto[0]["COUNT(Estado)"],prog = Progreso[0]["COUNT(Estado)"])
+        #return render_template('home.html', pro = proyectos, proUser = proyectos_user, soli = solicitudes,comp = completado[0]["COUNT(Estado)"],inco = Incompleto[0]["COUNT(Estado)"],prog = Progreso[0]["COUNT(Estado)"])
+        return redirect(url_for('home'))
+     
      else:
 
         return redirect(url_for("index"))         

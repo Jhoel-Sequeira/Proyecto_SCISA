@@ -73,9 +73,9 @@ const myChart = new Chart(ctx, {
             label: 'Cantidad de Proyectos',
             data: [var2, var1, var3],
             backgroundColor: [
-                'red',
-                'green',
-                'yellow'
+                '#c63637',
+                '#006c0f',
+                '#e3e500'
 
             ],
             borderWidth: 1
