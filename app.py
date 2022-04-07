@@ -1,5 +1,6 @@
 
 from asyncio.windows_events import NULL
+from crypt import methods
 from re import S
 from flask import Flask, flash, redirect, render_template, request, url_for,session
 from datetime import datetime
@@ -42,15 +43,6 @@ def login():
                 # Recordar el usuario y rol que se logeo
                 session["user_id"] = rows[0]["Usuario"]
                 session["userrole"]=rows[0]["Id_rol"]
-                proyectos = db.execute("SELECT * FROM Proyectos")
-                proyectos_user = db.execute("SELECT * FROM Proyectos WHERE Empleado = :user",user = rows[0]["Usuario"])
-                solicitudes = db.execute("SELECT * FROM Solicitudes")
-                #contar los proyectos aprobados, incompletos y en progreso
-                completado = db.execute("SELECT COUNT(Estado) From Proyectos WHERE Estado = :estado",estado = "Completado")
-                Incompleto = db.execute("SELECT COUNT(Estado) From Proyectos WHERE Estado = :estado",estado = "Incompleto")
-                Progreso = db.execute("SELECT COUNT(Estado) From Proyectos WHERE Estado = :estado",estado = "Progreso")
-                print(completado[0]["COUNT(Estado)"])
-                #return render_template('home.html', pro = proyectos, proUser = proyectos_user, soli = solicitudes,comp = completado[0]["COUNT(Estado)"],inco = Incompleto[0]["COUNT(Estado)"],prog = Progreso[0]["COUNT(Estado)"])  
                 return redirect(url_for('home'))  
     else:
         return render_template("index.html")
@@ -123,8 +115,11 @@ def modal():
 
 @app.route('/reporte')
 def reporte():
-    
-     return render_template('home.html')    
+    if request.method == "POST":
+        
+        return redirect(url_for('home')) 
+    else:
+        return redirect(url_for("index"))    
 
 @app.route('/solicitud', methods=["GET", "POST"])
 def solicitud():
@@ -136,14 +131,6 @@ def solicitud():
        print(nombre)
        db.execute('INSERT INTO solicitudes VALUES (NULL,:nom,:jus,:fech,:titu,:estado,:vi)',nom = nombre, jus = justificacion,fech = datetime.date(hi),titu =titulo
        ,estado = "Pendiente",vi = 1 )
-       proyectos = db.execute("SELECT * FROM Proyectos")
-       proyectos_user = db.execute("SELECT * FROM Proyectos WHERE Empleado = :user",user = session["user_id"])
-       solicitudes = db.execute("SELECT * FROM Solicitudes")
-       #contar los proyectos aprobados, incompletos y en progreso
-       completado = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado",estado = "Completado")
-       Incompleto = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado",estado = "Incompleto")
-       Progreso = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado",estado = "Progreso")
-       #return render_template('home.html', pro = proyectos, proUser = proyectos_user, soli = solicitudes,comp = completado[0]["COUNT(Estado)"],inco = Incompleto[0]["COUNT(Estado)"],prog = Progreso[0]["COUNT(Estado)"])
        return redirect(url_for('home'))  
     else:
 
@@ -152,18 +139,10 @@ def solicitud():
 def AceptarSoli():
      if request.method == "POST":
         id = request.form['resp']
-        print(id)
-        proyectos = db.execute("SELECT * FROM Proyectos")
-        proyectos_user = db.execute("SELECT * FROM Proyectos WHERE Empleado = :user",user = session["user_id"])     
         solicitudes = db.execute("SELECT * FROM Solicitudes")
         db.execute('UPDATE  Solicitudes SET Estado = :est,Vigente = :vi WHERE Id_Solicitud = :Id',
         est = "Aprobado",vi = 0, Id = id)
         print(solicitudes[0]["Vigente"])
-        #contar los proyectos aprobados, incompletos y en progreso
-        completado = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado",estado = "Completado")
-        Incompleto = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado",estado = "Incompleto")
-        Progreso = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado",estado = "Progreso")
-        #return render_template('home.html', pro = proyectos, proUser = proyectos_user, soli = solicitudes,comp = completado[0]["COUNT(Estado)"],inco = Incompleto[0]["COUNT(Estado)"],prog = Progreso[0]["COUNT(Estado)"])
         return redirect(url_for('home'))
      
      else:

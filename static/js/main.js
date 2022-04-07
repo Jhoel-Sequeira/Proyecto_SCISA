@@ -75,7 +75,7 @@ const myChart = new Chart(ctx, {
             backgroundColor: [
                 '#c63637',
                 '#006c0f',
-                '#e3e500'
+                'yellow'
 
             ],
             borderWidth: 1
