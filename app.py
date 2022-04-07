@@ -1,6 +1,5 @@
 
 from asyncio.windows_events import NULL
-from crypt import methods
 from re import S
 from flask import Flask, flash, redirect, render_template, request, url_for,session
 from datetime import datetime
@@ -97,12 +96,12 @@ def home():
     proyectos = db.execute("SELECT * FROM Proyectos")
     proyectos_user = db.execute("SELECT * FROM Proyectos WHERE Empleado = :user",user = session["user_id"])
     solicitudes = db.execute("SELECT * FROM Solicitudes")
-    print(solicitudes)
     #contar los proyectos aprobados, incompletos y en progreso
     completado = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado",estado = "Completado")
     Incompleto = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado",estado = "Incompleto")
     Progreso = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado",estado = "Progreso")
-    return render_template('home.html', pro = proyectos, proUser = proyectos_user, soli = solicitudes,comp = completado[0]["COUNT(Estado)"],inco = Incompleto[0]["COUNT(Estado)"],prog = Progreso[0]["COUNT(Estado)"])  
+    imagen = db.execute("SELECT Imagen From Reportes WHERE Id_reporte = :estado",estado = 1)
+    return render_template('home.html', pro = proyectos, proUser = proyectos_user, soli = solicitudes,comp = completado[0]["COUNT(Estado)"],inco = Incompleto[0]["COUNT(Estado)"],prog = Progreso[0]["COUNT(Estado)"], img = imagen)  
     
  
 # mostrar los modals segun su seleccion
@@ -113,10 +112,15 @@ def modal():
     return render_template('modal.html', pro = proyectos, permiso = permisos)
         
 
-@app.route('/reporte')
+@app.route('/reporte', methods=["GET", "POST"])
 def reporte():
     if request.method == "POST":
-        
+        tarea = request.form['tarea']
+        porcentaje = request.form['porcentaje']
+        descripcion = request.form['descripcion']
+        imagen = request.form['imagen']
+        print(imagen)
+        db.execute("INSERT INTO Reportes VALUES(NULL,:nom,:porcen,:desc,:img)",nom = tarea, porcen = porcentaje, desc = descripcion, img = imagen)
         return redirect(url_for('home')) 
     else:
         return redirect(url_for("index"))    
@@ -128,7 +132,6 @@ def solicitud():
        nombre = request.form['nombre']
        titulo = request.form['titulo']
        justificacion = request.form['justificacion']
-       print(nombre)
        db.execute('INSERT INTO solicitudes VALUES (NULL,:nom,:jus,:fech,:titu,:estado,:vi)',nom = nombre, jus = justificacion,fech = datetime.date(hi),titu =titulo
        ,estado = "Pendiente",vi = 1 )
        return redirect(url_for('home'))  
@@ -142,7 +145,6 @@ def AceptarSoli():
         solicitudes = db.execute("SELECT * FROM Solicitudes")
         db.execute('UPDATE  Solicitudes SET Estado = :est,Vigente = :vi WHERE Id_Solicitud = :Id',
         est = "Aprobado",vi = 0, Id = id)
-        print(solicitudes[0]["Vigente"])
         return redirect(url_for('home'))
      
      else:

@@ -417,23 +417,24 @@
 
 
     <div class="div-reportes">
+
         <label class="texto-encabezado-nav">Generar Reporte</label>
         <form action="/reporte" method="POST">
             <div class="form-group">
                 <label for="exampleFormControlInput1">Nombre Tarea</label>
-                <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Nombre">
+                <input type="text" class="form-control" name="tarea" id="exampleFormControlInput1" placeholder="Nombre">
             </div>
             <div class="form-group">
                 <label for="exampleFormControlInput1">Porcentaje Completado</label>
-                <input type="number" class="form-control" id="exampleFormControlInput1" placeholder="Porcentaje">
+                <input type="number" class="form-control" name="porcentaje" id="exampleFormControlInput1" placeholder="Porcentaje">
             </div>
             <div class="form-group">
                 <label for="exampleFormControlTextarea1">Descripción</label>
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                <textarea class="form-control" name="descripcion" id="exampleFormControlTextarea1" rows="3"></textarea>
             </div>
             <div class="form-group">
                 <label for="exampleFormControlFile1">Insertar Imagen de los Avances</label>
-                <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                <input type="file" class="form-control-file" name="imagen" id="exampleFormControlFile1">
             </div>
             <button type="submit" class="btn btn-primary">Enviar</button>
         </form>
