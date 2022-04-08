@@ -101,7 +101,12 @@ def home():
     Incompleto = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado",estado = "Incompleto")
     Progreso = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado",estado = "Progreso")
     imagen = db.execute("SELECT Imagen From Reportes WHERE Id_reporte = :estado",estado = 1)
-    return render_template('home.html', pro = proyectos, proUser = proyectos_user, soli = solicitudes,comp = completado[0]["COUNT(Estado)"],inco = Incompleto[0]["COUNT(Estado)"],prog = Progreso[0]["COUNT(Estado)"], img = imagen)  
+    total = db.execute("SELECT COUNT(*) FROM Proyectos")
+    cuentaComp = db.execute("SELECT count(*)*100 / :to AS calc From Proyectos WHERE Estado = :est",est = "Completado",to = total[0]['COUNT(*)'])
+    cuentaPro = db.execute("SELECT count(*)*100 / :to AS calc From Proyectos WHERE Estado = :est",est = "Progreso",to = total[0]['COUNT(*)'])
+    cuentaInc = db.execute("SELECT count(*)*100 / :to AS calc From Proyectos WHERE Estado = :est",est = "Incompleto",to = total[0]['COUNT(*)'])
+    
+    return render_template('home.html',completo = cuentaComp[0]['calc'], progreso = cuentaPro[0]['calc'], incompleto = cuentaInc[0]['calc'], pro = proyectos, proUser = proyectos_user, soli = solicitudes,comp = completado[0]["COUNT(Estado)"],inco = Incompleto[0]["COUNT(Estado)"],prog = Progreso[0]["COUNT(Estado)"], img = imagen)  
     
  
 # mostrar los modals segun su seleccion

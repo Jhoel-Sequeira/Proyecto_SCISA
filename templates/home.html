@@ -128,7 +128,100 @@
         <div class="div-grafico-gra">
             <canvas id="myChart"></canvas>
         </div>
+        <div class="b-skills">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm col-sm col-sm">
+                        <div class="skill-item center-block">
+                            <div class="chart-container">
+                                <div class="chart" data-percent="{{incompleto}}" data-bar-color="#c63637">
+                                    <span class="percent" data-after="%">{{incompleto}}</span>
+                                </div>
+                            </div>
+
+                            <p>Incompletos</p>
+                        </div>
+                    </div>
+
+                    <div class="col-sm col-sm col-sm">
+                        <div class="skill-item center-block">
+                            <div class="chart-container">
+                                <div class="chart" data-percent="{{completo}}" data-bar-color="#006c0f ">
+                                    <span class="percent" data-after="%">{{completo}}</span>
+                                </div>
+                            </div>
+
+                            <p>Completado</p>
+                        </div>
+                    </div>
+
+                    <div class="col-sm col-sm col-sm">
+                        <div class="skill-item center-block">
+                            <div class="chart-container">
+                                <div class="chart" data-percent="{{progreso}}" data-bar-color=" yellow">
+                                    <span class="percent" data-after="%">{{progreso}}</span>
+                                </div>
+                            </div>
+
+                            <p>En Progreso</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <script src="../static/js/plugins/jquery-2.2.4.min.js"></script>
+        <script src="../static/js/plugins/jquery.appear.min.js"></script>
+        <script src="../static/js/plugins/jquery.easypiechart.min.js"></script>
+        <script>
+            'use strict';
+
+            var $window = $(window);
+
+            function run() {
+                var fName = arguments[0],
+                    aArgs = Array.prototype.slice.call(arguments, 1);
+                try {
+                    fName.apply(window, aArgs);
+                } catch (err) {
+
+                }
+            };
+
+            /* chart
+            ================================================== */
+            function _chart() {
+                $('.b-skills').appear(function() {
+                    setTimeout(function() {
+                        $('.chart').easyPieChart({
+                            easing: 'easeOutElastic',
+                            delay: 3000,
+                            barColor: '#369670',
+                            trackColor: '#fff',
+                            scaleColor: false,
+                            lineWidth: 21,
+                            trackWidth: 21,
+                            size: 250,
+                            lineCap: 'round',
+                            onStep: function(from, to, percent) {
+                                this.el.children[0].innerHTML = Math.round(percent);
+                            }
+                        });
+                    }, 150);
+                });
+            };
+
+
+            $(document).ready(function() {
+
+                run(_chart);
+
+
+            });
+        </script>
+
     </div>
+
     <div class="div-solicitud">
         <label class="texto-encabezado-nav">Notificaciones</label>
         <div class="container">
@@ -465,6 +558,7 @@
     </div>
 </main>
 {% endif%}{% endif%}
+
 
 
 

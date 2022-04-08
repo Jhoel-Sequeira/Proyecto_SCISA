@@ -13,6 +13,7 @@ $(Document).ready(function() {
     $("#exampleModal").modal("show")
 })
 
+
 function reportes() {
     var reportes = document.querySelector(".div-reportes");
     if (reportes.style.display === "none") {
