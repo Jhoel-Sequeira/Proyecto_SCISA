@@ -71,6 +71,28 @@
 <main class="main-cont">
     <div class="div-listaproyecto">
         <label class="texto-encabezado-nav">Proyectos</label>
+        <hr>
+        <div class="sele-mes">
+            <div class="input-group-prepend">
+                <label class="text-sele" for="inputGroupSelect01">Elegir</label>
+            </div>
+            <select class="custom-select" id="inputGroupSelect01" name="selec-mes">
+                <option selected="true" disabled="disabled">Seleccione el mes</option>
+                <option value="1">Enero</option>
+                <option value="2">Febrero</option>
+                <option value="3">Marzo</option>
+                <option value="4">Abril</option>
+                <option value="5">Mayo</option>
+                <option value="6">Junio</option>
+                <option value="7">Julio</option>
+                <option value="8">Agosto</option>
+                <option value="9">Septiembre</option>
+                <option value="10">Octubre</option>
+                <option value="11">Noviembre</option>
+                <option value="12">Diciembre</option>
+            </select>
+        </div>
+
         <div class="container">
             <div class="tabla">
                 <form action="/modals" method="POST">
@@ -125,6 +147,7 @@
         <text class="oculto" id="incompleto">{{inco}}</text>
         <text class="oculto" id="progreso">{{prog}}</text>
         <label class="texto-encabezado-nav">Estadísticas del mes</label>
+        <hr>
         <div class="div-grafico-gra">
             <canvas id="myChart"></canvas>
         </div>
@@ -267,95 +290,28 @@
 
     <div class="div-reportes">
         <label class="texto-encabezado-nav">Reportes</label>
+        <hr>
         <div class="container">
-            <div class="tabla">
-                <table class="custab">
-                    <thead>
-                        <tr>
-                            <th>ID Empleado</th>
-                            <th>Nombre Empleado</th>
-                            <th>Motivo</th>
-                            <th>Estado</th>
-                            <th class="text-center">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody class="cuerpo-tabla">
-                        <tr>
-                            <td>1</td>
-                            <td>Juan</td>
-                            <td>Adelanto de Salario</td>
-                            <td>Pendiente</td>
-                            <td class="text-center">
-                                <box-icon name='show' data-toggle="modal" data-target="#modalReporte" type="solid" color='#3075c9'></box-icon>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>News</td>
-                            <td>News Cate</td>
-                            <td>News Cate</td>
-                            <td class="text-center">
-                                <box-icon name='show' data-toggle="modal" data-target="#modalReporte" type="solid" color='#3075c9'></box-icon>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>News</td>
-                            <td>News Cate</td>
-                            <td>News Cate</td>
-                            <td class="text-center">
-                                <box-icon name='show' data-toggle="modal" data-target="#modalReporte" type="solid" color='#3075c9'></box-icon>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>News</td>
-                            <td>News Cate</td>
-                            <td>News Cate</td>
-                            <td class="text-center">
-                                <box-icon name='show' data-toggle="modal" data-target="#modalReporte" type="solid" color='#3075c9'></box-icon>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>News</td>
-                            <td>News Cate</td>
-                            <td>News Cate</td>
-                            <td class="text-center">
-                                <box-icon name='show' data-toggle="modal" data-target="#modalReporte" type="solid" color='#3075c9'></box-icon>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>News</td>
-                            <td>News Cate</td>
-                            <td>News Cate</td>
-                            <td class="text-center">
-                                <box-icon name='show' data-toggle="modal" data-target="#modalReporte" type="solid" color='#3075c9'></box-icon>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>News</td>
-                            <td>News Cate</td>
-                            <td>News Cate</td>
-                            <td class="text-center">
-                                <box-icon name='show' data-toggle="modal" data-target="#modalReporte" type="solid" color='#3075c9'></box-icon>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>News</td>
-                            <td>News Cate</td>
-                            <td>News Cate</td>
-                            <td class="text-center">
-                                <box-icon name='show' data-toggle="modal" data-target="#modalReporte" type="solid" color='#3075c9'></box-icon>
-                            </td>
-                        </tr>
-                    </tbody>
+            <div class="card-group">
+                {% for fila in pro %}
+                <div class="card">
+                    <img class="card-img-top" src="..." alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                    </div>
+                </div>
+                {% endfor%}
 
-                </table>
             </div>
+        </div>
+    </div>
+    <div class="div-tareas">
+        <label class="texto-encabezado-nav">Tareas</label>
+        <hr>
+        <div class="container">
+
         </div>
     </div>
     {%block modal%}{% endblock %}

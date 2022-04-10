@@ -202,6 +202,23 @@ body {
 
 /*===TABLA===*/
 
+.sele-mes {
+    display: flex;
+    margin: 20px 0 0 70px;
+    justify-content: center;
+    width: 75%;
+}
+
+.text-sele {
+    background-color: red;
+    border-radius: 7px;
+}
+
+hr {
+    margin: 0 30px 0 30px;
+    border-width: 3px;
+}
+
 .tabla {}
 
 .container {
@@ -213,32 +230,26 @@ body {
 }
 
 .custab {
-    border: 1px solid rgb(146, 146, 146);
+    border: 1px solid rgb(211, 211, 211);
     margin: 5% 0;
     transition: 0.5s;
     border-collapse: collapse;
 }
 
+.custab tr th {
+    text-align: center;
+    border: 1px solid rgb(211, 211, 211);
+}
+
 .custab td {
-    border: 1px solid rgb(146, 146, 146);
     padding: 5px 5px 5px 5px;
 }
 
 thead tr th {
+    background-color: rgb(221, 221, 221);
     justify-content: center;
     padding: 5px 5px 5px 5px;
-    border: 1px solid rgb(146, 146, 146);
     margin: 50px;
-}
-
-tr {
-    justify-content: center;
-    background-color: #fff;
-    padding: 5px;
-}
-
-thead th {
-    font-style: bold;
 }
 
 .cuerpo-tabla tr:hover {
@@ -247,7 +258,7 @@ thead th {
 
 .cuerpo-tabla tr td {
     text-align: center;
-    border: 1px solid rgb(146, 146, 146);
+    border-left: 1px solid rgb(211, 211, 211);
 }
 
 
@@ -457,7 +468,8 @@ thead th {
 /*==FIN ==*/
 
 .div-listaproyecto,
-.div-empleados {
+.div-empleados,
+.div-tareas {
     width: 100%;
     min-width: 50px;
 }
@@ -580,6 +592,14 @@ p {
     border-radius: 20px;
 }
 
+.div-tareas {
+    width: 100%;
+    margin: 0px 0px 0px 10px;
+    padding-left: 10px;
+    background-color: #fff;
+    border-radius: 20px;
+}
+
 .div-solicitud {
     display: none;
     position: absolute;
@@ -646,8 +666,12 @@ p {
         order: 1;
     }
     .div-reportes {
-        width: 100%;
+        width: 49%;
         order: 2;
+    }
+    .div-tareas {
+        width: 48%;
+        order: 3;
     }
     .div-calendario h1 {
         font-size: 20px;
