@@ -209,9 +209,22 @@ body {
     width: 75%;
 }
 
+.form-bot-lat {
+    display: flex;
+}
+
 .text-sele {
-    background-color: red;
-    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #286478;
+    border-top-left-radius: 7px;
+    border-bottom-left-radius: 7px;
+    height: 38px;
+    width: 50px;
+    color: #FFF;
+    font-size: 15px;
+    font-weight: bold;
 }
 
 hr {
@@ -276,32 +289,26 @@ thead tr th {
 }
 
 .custab-emp {
-    border: 1px solid rgb(146, 146, 146);
+    border: 1px solid rgb(211, 211, 211);
     margin: 5% 0;
     transition: 0.5s;
     border-collapse: collapse;
 }
 
+.custab-emp tr th {
+    text-align: center;
+    border: 1px solid rgb(211, 211, 211);
+}
+
 .custab-emp td {
-    border: 1px solid rgb(146, 146, 146);
     padding: 5px 5px 5px 5px;
 }
 
-.custab-emp thead tr th {
+thead tr th {
+    background-color: rgb(221, 221, 221);
     justify-content: center;
     padding: 5px 5px 5px 5px;
-    border: 1px solid rgb(146, 146, 146);
     margin: 50px;
-}
-
-.custab-emp tr {
-    justify-content: center;
-    background-color: #fff;
-    padding: 5px;
-}
-
-.custab-emp thead th {
-    font-style: bold;
 }
 
 .cuerpo-tabla-emp tr:hover {
@@ -310,7 +317,7 @@ thead tr th {
 
 .cuerpo-tabla-emp tr td {
     text-align: center;
-    border: 1px solid rgb(146, 146, 146);
+    border-left: 1px solid rgb(211, 211, 211);
 }
 
 .pint {}
@@ -578,8 +585,94 @@ p {
     font-weight: bold;
 }
 
+.cartas {
+    float: left;
+    width: 50%;
+    min-width: 50px;
+    margin-top: 20px;
+    padding: 0 10px;
+}
+
+
+/* Remove extra left and right margins, due to padding */
+
+.div-card {
+    margin: 0 -5px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
+/* Clear floats after the columns */
+
+.div-card:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    text-align: initial;
+    background-color: #f1f1f1;
+}
+
+
+/*tareas*/
+
+.tareas {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: 0;
+    color: #858796;
+}
+
+
+/*=======*/
+
 
 /*==FIN ==*/
+
+
+/*=======EJECUCION=========*/
+
+.div-ejecucion {
+    width: 100%;
+    height: 100%;
+    margin: 10px 10px 20px 10px;
+    padding-top: 10px;
+    background-color: #fff;
+    border-radius: 20px;
+    color: #858796;
+    font-size: 10px;
+    text-transform: uppercase;
+}
+
+.ejecucion-imp {
+    display: flex;
+    flex-direction: row;
+    padding: 10px 0 10px 20px;
+    width: 100%;
+    height: calc(100% - 120px);
+}
+
+.ejecucion-imp-tareas-detalle {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0 10px 20px;
+    width: 33%;
+    font-size: 16px;
+    border: 1px solid #858796;
+}
+
+.ejecucion-imp-tareas-detalle h2 {
+    color: #000;
+}
+
+
+/*=========================*/
 
 
 /*==EMPLEADOS==*/
@@ -590,41 +683,38 @@ p {
     padding: 0 20px 10px 20px;
     background-color: #fff;
     border-radius: 20px;
+    color: #858796;
+    font-size: 10px;
 }
 
 .div-tareas {
     width: 100%;
-    margin: 0px 0px 0px 10px;
+    margin: 0px 0px 10px 10px;
     padding-left: 10px;
     background-color: #fff;
     border-radius: 20px;
 }
 
-.div-solicitud {
+
+/*notificaciones*/
+
+.div-notificacion {
     display: none;
-    position: absolute;
-    padding: 10px 10px 10px 10px;
+    position: fixed;
+    top: 45%;
+    left: 55%;
+    transform: translate(-50%, -50%);
+    padding: 10px 20px 10px 10px;
     border: 2px solid #000;
     border-radius: 10px;
-    left: 30%;
-    top: 10%;
-    width: 700px;
-    height: 500px;
+    width: 60%;
+    height: 60%;
     background-color: #fff;
+    z-index: 2;
 }
 
-.div-not {
-    display: none;
-    position: absolute;
-    padding: 10px 10px 10px 10px;
-    border: 2px solid #000;
-    border-radius: 10px;
-    left: 30%;
-    top: 10%;
-    width: 700px;
-    height: 500px;
-    background-color: #fff;
-}
+
+/*================================*/
 
 .boton-invisible {
     border: none;
@@ -655,6 +745,14 @@ p {
 
 
 /*====FIN DEL HOME====*/
+
+@media screen and (max-width: 600px) {
+    .cartas {
+        width: 100%;
+        display: block;
+        margin-bottom: 20px;
+    }
+}
 
 @media (min-width: 800px) {
     .div-listaproyecto {
@@ -847,6 +945,23 @@ p {
     }
     .div-reportes {
         margin: 10px 0 0 0;
+    }
+    .div-tareas {
+        margin: 10px 0 0 0;
+    }
+    .div-notificacion {
+        display: none;
+        position: fixed;
+        top: 55%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 10px 20px 10px 10px;
+        border: 2px solid #000;
+        border-radius: 10px;
+        width: 85%;
+        height: 80%;
+        background-color: #fff;
+        z-index: 2;
     }
 }
 

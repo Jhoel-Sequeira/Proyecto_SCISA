@@ -5,6 +5,7 @@ from flask import Flask, flash, redirect, render_template, request, url_for,sess
 from datetime import datetime
 import cs50
 from cs50 import SQL
+from sqlalchemy import null
 from werkzeug.exceptions import default_exceptions
 from werkzeug.security import check_password_hash, generate_password_hash
 app = Flask(__name__)
@@ -42,7 +43,7 @@ def login():
                 # Recordar el usuario y rol que se logeo
                 session["user_id"] = rows[0]["Usuario"]
                 session["userrole"]=rows[0]["Id_rol"]
-                return redirect(url_for('home'))  
+                return redirect(url_for('home'))
     else:
         return render_template("index.html")
 
@@ -91,23 +92,83 @@ def cotizacion():
     
      return render_template('cotizacion.html')
 
-@app.route('/home')
+@app.route('/home', methods=["GET", "POST"])
 def home():
-    proyectos = db.execute("SELECT * FROM Proyectos")
-    proyectos_user = db.execute("SELECT * FROM Proyectos WHERE Empleado = :user",user = session["user_id"])
-    solicitudes = db.execute("SELECT * FROM Solicitudes")
-    #contar los proyectos aprobados, incompletos y en progreso
-    completado = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado",estado = "Completado")
-    Incompleto = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado",estado = "Incompleto")
-    Progreso = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado",estado = "Progreso")
-    imagen = db.execute("SELECT Imagen From Reportes WHERE Id_reporte = :estado",estado = 1)
-    total = db.execute("SELECT COUNT(*) FROM Proyectos")
-    cuentaComp = db.execute("SELECT count(*)*100 / :to AS calc From Proyectos WHERE Estado = :est",est = "Completado",to = total[0]['COUNT(*)'])
-    cuentaPro = db.execute("SELECT count(*)*100 / :to AS calc From Proyectos WHERE Estado = :est",est = "Progreso",to = total[0]['COUNT(*)'])
-    cuentaInc = db.execute("SELECT count(*)*100 / :to AS calc From Proyectos WHERE Estado = :est",est = "Incompleto",to = total[0]['COUNT(*)'])
+    if request.method == "POST":
+        sele = request.form['selec-mes']
+        if sele:
+            if sele == 'todo':
+                print("todo")
+                proyectos = db.execute("SELECT * FROM Proyectos")
+                proyectos_user = db.execute("SELECT * FROM Proyectos WHERE Empleado = :user",user = session["user_id"])
+                solicitudes = db.execute("SELECT * FROM Solicitudes")
+                #contar los proyectos aprobados, incompletos y en progreso
+                completado = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado",estado = "Completado")
+                Incompleto = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado",estado = "Incompleto")
+                Progreso = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado",estado = "Progreso")
+                imagen = db.execute("SELECT Imagen From Reportes WHERE Id_reporte = :estado",estado = 1)
+                total = db.execute("SELECT COUNT(*) FROM Proyectos")
+                cuentaComp = db.execute("SELECT count(*)*100 / :to AS calc From Proyectos WHERE Estado = :est",est = "Completado",to = total[0]['COUNT(*)'])
+                cuentaPro = db.execute("SELECT count(*)*100 / :to AS calc From Proyectos WHERE Estado = :est",est = "Progreso",to = total[0]['COUNT(*)'])
+                cuentaInc = db.execute("SELECT count(*)*100 / :to AS calc From Proyectos WHERE Estado = :est",est = "Incompleto",to = total[0]['COUNT(*)'])
+                return render_template('home.html',var1 = "",completo = cuentaComp[0]['calc'], progreso = cuentaPro[0]['calc'],
+                incompleto = cuentaInc[0]['calc'], pro = proyectos, proUser = proyectos_user, soli = solicitudes,
+                comp = completado[0]["COUNT(Estado)"],inco = Incompleto[0]["COUNT(Estado)"],prog = Progreso[0]["COUNT(Estado)"], img = imagen,
+                indice = "todo")  
     
-    return render_template('home.html',completo = cuentaComp[0]['calc'], progreso = cuentaPro[0]['calc'], incompleto = cuentaInc[0]['calc'], pro = proyectos, proUser = proyectos_user, soli = solicitudes,comp = completado[0]["COUNT(Estado)"],inco = Incompleto[0]["COUNT(Estado)"],prog = Progreso[0]["COUNT(Estado)"], img = imagen)  
-    
+            else:    
+                print("meses")
+                proyectos_especificos = db.execute("SELECT * FROM Proyectos WHERE strftime('%m', FechaInicio) = :mes",mes = sele)
+                proyectos_user = db.execute("SELECT * FROM Proyectos WHERE Empleado = :user ",user = session["user_id"])
+                solicitudes = db.execute("SELECT * FROM Solicitudes")
+                #contar los proyectos aprobados, incompletos y en progreso
+                completado = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado AND strftime('%m', FechaInicio)=:mes",estado = "Completado", mes = sele)
+                Incompleto = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado AND strftime('%m', FechaInicio)=:mes",estado = "Incompleto", mes = sele)
+                Progreso = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado AND strftime('%m', FechaInicio)=:mes",estado = "Progreso", mes = sele)
+                imagen = db.execute("SELECT Imagen From Reportes WHERE Id_reporte = :estado",estado = 1)
+                total = db.execute("SELECT COUNT(*) FROM Proyectos WHERE strftime('%m', FechaInicio) = :mes",mes = sele)
+                cuentaComp = db.execute("SELECT count(*)*100 / :to AS calc From Proyectos WHERE Estado = :est AND strftime('%m', FechaInicio) = :mes",est = "Completado",to = total[0]['COUNT(*)'],mes = sele)
+                cuentaPro = db.execute("SELECT count(*)*100 / :to AS calc From Proyectos WHERE Estado = :est AND strftime('%m', FechaInicio) = :mes",est = "Progreso",to = total[0]['COUNT(*)'],mes = sele)
+                cuentaInc = db.execute("SELECT count(*)*100 / :to AS calc From Proyectos WHERE Estado = :est AND strftime('%m', FechaInicio) = :mes",est = "Incompleto",to = total[0]['COUNT(*)'],mes = sele)
+                indice = "mes"
+                print(indice)
+                return render_template('home.html',var1 = "",completo = cuentaComp[0]['calc'], progreso = cuentaPro[0]['calc'], incompleto = cuentaInc[0]['calc'], pro = 0, proUser = proyectos_user, soli = solicitudes,comp = completado[0]["COUNT(Estado)"],inco = Incompleto[0]["COUNT(Estado)"],prog = Progreso[0]["COUNT(Estado)"],
+                img = imagen, pro_espe = proyectos_especificos,indice = "mes")  
+        else:
+            print("afuera del if de todo")
+            proyectos = db.execute("SELECT * FROM Proyectos")
+            proyectos_user = db.execute("SELECT * FROM Proyectos WHERE Empleado = :user",user = session["user_id"])
+            solicitudes = db.execute("SELECT * FROM Solicitudes")
+            #contar los proyectos aprobados, incompletos y en progreso
+            completado = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado",estado = "Completado")
+            Incompleto = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado",estado = "Incompleto")
+            Progreso = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado",estado = "Progreso")
+            imagen = db.execute("SELECT Imagen From Reportes WHERE Id_reporte = :estado",estado = 1)
+            total = db.execute("SELECT COUNT(*) FROM Proyectos")
+            cuentaComp = db.execute("SELECT count(*)*100 / :to AS calc From Proyectos WHERE Estado = :est",est = "Completado",to = total[0]['COUNT(*)'])
+            cuentaPro = db.execute("SELECT count(*)*100 / :to AS calc From Proyectos WHERE Estado = :est",est = "Progreso",to = total[0]['COUNT(*)'])
+            cuentaInc = db.execute("SELECT count(*)*100 / :to AS calc From Proyectos WHERE Estado = :est",est = "Incompleto",to = total[0]['COUNT(*)'])
+            return render_template('home.html',var1 = "",completo = cuentaComp[0]['calc'], progreso = cuentaPro[0]['calc'], 
+            incompleto = cuentaInc[0]['calc'], pro = proyectos, proUser = proyectos_user, 
+            soli = solicitudes,comp = completado[0]["COUNT(Estado)"],inco = Incompleto[0]["COUNT(Estado)"],
+            prog = Progreso[0]["COUNT(Estado)"], img = imagen,indice = "todo")  
+    else:
+        print("carga")
+        
+        proyectos = db.execute("SELECT * FROM Proyectos")
+        proyectos_user = db.execute("SELECT * FROM Proyectos WHERE Empleado = :user",user = session["user_id"])
+        solicitudes = db.execute("SELECT * FROM Solicitudes")
+        #contar los proyectos aprobados, incompletos y en progreso
+        completado = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado",estado = "Completado")
+        Incompleto = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado",estado = "Incompleto")
+        Progreso = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado",estado = "Progreso")
+        imagen = db.execute("SELECT Imagen From Reportes WHERE Id_reporte = :estado",estado = 1)
+        total = db.execute("SELECT COUNT(*) FROM Proyectos")
+        cuentaComp = db.execute("SELECT count(*)*100 / :to AS calc From Proyectos WHERE Estado = :est",est = "Completado",to = total[0]['COUNT(*)'])
+        cuentaPro = db.execute("SELECT count(*)*100 / :to AS calc From Proyectos WHERE Estado = :est",est = "Progreso",to = total[0]['COUNT(*)'])
+        cuentaInc = db.execute("SELECT count(*)*100 / :to AS calc From Proyectos WHERE Estado = :est",est = "Incompleto",to = total[0]['COUNT(*)'])
+        return render_template('home.html',var1 = "",completo = cuentaComp[0]['calc'], progreso = cuentaPro[0]['calc'], incompleto = cuentaInc[0]['calc'], pro = proyectos, proUser = proyectos_user, soli = solicitudes,comp = completado[0]["COUNT(Estado)"],inco = Incompleto[0]["COUNT(Estado)"],prog = Progreso[0]["COUNT(Estado)"], img = imagen)  
+
  
 # mostrar los modals segun su seleccion
 @app.route('/modal')
@@ -146,7 +207,7 @@ def solicitud():
 @app.route('/AceptarSoli', methods=["GET", "POST"])
 def AceptarSoli():
      if request.method == "POST":
-        id = request.form['resp']
+        id = request.form['resp'] 
         solicitudes = db.execute("SELECT * FROM Solicitudes")
         db.execute('UPDATE  Solicitudes SET Estado = :est,Vigente = :vi WHERE Id_Solicitud = :Id',
         est = "Aprobado",vi = 0, Id = id)
@@ -155,6 +216,92 @@ def AceptarSoli():
      else:
 
         return redirect(url_for("index"))         
+
+@app.route('/home1/<string:info>')
+def home1(info):
+    if request.method == "POST":
+        sele = request.form['selec-mes']
+        if sele:
+            if sele == 'todo':
+                print("todo")
+                proyectos = db.execute("SELECT * FROM Proyectos")
+                proyectos_user = db.execute("SELECT * FROM Proyectos WHERE Empleado = :user",user = session["user_id"])
+                solicitudes = db.execute("SELECT * FROM Solicitudes")
+                #contar los proyectos aprobados, incompletos y en progreso
+                completado = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado",estado = "Completado")
+                Incompleto = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado",estado = "Incompleto")
+                Progreso = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado",estado = "Progreso")
+                imagen = db.execute("SELECT Imagen From Reportes WHERE Id_reporte = :estado",estado = 1)
+                total = db.execute("SELECT COUNT(*) FROM Proyectos")
+                cuentaComp = db.execute("SELECT count(*)*100 / :to AS calc From Proyectos WHERE Estado = :est",est = "Completado",to = total[0]['COUNT(*)'])
+                cuentaPro = db.execute("SELECT count(*)*100 / :to AS calc From Proyectos WHERE Estado = :est",est = "Progreso",to = total[0]['COUNT(*)'])
+                cuentaInc = db.execute("SELECT count(*)*100 / :to AS calc From Proyectos WHERE Estado = :est",est = "Incompleto",to = total[0]['COUNT(*)'])
+                variable = db.execute("SELECT * FROM Proyectos WHERE Empleado = :user",user = info)
+                return render_template('home.html',var1 = variable,completo = cuentaComp[0]['calc'], progreso = cuentaPro[0]['calc'],
+                incompleto = cuentaInc[0]['calc'], pro = proyectos, proUser = proyectos_user, soli = solicitudes,
+                comp = completado[0]["COUNT(Estado)"],inco = Incompleto[0]["COUNT(Estado)"],prog = Progreso[0]["COUNT(Estado)"], img = imagen,
+                indice = "todo")  
+    
+            else:    
+                print("meses")
+                proyectos_especificos = db.execute("SELECT * FROM Proyectos WHERE strftime('%m', FechaInicio) = :mes",mes = sele)
+                proyectos_user = db.execute("SELECT * FROM Proyectos WHERE Empleado = :user ",user = session["user_id"])
+                solicitudes = db.execute("SELECT * FROM Solicitudes")
+                #contar los proyectos aprobados, incompletos y en progreso
+                completado = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado AND strftime('%m', FechaInicio)=:mes",estado = "Completado", mes = sele)
+                Incompleto = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado AND strftime('%m', FechaInicio)=:mes",estado = "Incompleto", mes = sele)
+                Progreso = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado AND strftime('%m', FechaInicio)=:mes",estado = "Progreso", mes = sele)
+                imagen = db.execute("SELECT Imagen From Reportes WHERE Id_reporte = :estado",estado = 1)
+                total = db.execute("SELECT COUNT(*) FROM Proyectos WHERE strftime('%m', FechaInicio) = :mes",mes = sele)
+                cuentaComp = db.execute("SELECT count(*)*100 / :to AS calc From Proyectos WHERE Estado = :est AND strftime('%m', FechaInicio) = :mes",est = "Completado",to = total[0]['COUNT(*)'],mes = sele)
+                cuentaPro = db.execute("SELECT count(*)*100 / :to AS calc From Proyectos WHERE Estado = :est AND strftime('%m', FechaInicio) = :mes",est = "Progreso",to = total[0]['COUNT(*)'],mes = sele)
+                cuentaInc = db.execute("SELECT count(*)*100 / :to AS calc From Proyectos WHERE Estado = :est AND strftime('%m', FechaInicio) = :mes",est = "Incompleto",to = total[0]['COUNT(*)'],mes = sele)
+                indice = "mes"
+                print(indice)
+                variable = db.execute("SELECT * FROM Proyectos WHERE Empleado = :user",user = info)
+                print(variable)
+                return render_template('home.html',var1 = variable,completo = cuentaComp[0]['calc'], progreso = cuentaPro[0]['calc'], incompleto = cuentaInc[0]['calc'], pro = 0, proUser = proyectos_user, soli = solicitudes,comp = completado[0]["COUNT(Estado)"],inco = Incompleto[0]["COUNT(Estado)"],prog = Progreso[0]["COUNT(Estado)"],
+                img = imagen, pro_espe = proyectos_especificos,indice = "mes")  
+        else:
+            print("afuera del if de todo")
+            proyectos = db.execute("SELECT * FROM Proyectos")
+            proyectos_user = db.execute("SELECT * FROM Proyectos WHERE Empleado = :user",user = session["user_id"])
+            solicitudes = db.execute("SELECT * FROM Solicitudes")
+            #contar los proyectos aprobados, incompletos y en progreso
+            completado = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado",estado = "Completado")
+            Incompleto = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado",estado = "Incompleto")
+            Progreso = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado",estado = "Progreso")
+            imagen = db.execute("SELECT Imagen From Reportes WHERE Id_reporte = :estado",estado = 1)
+            total = db.execute("SELECT COUNT(*) FROM Proyectos")
+            cuentaComp = db.execute("SELECT count(*)*100 / :to AS calc From Proyectos WHERE Estado = :est",est = "Completado",to = total[0]['COUNT(*)'])
+            cuentaPro = db.execute("SELECT count(*)*100 / :to AS calc From Proyectos WHERE Estado = :est",est = "Progreso",to = total[0]['COUNT(*)'])
+            cuentaInc = db.execute("SELECT count(*)*100 / :to AS calc From Proyectos WHERE Estado = :est",est = "Incompleto",to = total[0]['COUNT(*)'])
+            variable = db.execute("SELECT * FROM Proyectos WHERE Empleado = :user",user = info)
+            print(variable)
+            return render_template('home.html',var1 = variable,completo = cuentaComp[0]['calc'], progreso = cuentaPro[0]['calc'], 
+            incompleto = cuentaInc[0]['calc'], pro = proyectos, proUser = proyectos_user, 
+            soli = solicitudes,comp = completado[0]["COUNT(Estado)"],inco = Incompleto[0]["COUNT(Estado)"],
+            prog = Progreso[0]["COUNT(Estado)"], img = imagen,indice = "todo")  
+    else:
+        print("carga")
+        
+        proyectos = db.execute("SELECT * FROM Proyectos")
+        proyectos_user = db.execute("SELECT * FROM Proyectos WHERE Empleado = :user",user = session["user_id"])
+        solicitudes = db.execute("SELECT * FROM Solicitudes")
+        #contar los proyectos aprobados, incompletos y en progreso
+        completado = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado",estado = "Completado")
+        Incompleto = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado",estado = "Incompleto")
+        Progreso = db.execute("SELECT COUNT(Estado)From Proyectos WHERE Estado = :estado",estado = "Progreso")
+        imagen = db.execute("SELECT Imagen From Reportes WHERE Id_reporte = :estado",estado = 1)
+        total = db.execute("SELECT COUNT(*) FROM Proyectos")
+        cuentaComp = db.execute("SELECT count(*)*100 / :to AS calc From Proyectos WHERE Estado = :est",est = "Completado",to = total[0]['COUNT(*)'])
+        cuentaPro = db.execute("SELECT count(*)*100 / :to AS calc From Proyectos WHERE Estado = :est",est = "Progreso",to = total[0]['COUNT(*)'])
+        cuentaInc = db.execute("SELECT count(*)*100 / :to AS calc From Proyectos WHERE Estado = :est",est = "Incompleto",to = total[0]['COUNT(*)'])
+        print(info)
+        variable = db.execute("SELECT * FROM Proyectos WHERE Empleado = :user",user = info)
+        print(variable)
+        return render_template('home.html',var1 = variable,completo = cuentaComp[0]['calc'], progreso = cuentaPro[0]['calc'], incompleto = cuentaInc[0]['calc'], pro = proyectos, proUser = proyectos_user, soli = solicitudes,comp = completado[0]["COUNT(Estado)"],inco = Incompleto[0]["COUNT(Estado)"],prog = Progreso[0]["COUNT(Estado)"], img = imagen)  
+
 
 @app.route('/facturacion')
 def facturacion():

@@ -2,7 +2,8 @@
 <!----===== HOME ===== -->
 
 <title>SCISA-Home</title>
-
+<!----===== CSS ===== -->
+<link rel="stylesheet" href="../static/diseño.css">
 <nav class="div-encabezado">
     <label class="texto-encabezado-nav">HOME</label>
 
@@ -36,10 +37,10 @@
     </li>
     {%else%}
     <box-icon type='solid' onclick="solicitud()" name='bell'></box-icon>
-    <li><a href="#">Notificaciones</a></li>
+    <li><a href="#" onclick="solicitud()">Notificaciones</a></li>
     {% endif%} {%else%}
     <box-icon type='solid' onclick="solicitud()" name='bell'></box-icon>
-    <li><a href="#">Notificaciones</a></li>
+    <li><a href="#" onclick="solicitud()">Notificaciones</a></li>
     {% endif%}
     <box-icon type='solid' onclick="reportes()" name='report'></box-icon>
     <li><a href="#" onclick="reportes()">Reportes</a></li>
@@ -70,32 +71,138 @@
 {% if session.user_id %} {% if session.userrole == 1%}
 <main class="main-cont">
     <div class="div-listaproyecto">
+
         <label class="texto-encabezado-nav">Proyectos</label>
         <hr>
         <div class="sele-mes">
-            <div class="input-group-prepend">
-                <label class="text-sele" for="inputGroupSelect01">Elegir</label>
-            </div>
-            <select class="custom-select" id="inputGroupSelect01" name="selec-mes">
-                <option selected="true" disabled="disabled">Seleccione el mes</option>
-                <option value="1">Enero</option>
-                <option value="2">Febrero</option>
-                <option value="3">Marzo</option>
-                <option value="4">Abril</option>
-                <option value="5">Mayo</option>
-                <option value="6">Junio</option>
-                <option value="7">Julio</option>
-                <option value="8">Agosto</option>
-                <option value="9">Septiembre</option>
+
+            <form class="form-bot-lat" action="/home" method="POST">
+                <div class="grupo">
+                    <button class="boton-invisible" type="submit"> <label class="text-sele" for="inputGroupSelect01">Elegir</label></button>
+
+                </div>
+                <select class="custom-select" id="inputGroupSelect01" name="selec-mes">
+                <option value="todo" selected="true">Todos</option>
+                <option value="01">Enero</option>
+                <option value="02">Febrero</option>
+                <option value="03">Marzo</option>
+                <option value="04">Abril</option>
+                <option value="05">Mayo</option>
+                <option value="06">Junio</option>
+                <option value="07">Julio</option>
+                <option value="08">Agosto</option>
+                <option value="09">Septiembre</option>
                 <option value="10">Octubre</option>
                 <option value="11">Noviembre</option>
                 <option value="12">Diciembre</option>
-            </select>
+                </select>
+            </form>
+
         </div>
 
         <div class="container">
             <div class="tabla">
-                <form action="/modals" method="POST">
+                <!-- aqui va cuando selecciona un mes -->
+                {% if indice == "todo"%}
+                <form action="/home1" method="GET">
+                    <table class="custab">
+                        <thead>
+                            <tr>
+                                <th>ID Proyecto</th>
+                                <th>Nombre Proyecto</th>
+                                <th>Fecha Inicio</th>
+                                <th>Fecha Fin</th>
+                                <th>Estado</th>
+                                <th>Responsable</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="cuerpo-tabla">
+
+                            {% for fila in pro %}
+
+                            <tr>
+                                <td>{{ fila.Id_Proyecto }}</td>
+                                <td>{{ fila.Nombre}}</td>
+                                <td>{{ fila.FechaInicio}}</td>
+                                {% if fila.FechaFin == "NULL"%}
+                                <td>--</td>
+                                {%else%}
+                                <td>{{ fila.FechaFin}}</td>
+                                {% endif%} {% if fila.Estado == "Completado"%}
+                                <td class="completo"><text class="textoc">{{ fila.Estado}}</text></td>
+                                {% elif fila.Estado == "Incompleto"%}
+                                <td class="incompleto"><text class="textoi">{{ fila.Estado}}</text></td>
+                                {%else%}
+                                <td class="progreso"><text class="textop">{{ fila.Estado}}</text></td>
+                                {% endif%}
+                                <td>{{ fila.Empleado}}</td>
+                                <td class="text-center">
+                                    <a href="{{ url_for( 'home1' ,info=fila.Empleado) }}">
+                                        <box-icon name='show' type="solid" color='#3075c9'></box-icon>
+                                    </a>
+                                </td>
+                                <td>
+                                </td>
+                            </tr>
+
+                            {% endfor %}
+
+
+                        </tbody>
+
+                    </table>
+
+                </form>
+
+                <!-- aqui va cuando selecciona todo-->
+                {%elif indice == "mes"%}
+                <form action="/home" method="POST">
+                    <table class="custab">
+                        <thead>
+                            <tr>
+                                <th>ID Proyecto</th>
+                                <th>Nombre Proyecto</th>
+                                <th>Fecha Inicio</th>
+                                <th>Fecha Fin</th>
+                                <th>Estado</th>
+                                <th>Responsable</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="cuerpo-tabla">
+                            {% for fila in pro_espe %}
+                            <tr>
+                                <td>{{ fila.Id_Proyecto }}</td>
+                                <td>{{ fila.Nombre}}</td>
+                                <td>{{ fila.FechaInicio}}</td>
+                                {% if fila.FechaFin == "NULL"%}
+                                <td>--</td>
+                                {%else%}
+                                <td>{{ fila.FechaFin}}</td>
+                                {% endif%} {% if fila.Estado == "Completado"%}
+                                <td class="completo"><text class="textoc">{{ fila.Estado}}</text></td>
+                                {% elif fila.Estado == "Incompleto"%}
+                                <td class="incompleto"><text class="textoi">{{ fila.Estado}}</text></td>
+                                {%else%}
+                                <td class="progreso"><text class="textop">{{ fila.Estado}}</text></td>
+                                {% endif%}
+                                <td>{{ fila.Empleado}}</td>
+                                <td class="text-center">
+                                    <box-icon name='show' onclick="salida()" type="solid" color='#3075c9'></box-icon>
+
+                                </td>
+
+                            </tr>
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+                </form>
+                <!-- aqui va cuando selecciona un mes que no hay registros-->
+                {%else%}
+                <form action="/home" method="POST">
                     <table class="custab">
                         <thead>
                             <tr>
@@ -127,9 +234,8 @@
                                 {% endif%}
                                 <td>{{ fila.Empleado}}</td>
                                 <td class="text-center">
-                                    <a href="{{url_for('modal')}}">
-                                        <box-icon name='show' type="solid" color='#3075c9'></box-icon>
-                                    </a>
+                                    <box-icon name='show' onclick="salida()" type="solid" color='#3075c9'></box-icon>
+
                                 </td>
 
                             </tr>
@@ -139,6 +245,7 @@
 
                     </table>
                 </form>
+                {%endif%}
             </div>
         </div>
     </div>
@@ -157,7 +264,7 @@
                     <div class="col-sm col-sm col-sm">
                         <div class="skill-item center-block">
                             <div class="chart-container">
-                                <div class="chart" data-percent="{{incompleto}}" data-bar-color="#c63637">
+                                <div class="chart" data-percent="{%if incompleto%}{{incompleto}}{%else%}0{%endif%}" data-bar-color="#c63637">
                                     <span class="percent" data-after="%">{{incompleto}}</span>
                                 </div>
                             </div>
@@ -169,7 +276,7 @@
                     <div class="col-sm col-sm col-sm">
                         <div class="skill-item center-block">
                             <div class="chart-container">
-                                <div class="chart" data-percent="{{completo}}" data-bar-color="#006c0f ">
+                                <div class="chart" data-percent="{%if completo%}{{completo}}{%else%}0{%endif%}" data-bar-color="#006c0f ">
                                     <span class="percent" data-after="%">{{completo}}</span>
                                 </div>
                             </div>
@@ -181,7 +288,7 @@
                     <div class="col-sm col-sm col-sm">
                         <div class="skill-item center-block">
                             <div class="chart-container">
-                                <div class="chart" data-percent="{{progreso}}" data-bar-color=" yellow">
+                                <div class="chart" data-percent="{%if progreso%}{{progreso}}{%else%}0{%endif%}" data-bar-color=" yellow">
                                     <span class="percent" data-after="%">{{progreso}}</span>
                                 </div>
                             </div>
@@ -245,8 +352,9 @@
 
     </div>
 
-    <div class="div-solicitud">
+    <div class="div-notificacion" style="display: none;">
         <label class="texto-encabezado-nav">Notificaciones</label>
+        <a class="close" href="#" onclick="solicitud()">&times;</a>
         <div class="container">
             <div class="tabla">
                 <form action="/AceptarSoli" method="POST">
@@ -291,26 +399,58 @@
     <div class="div-reportes">
         <label class="texto-encabezado-nav">Reportes</label>
         <hr>
-        <div class="container">
-            <div class="card-group">
-                {% for fila in pro %}
+        <div class="div-card">
+            <div class="cartas">
+                <img src="..." alt="Card image cap">
                 <div class="card">
-                    <img class="card-img-top" src="..." alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                    </div>
+                    <h5>Titulo Proyecto:</h5>
+                    <p>Titulo Tarea:</p>
+                    <p>Porcentaje:</p>
+                    <p>Descripcion</p>
                 </div>
-                {% endfor%}
+            </div>
 
+            <div class="cartas">
+                <img src="..." alt="Card image cap">
+                <div class="card">
+                    <h5>Titulo Proyecto:</h5>
+                    <p>Titulo Tarea:</p>
+                    <p>Porcentaje:</p>
+                    <p>Descripcion</p>
+                </div>
+            </div>
+            <div class="cartas">
+                <img src="..." alt="Card image cap">
+                <div class="card">
+                    <h5>Titulo Proyecto:</h5>
+                    <p>Titulo Tarea:</p>
+                    <p>Porcentaje:</p>
+                    <p>Descripcion</p>
+                </div>
+            </div>
+            <div class="cartas">
+                <img src="..." alt="Card image cap">
+                <div class="card">
+                    <h5>Titulo Proyecto:</h5>
+                    <p>Titulo Tarea:</p>
+                    <p>Porcentaje:</p>
+                    <p>Descripcion</p>
+                </div>
             </div>
         </div>
+
     </div>
     <div class="div-tareas">
-        <label class="texto-encabezado-nav">Tareas</label>
+        {%if var1 == ""%}
+        <label class="texto-encabezado-nav">Tarea</label> {%else%}
+
+        <label class="texto-encabezado-nav">hola:{{var1[0].Empleado}}</label> {%endif%}
+
         <hr>
-        <div class="container">
+        <div class="tareas">
+            <h2>Nombre Proyecto:</h2>
+            <p>Tareas</p>
+            <a href="{{url_for( 'ejecucion')}}">Ver mas</a>
 
         </div>
     </div>
@@ -339,12 +479,14 @@
             </div>
         </div>
     </div>
+
 </main>
 {%else%}
 <!-- VISTA DE EMPLEADOS -->
 <main class="main-cont">
     <div class="div-listaproyecto">
         <label class="texto-encabezado-nav">Mis Proyectos</label>
+        <hr>
         <div class="container-emp">
             <div class="tabla-emp">
                 <form action="/modals" method="POST">
@@ -394,11 +536,14 @@
         </div>
     </div>
     <div class="div-grafico">
-        <label class="texto-encabezado-nav">Mis Estadisticas</label>
-        <br>
-        <label class="texto-encabezado-nav">Horas Logeadas:</label>
-        <br>
-        <label class="texto-encabezado-nav">Tareas Realizadas:</label>
+        <label class="texto-encabezado-nav">Mis Estadísticas</label>
+        <hr>
+        <div class="tareas">
+            <p>Tareas Completadas:</p>
+            <p>Tareas Pendientes:</p>
+            <p>Horas Logeadas:</p>
+
+        </div>
 
     </div>
     <div class="div-solicitud">
@@ -421,8 +566,9 @@
             </div>
         </form>
     </div>
-    <div class="div-not">
+    <div class="div-notificacion">
         <label class="texto-encabezado-nav">Notificaciones</label>
+        <hr>
         <div class="container">
             <div class="tabla">
                 <form action="/borrarSoli" method="POST">
@@ -468,10 +614,32 @@
     <div class="div-reportes">
 
         <label class="texto-encabezado-nav">Generar Reporte</label>
+        <hr>
+        <br>
         <form action="/reporte" method="POST">
             <div class="form-group">
                 <label for="exampleFormControlInput1">Nombre Tarea</label>
                 <input type="text" class="form-control" name="tarea" id="exampleFormControlInput1" placeholder="Nombre">
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlInput1">Cliente</label>
+                <input type="text" class="form-control" name="tarea" id="exampleFormControlInput1" placeholder="Cliente">
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlInput1">Contacto</label>
+                <input type="text" class="form-control" name="tarea" id="exampleFormControlInput1" placeholder="Contacto">
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlInput1">Correo Electrónico</label>
+                <input type="email" class="form-control" name="tarea" id="exampleFormControlInput1" placeholder="Correo Electrónico">
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlInput1">Hora Ingreso</label>
+                <input type="datetime" class="form-control" name="tarea" id="exampleFormControlInput1" placeholder="Hora Ingreso">
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlInput1">Hora Egreso</label>
+                <input type="datetime" class="form-control" name="tarea" id="exampleFormControlInput1" placeholder="Hora Egreso">
             </div>
             <div class="form-group">
                 <label for="exampleFormControlInput1">Porcentaje Completado</label>
