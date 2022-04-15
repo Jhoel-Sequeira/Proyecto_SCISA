@@ -259,24 +259,24 @@ def reporte():
 def solicitud():
     if request.method == "POST":
         hi = datetime.now()
-        nombre = request.form['nombre']
         titulo = request.form['titulo']
         justificacion = request.form['justificacion']
-        db.execute('INSERT INTO solicitudes VALUES (NULL,:nom,:jus,:fech,:titu,:estado,:vi)',
-                   nom=nombre, jus=justificacion, fech=datetime.date(hi), titu=titulo, estado="Pendiente", vi=1)
+        db1.execute('INSERT INTO Solicitudes VALUES(null, :nom, :jus, :fech, :titu, :estado, :vi)',
+                    nom=session["user_Id"], jus=justificacion, fech=datetime.date(hi), titu=titulo, estado=6, vi=1)
         return redirect(url_for('home'))
     else:
 
         return redirect(url_for("index"))
 
 
-@app.route('/AceptarSoli', methods=["GET", "POST"])
+@ app.route('/AceptarSoli', methods=["GET", "POST"])
 def AceptarSoli():
     if request.method == "POST":
         id = request.form['resp']
-        solicitudes = db.execute("SELECT * FROM Solicitudes")
         db.execute('UPDATE  Solicitudes SET Estado = :est,Vigente = :vi WHERE Id_Solicitud = :Id',
                    est="Aprobado", vi=0, Id=id)
+        db1.execute('UPDATE Solicitudes SET IdEstado = :est,Vigencia = :vi WHERE Id_Solicitud = :Id',
+                    est=4, vi=0, Id=id)
         return redirect(url_for('home'))
 
     else:
