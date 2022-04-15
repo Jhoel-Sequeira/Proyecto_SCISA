@@ -3,688 +3,795 @@
 
 <title>SCISA-Home</title>
 <!----===== CSS ===== -->
-<link rel="stylesheet" href="../static/diseño.css">
+<link rel="stylesheet" href="../static/diseño.css" />
 <nav class="div-encabezado">
-    <label class="texto-encabezado-nav">HOME</label>
-
+  <label class="texto-encabezado-nav">HOME</label>
 </nav>
 
 <nav class="div-encabezado-opciones">
-    <div class="barra-busqueda">
-        <form action="#">
-            <button>
-                        <box-icon name='search'></box-icon>
-                    </button>
-            <input type="text" placeholder=" Busqueda de Proyecto" name="busqueda">
-
-        </form>
-    </div>
-    <span class="btn_menu1">
-            <ul class="menu-barratop-opciones-items">
-    {% if session.user_id %} {% if session.userrole == 1%}
-    <!-- admin -->
-    {% if soli%}
-    {%set var = [] %}
-        {% for list in soli %} 
-            {% if list.Estado == "Pendiente"%}
-                {%do var.append(1)%}
-                
-            {% endif%}
-        {%endfor%} 
-        {% if var %}
-                <box-icon type='solid' onclick="solicitud()" name='bell'></box-icon><span id="burbuja1"></span>
-    <li><a href="#" onclick="solicitud()">Notificaciones<span id="burbuja" ></span></a>
-    </li>
-    {%else%}
-    <box-icon type='solid' onclick="solicitud()" name='bell'></box-icon>
-    <li><a href="#" onclick="solicitud()">Notificaciones</a></li>
-    {% endif%} {%else%}
-    <box-icon type='solid' onclick="solicitud()" name='bell'></box-icon>
-    <li><a href="#" onclick="solicitud()">Notificaciones</a></li>
-    {% endif%}
-    <box-icon type='solid' onclick="reportes()" name='report'></box-icon>
-    <li><a href="#" onclick="reportes()">Reportes</a></li>
-    <box-icon name='calendar' data-toggle="modal" data-target="#myModal" onclick="calendario()"></box-icon>
-    <li><a href="#" data-toggle="modal" data-target="#myModal" onclick="calendario()">Calendario</a></li>
-    {%else%}
-    <!-- Empleado -->
-    {% if soli%} {%set var = [] %} {% for list in soli %} {% if list.Estado == "Aprobado"%} {%do var.append(1)%} {% endif%} {%endfor%} {% if var %}
-    <box-icon type='solid' onclick="solicitud()" name='bell'></box-icon><span id="burbuja1"></span>
-    <li><a href="#" onclick="solicitud()">Notificaciones<span id="burbuja" ></span></a>
-    </li>
-    {%else%}
-    <box-icon type='solid' onclick="solicitud()" name='bell'></box-icon>
-    <li><a href="#">Notificaciones</a></li>
-    {% endif%} {%else%}
-    <box-icon type='solid' onclick="solicitud()" name='bell'></box-icon>
-    <li><a href="#">Notificaciones</a></li>
-    {% endif%}
-    <box-icon name='spreadsheet'></box-icon>
-    <li><a href="#" onclick="solicitud()">Solicitud</a></li>
-    {% endif%} {% endif%}
-
-
+  <div class="barra-busqueda">
+    <form action="#">
+      <button>
+        <box-icon name="search"></box-icon>
+      </button>
+      <input type="text" placeholder=" Busqueda de Proyecto" name="busqueda" />
+    </form>
+  </div>
+  <span class="btn_menu1">
+    <ul class="menu-barratop-opciones-items">
+      {% if session.user_id %} {% if session.userrole == 1%}
+      <!-- admin -->
+      {% if soli%} {%set var = [] %} {% for list in soli %} {% if list.Estado ==
+      "Pendiente"%} {%do var.append(1)%} {% endif%} {%endfor%} {% if var %}
+      <box-icon type="solid" onclick="solicitud()" name="bell"></box-icon
+      ><span id="burbuja1"></span>
+      <li>
+        <a href="#" onclick="solicitud()"
+          >Notificaciones<span id="burbuja"></span
+        ></a>
+      </li>
+      {%else%}
+      <box-icon type="solid" onclick="solicitud()" name="bell"></box-icon>
+      <li><a href="#" onclick="solicitud()">Notificaciones</a></li>
+      {% endif%} {%else%}
+      <box-icon type="solid" onclick="solicitud()" name="bell"></box-icon>
+      <li><a href="#" onclick="solicitud()">Notificaciones</a></li>
+      {% endif%}
+      <box-icon type="solid" onclick="reportes()" name="report"></box-icon>
+      <li><a href="#" onclick="reportes()">Reportes</a></li>
+      <box-icon
+        name="calendar"
+        data-toggle="modal"
+        data-target="#myModal"
+        onclick="calendario()"
+      ></box-icon>
+      <li>
+        <a
+          href="#"
+          data-toggle="modal"
+          data-target="#myModal"
+          onclick="calendario()"
+          >Calendario</a
+        >
+      </li>
+      {%else%}
+      <!-- Empleado -->
+      {% if soli%} {%set var = [] %} {% for list in soli %} {% if list.Estado ==
+      "Aprobado"%} {%do var.append(1)%} {% endif%} {%endfor%} {% if var %}
+      <box-icon type="solid" onclick="solicitud()" name="bell"></box-icon
+      ><span id="burbuja1"></span>
+      <li>
+        <a href="#" onclick="solicitud()"
+          >Notificaciones<span id="burbuja"></span
+        ></a>
+      </li>
+      {%else%}
+      <box-icon type="solid" onclick="solicitud()" name="bell"></box-icon>
+      <li><a href="#">Notificaciones</a></li>
+      {% endif%} {%else%}
+      <box-icon type="solid" onclick="solicitud()" name="bell"></box-icon>
+      <li><a href="#">Notificaciones</a></li>
+      {% endif%}
+      <box-icon name="spreadsheet"></box-icon>
+      <li><a href="#" onclick="solicitud()">Solicitud</a></li>
+      {% endif%} {% endif%}
     </ul>
-    </span>
-
+  </span>
 </nav>
 {% if session.user_id %} {% if session.userrole == 1%}
 <main class="main-cont">
-    <div class="div-listaproyecto">
-
-        <label class="texto-encabezado-nav">Proyectos</label>
-        <hr>
-        <div class="sele-mes">
-
-            <form class="form-bot-lat" action="/home" method="POST">
-                <div class="grupo">
-                    <button class="boton-invisible" type="submit"> <label class="text-sele" for="inputGroupSelect01">Elegir</label></button>
-
-                </div>
-                <select class="custom-select" id="inputGroupSelect01" name="selec-mes">
-                <option value="todo" selected="true">Todos</option>
-                <option value="01">Enero</option>
-                <option value="02">Febrero</option>
-                <option value="03">Marzo</option>
-                <option value="04">Abril</option>
-                <option value="05">Mayo</option>
-                <option value="06">Junio</option>
-                <option value="07">Julio</option>
-                <option value="08">Agosto</option>
-                <option value="09">Septiembre</option>
-                <option value="10">Octubre</option>
-                <option value="11">Noviembre</option>
-                <option value="12">Diciembre</option>
-                </select>
-            </form>
-
+  <div class="div-listaproyecto">
+    <label class="texto-encabezado-nav">Proyectos</label>
+    <hr />
+    <div class="sele-mes">
+      <form class="form-bot-lat" action="/home" method="POST">
+        <div class="grupo">
+          <button class="boton-invisible" type="submit">
+            <label class="text-sele" for="inputGroupSelect01">Elegir</label>
+          </button>
         </div>
+        <select class="custom-select" id="inputGroupSelect01" name="selec-mes">
+          <option value="todo" selected="true">Todos</option>
+          <option value="01">Enero</option>
+          <option value="02">Febrero</option>
+          <option value="03">Marzo</option>
+          <option value="04">Abril</option>
+          <option value="05">Mayo</option>
+          <option value="06">Junio</option>
+          <option value="07">Julio</option>
+          <option value="08">Agosto</option>
+          <option value="09">Septiembre</option>
+          <option value="10">Octubre</option>
+          <option value="11">Noviembre</option>
+          <option value="12">Diciembre</option>
+        </select>
+      </form>
+    </div>
 
-        <div class="container">
-            <div class="tabla">
-                <!-- aqui va cuando selecciona un mes -->
-                {% if indice == "todo"%}
-                <form action="/home1" method="GET">
-                    <table class="custab">
-                        <thead>
-                            <tr>
-                                <th>ID Proyecto</th>
-                                <th>Nombre Proyecto</th>
-                                <th>Fecha Inicio</th>
-                                <th>Fecha Fin</th>
-                                <th>Estado</th>
-                                <th>Responsable</th>
-                                <th class="text-center">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody class="cuerpo-tabla">
+    <div class="container">
+      <div class="tabla">
+        <!-- aqui va cuando selecciona un mes -->
+        {% if indice == "todo"%}
+        <form action="/home1" method="GET">
+          <table class="custab">
+            <thead>
+              <tr>
+                <th>ID Proyecto</th>
+                <th>Nombre Proyecto</th>
+                <th>Fecha Inicio</th>
+                <th>Fecha Fin</th>
+                <th>Estado</th>
+                <th>Responsable</th>
+                <th class="text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody class="cuerpo-tabla">
+              {% for fila in pro %}
 
-                            {% for fila in pro %}
-
-                            <tr>
-                                <td>{{ fila.Id_Proyecto }}</td>
-                                <td>{{ fila.Nombre}}</td>
-                                <td>{{ fila.FechaInicio}}</td>
-                                {% if fila.FechaFin == "NULL"%}
-                                <td>--</td>
-                                {%else%}
-                                <td>{{ fila.FechaFin}}</td>
-                                {% endif%} {% if fila.Estado == "Completado"%}
-                                <td class="completo"><text class="textoc">{{ fila.Estado}}</text></td>
-                                {% elif fila.Estado == "Incompleto"%}
-                                <td class="incompleto"><text class="textoi">{{ fila.Estado}}</text></td>
-                                {%else%}
-                                <td class="progreso"><text class="textop">{{ fila.Estado}}</text></td>
-                                {% endif%}
-                                <td>{{ fila.Empleado}}</td>
-                                <td class="text-center">
-                                    <a href="{{ url_for( 'home1' ,info=fila.Empleado) }}">
-                                        <box-icon name='show' type="solid" color='#3075c9'></box-icon>
-                                    </a>
-                                </td>
-                                <td>
-                                </td>
-                            </tr>
-
-                            {% endfor %}
-
-
-                        </tbody>
-
-                    </table>
-
-                </form>
-
-                <!-- aqui va cuando selecciona todo-->
-                {%elif indice == "mes"%}
-                <form action="/home" method="POST">
-                    <table class="custab">
-                        <thead>
-                            <tr>
-                                <th>ID Proyecto</th>
-                                <th>Nombre Proyecto</th>
-                                <th>Fecha Inicio</th>
-                                <th>Fecha Fin</th>
-                                <th>Estado</th>
-                                <th>Responsable</th>
-                                <th class="text-center">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody class="cuerpo-tabla">
-                            {% for fila in pro_espe %}
-                            <tr>
-                                <td>{{ fila.Id_Proyecto }}</td>
-                                <td>{{ fila.Nombre}}</td>
-                                <td>{{ fila.FechaInicio}}</td>
-                                {% if fila.FechaFin == "NULL"%}
-                                <td>--</td>
-                                {%else%}
-                                <td>{{ fila.FechaFin}}</td>
-                                {% endif%} {% if fila.Estado == "Completado"%}
-                                <td class="completo"><text class="textoc">{{ fila.Estado}}</text></td>
-                                {% elif fila.Estado == "Incompleto"%}
-                                <td class="incompleto"><text class="textoi">{{ fila.Estado}}</text></td>
-                                {%else%}
-                                <td class="progreso"><text class="textop">{{ fila.Estado}}</text></td>
-                                {% endif%}
-                                <td>{{ fila.Empleado}}</td>
-                                <td class="text-center">
-                                    <box-icon name='show' onclick="salida()" type="solid" color='#3075c9'></box-icon>
-
-                                </td>
-
-                            </tr>
-                            {% endfor %}
-
-                        </tbody>
-
-                    </table>
-                </form>
-                <!-- aqui va cuando selecciona un mes que no hay registros-->
+              <tr>
+                <td>{{ fila.Id_Proyecto }}</td>
+                <td>{{ fila.Nombre}}</td>
+                <td>{{ fila.FechaInicio}}</td>
+                {% if fila.FechaFin == "NULL"%}
+                <td>--</td>
                 {%else%}
-                <form action="/home" method="POST">
-                    <table class="custab">
-                        <thead>
-                            <tr>
-                                <th>ID Proyecto</th>
-                                <th>Nombre Proyecto</th>
-                                <th>Fecha Inicio</th>
-                                <th>Fecha Fin</th>
-                                <th>Estado</th>
-                                <th>Responsable</th>
-                                <th class="text-center">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody class="cuerpo-tabla">
-                            {% for fila in pro %}
-                            <tr>
-                                <td>{{ fila.Id_Proyecto }}</td>
-                                <td>{{ fila.Nombre}}</td>
-                                <td>{{ fila.FechaInicio}}</td>
-                                {% if fila.FechaFin == "NULL"%}
-                                <td>--</td>
-                                {%else%}
-                                <td>{{ fila.FechaFin}}</td>
-                                {% endif%} {% if fila.Estado == "Completado"%}
-                                <td class="completo"><text class="textoc">{{ fila.Estado}}</text></td>
-                                {% elif fila.Estado == "Incompleto"%}
-                                <td class="incompleto"><text class="textoi">{{ fila.Estado}}</text></td>
-                                {%else%}
-                                <td class="progreso"><text class="textop">{{ fila.Estado}}</text></td>
-                                {% endif%}
-                                <td>{{ fila.Empleado}}</td>
-                                <td class="text-center">
-                                    <box-icon name='show' onclick="salida()" type="solid" color='#3075c9'></box-icon>
+                <td>{{ fila.FechaFin}}</td>
+                {% endif%} {% if fila.Estado == "Completado"%}
+                <td class="completo">
+                  <text class="textoc">{{ fila.Estado}}</text>
+                </td>
+                {% elif fila.Estado == "Incompleto"%}
+                <td class="incompleto">
+                  <text class="textoi">{{ fila.Estado}}</text>
+                </td>
+                {%else%}
+                <td class="progreso">
+                  <text class="textop">{{ fila.Estado}}</text>
+                </td>
+                {% endif%}
+                <td>{{ fila.Empleado}}</td>
+                <td class="text-center">
+                  <a href="{{ url_for( 'home1' ,info=fila.Empleado) }}">
+                    <box-icon
+                      name="show"
+                      type="solid"
+                      color="#3075c9"
+                    ></box-icon>
+                  </a>
+                </td>
+                <td></td>
+              </tr>
 
-                                </td>
+              {% endfor %}
+            </tbody>
+          </table>
+        </form>
 
-                            </tr>
-                            {% endfor %}
-
-                        </tbody>
-
-                    </table>
-                </form>
-                {%endif%}
-            </div>
-        </div>
+        <!-- aqui va cuando selecciona todo-->
+        {%elif indice == "mes"%}
+        <form action="/home" method="POST">
+          <table class="custab">
+            <thead>
+              <tr>
+                <th>ID Proyecto</th>
+                <th>Nombre Proyecto</th>
+                <th>Fecha Inicio</th>
+                <th>Fecha Fin</th>
+                <th>Estado</th>
+                <th>Responsable</th>
+                <th class="text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody class="cuerpo-tabla">
+              {% for fila in pro_espe %}
+              <tr>
+                <td>{{ fila.Id_Proyecto }}</td>
+                <td>{{ fila.Nombre}}</td>
+                <td>{{ fila.FechaInicio}}</td>
+                {% if fila.FechaFin == "NULL"%}
+                <td>--</td>
+                {%else%}
+                <td>{{ fila.FechaFin}}</td>
+                {% endif%} {% if fila.Estado == "Completado"%}
+                <td class="completo">
+                  <text class="textoc">{{ fila.Estado}}</text>
+                </td>
+                {% elif fila.Estado == "Incompleto"%}
+                <td class="incompleto">
+                  <text class="textoi">{{ fila.Estado}}</text>
+                </td>
+                {%else%}
+                <td class="progreso">
+                  <text class="textop">{{ fila.Estado}}</text>
+                </td>
+                {% endif%}
+                <td>{{ fila.Empleado}}</td>
+                <td class="text-center">
+                  <box-icon
+                    name="show"
+                    onclick="salida()"
+                    type="solid"
+                    color="#3075c9"
+                  ></box-icon>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </form>
+        <!-- aqui va cuando selecciona un mes que no hay registros-->
+        {%else%}
+        <form action="/home" method="POST">
+          <table class="custab">
+            <thead>
+              <tr>
+                <th>ID Proyecto</th>
+                <th>Nombre Proyecto</th>
+                <th>Fecha Inicio</th>
+                <th>Fecha Fin</th>
+                <th>Estado</th>
+                <th>Responsable</th>
+                <th class="text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody class="cuerpo-tabla">
+              {% for fila in pro %}
+              <tr>
+                <td>{{ fila.Id_Proyecto }}</td>
+                <td>{{ fila.Nombre}}</td>
+                <td>{{ fila.FechaInicio}}</td>
+                {% if fila.FechaFin == "NULL"%}
+                <td>--</td>
+                {%else%}
+                <td>{{ fila.FechaFin}}</td>
+                {% endif%} {% if fila.Estado == "Completado"%}
+                <td class="completo">
+                  <text class="textoc">{{ fila.Estado}}</text>
+                </td>
+                {% elif fila.Estado == "Incompleto"%}
+                <td class="incompleto">
+                  <text class="textoi">{{ fila.Estado}}</text>
+                </td>
+                {%else%}
+                <td class="progreso">
+                  <text class="textop">{{ fila.Estado}}</text>
+                </td>
+                {% endif%}
+                <td>{{ fila.Empleado}}</td>
+                <td class="text-center">
+                  <box-icon
+                    name="show"
+                    onclick="salida()"
+                    type="solid"
+                    color="#3075c9"
+                  ></box-icon>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </form>
+        {%endif%}
+      </div>
     </div>
-    <div class="div-grafico">
-        <text class="oculto" id="completado">{{comp}}</text>
-        <text class="oculto" id="incompleto">{{inco}}</text>
-        <text class="oculto" id="progreso">{{prog}}</text>
-        <label class="texto-encabezado-nav">Estadísticas del mes</label>
-        <hr>
-        <div class="div-grafico-gra">
-            <canvas id="myChart"></canvas>
-        </div>
-        <div class="b-skills">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm col-sm col-sm">
-                        <div class="skill-item center-block">
-                            <div class="chart-container">
-                                <div class="chart" data-percent="{%if incompleto%}{{incompleto}}{%else%}0{%endif%}" data-bar-color="#c63637">
-                                    <span class="percent" data-after="%">{{incompleto}}</span>
-                                </div>
-                            </div>
-
-                            <p>Incompletos</p>
-                        </div>
-                    </div>
-
-                    <div class="col-sm col-sm col-sm">
-                        <div class="skill-item center-block">
-                            <div class="chart-container">
-                                <div class="chart" data-percent="{%if completo%}{{completo}}{%else%}0{%endif%}" data-bar-color="#006c0f ">
-                                    <span class="percent" data-after="%">{{completo}}</span>
-                                </div>
-                            </div>
-
-                            <p>Completado</p>
-                        </div>
-                    </div>
-
-                    <div class="col-sm col-sm col-sm">
-                        <div class="skill-item center-block">
-                            <div class="chart-container">
-                                <div class="chart" data-percent="{%if progreso%}{{progreso}}{%else%}0{%endif%}" data-bar-color=" yellow">
-                                    <span class="percent" data-after="%">{{progreso}}</span>
-                                </div>
-                            </div>
-
-                            <p>En Progreso</p>
-                        </div>
-                    </div>
-
+  </div>
+  <div class="div-grafico">
+    <text class="oculto" id="completado">{{comp}}</text>
+    <text class="oculto" id="incompleto">{{inco}}</text>
+    <text class="oculto" id="progreso">{{prog}}</text>
+    <label class="texto-encabezado-nav">Estadísticas del mes</label>
+    <hr />
+    <div class="div-grafico-gra">
+      <canvas id="myChart"></canvas>
+    </div>
+    <div class="b-skills">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm col-sm col-sm">
+            <div class="skill-item center-block">
+              <div class="chart-container">
+                <div
+                  class="chart"
+                  data-percent="{%if incompleto%}{{incompleto}}{%else%}0{%endif%}"
+                  data-bar-color="#c63637"
+                >
+                  <span class="percent" data-after="%">{{incompleto}}</span>
                 </div>
+              </div>
+
+              <p>Incompletos</p>
             </div>
+          </div>
+
+          <div class="col-sm col-sm col-sm">
+            <div class="skill-item center-block">
+              <div class="chart-container">
+                <div
+                  class="chart"
+                  data-percent="{%if completo%}{{completo}}{%else%}0{%endif%}"
+                  data-bar-color="#006c0f "
+                >
+                  <span class="percent" data-after="%">{{completo}}</span>
+                </div>
+              </div>
+
+              <p>Completado</p>
+            </div>
+          </div>
+
+          <div class="col-sm col-sm col-sm">
+            <div class="skill-item center-block">
+              <div class="chart-container">
+                <div
+                  class="chart"
+                  data-percent="{%if progreso%}{{progreso}}{%else%}0{%endif%}"
+                  data-bar-color=" yellow"
+                >
+                  <span class="percent" data-after="%">{{progreso}}</span>
+                </div>
+              </div>
+
+              <p>En Progreso</p>
+            </div>
+          </div>
         </div>
-        <script src="../static/js/plugins/jquery-2.2.4.min.js"></script>
-        <script src="../static/js/plugins/jquery.appear.min.js"></script>
-        <script src="../static/js/plugins/jquery.easypiechart.min.js"></script>
-        <script>
-            'use strict';
+      </div>
+    </div>
+    <script src="../static/js/plugins/jquery-2.2.4.min.js"></script>
+    <script src="../static/js/plugins/jquery.appear.min.js"></script>
+    <script src="../static/js/plugins/jquery.easypiechart.min.js"></script>
+    <script>
+      "use strict";
 
-            var $window = $(window);
+      var $window = $(window);
 
-            function run() {
-                var fName = arguments[0],
-                    aArgs = Array.prototype.slice.call(arguments, 1);
-                try {
-                    fName.apply(window, aArgs);
-                } catch (err) {
+      function run() {
+        var fName = arguments[0],
+          aArgs = Array.prototype.slice.call(arguments, 1);
+        try {
+          fName.apply(window, aArgs);
+        } catch (err) {}
+      }
 
-                }
-            };
-
-            /* chart
+      /* chart
             ================================================== */
-            function _chart() {
-                $('.b-skills').appear(function() {
-                    setTimeout(function() {
-                        $('.chart').easyPieChart({
-                            easing: 'easeOutElastic',
-                            delay: 3000,
-                            barColor: '#369670',
-                            trackColor: '#fff',
-                            scaleColor: false,
-                            lineWidth: 21,
-                            trackWidth: 21,
-                            size: 250,
-                            lineCap: 'round',
-                            onStep: function(from, to, percent) {
-                                this.el.children[0].innerHTML = Math.round(percent);
-                            }
-                        });
-                    }, 150);
-                });
-            };
-
-
-            $(document).ready(function() {
-
-                run(_chart);
-
-
+      function _chart() {
+        $(".b-skills").appear(function () {
+          setTimeout(function () {
+            $(".chart").easyPieChart({
+              easing: "easeOutElastic",
+              delay: 3000,
+              barColor: "#369670",
+              trackColor: "#fff",
+              scaleColor: false,
+              lineWidth: 21,
+              trackWidth: 21,
+              size: 250,
+              lineCap: "round",
+              onStep: function (from, to, percent) {
+                this.el.children[0].innerHTML = Math.round(percent);
+              },
             });
-        </script>
+          }, 150);
+        });
+      }
 
+      $(document).ready(function () {
+        run(_chart);
+      });
+    </script>
+  </div>
+
+  <div class="div-notificacion" style="display: none;">
+    <label class="texto-encabezado-nav">Notificaciones</label>
+    <a class="close" href="#" onclick="solicitud()">&times;</a>
+    <div class="container">
+      <div class="tabla">
+        <form action="/AceptarSoli" method="POST">
+          <table class="custab">
+            <thead>
+              <tr>
+                <th>ID Solicitud</th>
+                <th>Nombre</th>
+                <th>Titulo</th>
+                <th>justificacion</th>
+                <th>Fecha Solicitud</th>
+                <th>Estado</th>
+                <th class="text-center">Accción</th>
+              </tr>
+            </thead>
+            <tbody class="cuerpo-tabla">
+              {% for fila in soli %}
+              <tr>
+                <td>{{ fila.Id_Solicitud }}</td>
+                <td>{{ fila.Nombre}}</td>
+                <td>{{ fila.titulo}}</td>
+                <td>{{ fila.Justificacion}}</td>
+                <td>{{ fila.FechaSoli}}</td>
+                <td>{{ fila.Estado}}</td>
+                <td class="text-center">
+                  <button
+                    class="boton-invisible"
+                    name="resp"
+                    value="{{fila.Id_Solicitud}}"
+                    type="submit"
+                  >
+                    <box-icon
+                      name="show"
+                      type="solid"
+                      color="#3075c9"
+                    ></box-icon>
+                  </button>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </form>
+      </div>
     </div>
+  </div>
 
-    <div class="div-notificacion" style="display: none;">
-        <label class="texto-encabezado-nav">Notificaciones</label>
-        <a class="close" href="#" onclick="solicitud()">&times;</a>
-        <div class="container">
-            <div class="tabla">
-                <form action="/AceptarSoli" method="POST">
-                    <table class="custab">
-                        <thead>
-                            <tr>
-                                <th>ID Solicitud</th>
-                                <th>Nombre</th>
-                                <th>Titulo</th>
-                                <th>justificacion</th>
-                                <th>Fecha Solicitud</th>
-                                <th>Estado</th>
-                                <th class="text-center">Accción</th>
-                            </tr>
-                        </thead>
-                        <tbody class="cuerpo-tabla">
-                            {% for fila in soli %}
-                            <tr>
-                                <td>{{ fila.Id_Solicitud }}</td>
-                                <td>{{ fila.Nombre}}</td>
-                                <td>{{ fila.titulo}}</td>
-                                <td>{{ fila.Justificacion}}</td>
-                                <td>{{ fila.FechaSoli}}</td>
-                                <td>{{ fila.Estado}}</td>
-                                <td class="text-center">
-                                    <button class="boton-invisible" name="resp" value="{{fila.Id_Solicitud}}" type="submit">
-                                        <box-icon name='show' type="solid" color='#3075c9'></box-icon>
-                                    </button>
-                                </td>
-
-                            </tr>
-                            {% endfor %}
-
-                        </tbody>
-
-                    </table>
-                </form>
-            </div>
+  <div class="div-reportes">
+    <label class="texto-encabezado-nav">Reportes</label>
+    <hr />
+    <div class="div-card">
+      <div class="cartas">
+        <img src="..." alt="Card image cap" />
+        <div class="card">
+          <h5>Titulo Proyecto:</h5>
+          <p>Titulo Tarea:</p>
+          <p>Porcentaje:</p>
+          <p>Descripcion</p>
         </div>
+      </div>
+
+      <div class="cartas">
+        <img src="..." alt="Card image cap" />
+        <div class="card">
+          <h5>Titulo Proyecto:</h5>
+          <p>Titulo Tarea:</p>
+          <p>Porcentaje:</p>
+          <p>Descripcion</p>
+        </div>
+      </div>
+      <div class="cartas">
+        <img src="..." alt="Card image cap" />
+        <div class="card">
+          <h5>Titulo Proyecto:</h5>
+          <p>Titulo Tarea:</p>
+          <p>Porcentaje:</p>
+          <p>Descripcion</p>
+        </div>
+      </div>
+      <div class="cartas">
+        <img src="..." alt="Card image cap" />
+        <div class="card">
+          <h5>Titulo Proyecto:</h5>
+          <p>Titulo Tarea:</p>
+          <p>Porcentaje:</p>
+          <p>Descripcion</p>
+        </div>
+      </div>
     </div>
+  </div>
+  <div class="div-tareas">
+    <label class="texto-encabezado-nav">Tarea</label>
 
-    <div class="div-reportes">
-        <label class="texto-encabezado-nav">Reportes</label>
-        <hr>
-        <div class="div-card">
-            <div class="cartas">
-                <img src="..." alt="Card image cap">
-                <div class="card">
-                    <h5>Titulo Proyecto:</h5>
-                    <p>Titulo Tarea:</p>
-                    <p>Porcentaje:</p>
-                    <p>Descripcion</p>
-                </div>
-            </div>
-
-            <div class="cartas">
-                <img src="..." alt="Card image cap">
-                <div class="card">
-                    <h5>Titulo Proyecto:</h5>
-                    <p>Titulo Tarea:</p>
-                    <p>Porcentaje:</p>
-                    <p>Descripcion</p>
-                </div>
-            </div>
-            <div class="cartas">
-                <img src="..." alt="Card image cap">
-                <div class="card">
-                    <h5>Titulo Proyecto:</h5>
-                    <p>Titulo Tarea:</p>
-                    <p>Porcentaje:</p>
-                    <p>Descripcion</p>
-                </div>
-            </div>
-            <div class="cartas">
-                <img src="..." alt="Card image cap">
-                <div class="card">
-                    <h5>Titulo Proyecto:</h5>
-                    <p>Titulo Tarea:</p>
-                    <p>Porcentaje:</p>
-                    <p>Descripcion</p>
-                </div>
-            </div>
+    <hr />
+    {%if var1 == ""%}
+    <div class="tareas">
+      <h2>Nombre Proyecto:</h2>
+      <p>Tareas</p>
+      <a href="{{url_for( 'ejecucion')}}">Ver mas</a>
+    </div>
+    {%else%}
+    <div class="tareas">
+      <h2>Proyecto: {{var1[0].Nombre}}</h2>
+      <p>Empleado a Cargo: {{var1[0].Empleado}}</p>
+      <a href="{{url_for( 'ejecucion')}}">Ver mas</a>
+    </div>
+    {%endif%}
+  </div>
+  {%block modal%}{% endblock %}
+  <!--Modal reporte -->
+  <div class="modal" id="modalReporte">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Reportes</h4>
+          <button type="button" class="close" data-dismiss="modal">
+            &times;
+          </button>
         </div>
 
-    </div>
-    <div class="div-tareas">
-        {%if var1 == ""%}
-        <label class="texto-encabezado-nav">Tarea</label> {%else%}
-
-        <label class="texto-encabezado-nav">hola:{{var1[0].Empleado}}</label> {%endif%}
-
-        <hr>
-        <div class="tareas">
-            <h2>Nombre Proyecto:</h2>
-            <p>Tareas</p>
-            <a href="{{url_for( 'ejecucion')}}">Ver mas</a>
-
+        <!-- Modal body -->
+        <div class="modal-body">
+          Modal body..
         </div>
-    </div>
-    {%block modal%}{% endblock %}
-    <!--Modal reporte -->
-    <div class="modal" id="modalReporte">
-        <div class="modal-dialog">
-            <div class="modal-content">
 
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">Reportes</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-
-                <!-- Modal body -->
-                <div class="modal-body">
-                    Modal body..
-                </div>
-
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                </div>
-
-            </div>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">
+            Close
+          </button>
         </div>
+      </div>
     </div>
-
+  </div>
 </main>
 {%else%}
 <!-- VISTA DE EMPLEADOS -->
 <main class="main-cont">
-    <div class="div-listaproyecto">
-        <label class="texto-encabezado-nav">Mis Proyectos</label>
-        <hr>
-        <div class="container-emp">
-            <div class="tabla-emp">
-                <form action="/modals" method="POST">
-                    <table class="custab-emp">
-                        <thead>
-                            <tr>
-                                <th>ID Proyecto</th>
-                                <th>Nombre Proyecto</th>
-                                <th>Fecha Inicio</th>
-                                <th>Fecha Fin</th>
-                                <th>Estado</th>
-                                <th>Responsable</th>
-                                <th class="text-center">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody class="cuerpo-tabla-emp">
-                            {% for fila in proUser %}
-                            <tr>
-                                <td>{{ fila.Id_Proyecto }}</td>
-                                <td>{{ fila.Nombre}}</td>
-                                <td>{{ fila.FechaInicio}}</td>
-                                {% if fila.FechaFin == "NULL"%}
-                                <td>--</td>
-                                {%else%}
-                                <td>{{ fila.FechaFin}}</td>
-                                {% endif%} {% if fila.Estado == "Completado"%}
-                                <td id="estado1"><text id="emp1">1</text></td>
-                                {% elif fila.Estado == "Incompleto"%}
-                                <td id="celda2"><text id="text">2</text></td>
-                                {%else%}
-                                <td id="celda3"><text id="emp3">3</text></td>
-                                {% endif%}
-                                <td>{{ fila.Empleado}}</td>
-                                <td class="text-center">
-                                    <a href="{{url_for('modal')}}">
-                                        <box-icon name='show' type="solid" color='#3075c9'></box-icon>
-                                    </a>
-                                </td>
-                            </tr>
-                            {% endfor %}
-
-                        </tbody>
-
-                    </table>
-                </form>
-            </div>
-        </div>
-    </div>
-    <div class="div-grafico">
-        <label class="texto-encabezado-nav">Mis Estadísticas</label>
-        <hr>
-        <div class="tareas">
-            <p>Tareas Completadas:</p>
-            <p>Tareas Pendientes:</p>
-            <p>Horas Logeadas:</p>
-
-        </div>
-
-    </div>
-    <div class="div-solicitud">
-        <form action="/solicitud" method="POST">
-            <div class="form-group">
-                <label for="exampleFormControlInput1">Nombre</label>
-                <input type="text" class="form-control" name="nombre" id="exampleFormControlInput1" placeholder="Nombre">
-            </div>
-            <div class="form-group">
-                <label for="exampleFormControlInput1">Titulo Solicitud</label>
-                <input type="text" class="form-control" name="titulo" id="exampleFormControlInput1" placeholder="Titulo">
-            </div>
-
-            <div class="form-group">
-                <label for="exampleFormControlTextarea1">Justificación</label>
-                <textarea class="form-control" name="justificacion" id="exampleFormControlTextarea1" rows="3"></textarea>
-            </div>
-            <div class="col text-center">
-                <button type="submit" class="btn btn-primary" type="submit">Enviar</button>
-            </div>
+  <div class="div-listaproyecto">
+    <label class="texto-encabezado-nav">Mis Proyectos</label>
+    <hr />
+    <div class="container-emp">
+      <div class="tabla-emp">
+        <form action="/modals" method="POST">
+          <table class="custab-emp">
+            <thead>
+              <tr>
+                <th>ID Proyecto</th>
+                <th>Nombre Proyecto</th>
+                <th>Fecha Inicio</th>
+                <th>Fecha Fin</th>
+                <th>Estado</th>
+                <th>Responsable</th>
+                <th class="text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody class="cuerpo-tabla-emp">
+              {% for fila in proUser %}
+              <tr>
+                <td>{{ fila.Id_Proyecto }}</td>
+                <td>{{ fila.Nombre}}</td>
+                <td>{{ fila.FechaInicio}}</td>
+                {% if fila.FechaFin == "NULL"%}
+                <td>--</td>
+                {%else%}
+                <td>{{ fila.FechaFin}}</td>
+                {% endif%} {% if fila.Estado == "Completado"%}
+                <td id="estado1"><text id="emp1">1</text></td>
+                {% elif fila.Estado == "Incompleto"%}
+                <td id="celda2"><text id="text">2</text></td>
+                {%else%}
+                <td id="celda3"><text id="emp3">3</text></td>
+                {% endif%}
+                <td>{{ fila.Empleado}}</td>
+                <td class="text-center">
+                  <a href="{{url_for('modal')}}">
+                    <box-icon
+                      name="show"
+                      type="solid"
+                      color="#3075c9"
+                    ></box-icon>
+                  </a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
         </form>
+      </div>
     </div>
-    <div class="div-notificacion">
-        <label class="texto-encabezado-nav">Notificaciones</label>
-        <hr>
-        <div class="container">
-            <div class="tabla">
-                <form action="/borrarSoli" method="POST">
-                    <table class="custab">
-                        <thead>
-                            <tr>
-                                <th>ID Solicitud</th>
-                                <th>Nombre</th>
-                                <th>Titulo</th>
-                                <th>justificacion</th>
-                                <th>Fecha Solicitud</th>
-                                <th>Estado</th>
-                                <th class="text-center">Accción</th>
-                            </tr>
-                        </thead>
-                        <tbody class="cuerpo-tabla">
-                            {% for fila in soli %}
-                            <tr>
-                                <td>{{ fila.Id_Solicitud }}</td>
-                                <td>{{ fila.Nombre}}</td>
-                                <td>{{ fila.Titulo}}</td>
-                                <td>{{ fila.Justificacion}}</td>
-                                <td>{{ fila.FechaSoli}}</td>
-                                <td>{{ fila.Estado}}</td>
-                                <td class="text-center">
-                                    <!-- <button class="boton-invisible" name="resp" value="{{fila.Id_Solicitud}}" type="submit">
+  </div>
+  <div class="div-grafico">
+    <label class="texto-encabezado-nav">Mis Estadísticas</label>
+    <hr />
+    <div class="tareas">
+      <p>Tareas Completadas:</p>
+      <p>Tareas Pendientes:</p>
+      <p>Horas Logeadas:</p>
+    </div>
+  </div>
+  <div class="div-solicitud">
+    <form action="/solicitud" method="POST">
+      <div class="form-group">
+        <label for="exampleFormControlInput1">Nombre</label>
+        <input
+          type="text"
+          class="form-control"
+          name="nombre"
+          id="exampleFormControlInput1"
+          placeholder="Nombre"
+        />
+      </div>
+      <div class="form-group">
+        <label for="exampleFormControlInput1">Titulo Solicitud</label>
+        <input
+          type="text"
+          class="form-control"
+          name="titulo"
+          id="exampleFormControlInput1"
+          placeholder="Titulo"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="exampleFormControlTextarea1">Justificación</label>
+        <textarea
+          class="form-control"
+          name="justificacion"
+          id="exampleFormControlTextarea1"
+          rows="3"
+        ></textarea>
+      </div>
+      <div class="col text-center">
+        <button type="submit" class="btn btn-primary" type="submit">
+          Enviar
+        </button>
+      </div>
+    </form>
+  </div>
+  <div class="div-notificacion">
+    <label class="texto-encabezado-nav">Notificaciones</label>
+    <hr />
+    <div class="container">
+      <div class="tabla">
+        <form action="/borrarSoli" method="POST">
+          <table class="custab">
+            <thead>
+              <tr>
+                <th>ID Solicitud</th>
+                <th>Nombre</th>
+                <th>Titulo</th>
+                <th>justificacion</th>
+                <th>Fecha Solicitud</th>
+                <th>Estado</th>
+                <th class="text-center">Accción</th>
+              </tr>
+            </thead>
+            <tbody class="cuerpo-tabla">
+              {% for fila in soli %}
+              <tr>
+                <td>{{ fila.Id_Solicitud }}</td>
+                <td>{{ fila.Nombre}}</td>
+                <td>{{ fila.Titulo}}</td>
+                <td>{{ fila.Justificacion}}</td>
+                <td>{{ fila.FechaSoli}}</td>
+                <td>{{ fila.Estado}}</td>
+                <td class="text-center">
+                  <!-- <button class="boton-invisible" name="resp" value="{{fila.Id_Solicitud}}" type="submit">
                                         <box-icon name='show' type="solid" color='#3075c9'></box-icon>
                                     </button> -->
-                                </td>
-
-                            </tr>
-                            {% endfor %}
-
-                        </tbody>
-
-                    </table>
-                </form>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="div-reportes">
-
-        <label class="texto-encabezado-nav">Generar Reporte</label>
-        <hr>
-        <br>
-        <form action="/reporte" method="POST">
-            <div class="form-group">
-                <label for="exampleFormControlInput1">Nombre Tarea</label>
-                <input type="text" class="form-control" name="tarea" id="exampleFormControlInput1" placeholder="Nombre">
-            </div>
-            <div class="form-group">
-                <label for="exampleFormControlInput1">Cliente</label>
-                <input type="text" class="form-control" name="tarea" id="exampleFormControlInput1" placeholder="Cliente">
-            </div>
-            <div class="form-group">
-                <label for="exampleFormControlInput1">Contacto</label>
-                <input type="text" class="form-control" name="tarea" id="exampleFormControlInput1" placeholder="Contacto">
-            </div>
-            <div class="form-group">
-                <label for="exampleFormControlInput1">Correo Electrónico</label>
-                <input type="email" class="form-control" name="tarea" id="exampleFormControlInput1" placeholder="Correo Electrónico">
-            </div>
-            <div class="form-group">
-                <label for="exampleFormControlInput1">Hora Ingreso</label>
-                <input type="datetime" class="form-control" name="tarea" id="exampleFormControlInput1" placeholder="Hora Ingreso">
-            </div>
-            <div class="form-group">
-                <label for="exampleFormControlInput1">Hora Egreso</label>
-                <input type="datetime" class="form-control" name="tarea" id="exampleFormControlInput1" placeholder="Hora Egreso">
-            </div>
-            <div class="form-group">
-                <label for="exampleFormControlInput1">Porcentaje Completado</label>
-                <input type="number" class="form-control" name="porcentaje" id="exampleFormControlInput1" placeholder="Porcentaje">
-            </div>
-            <div class="form-group">
-                <label for="exampleFormControlTextarea1">Descripción</label>
-                <textarea class="form-control" name="descripcion" id="exampleFormControlTextarea1" rows="3"></textarea>
-            </div>
-            <div class="form-group">
-                <label for="exampleFormControlFile1">Insertar Imagen de los Avances</label>
-                <input type="file" class="form-control-file" name="imagen" id="exampleFormControlFile1">
-            </div>
-            <button type="submit" class="btn btn-primary">Enviar</button>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
         </form>
+      </div>
     </div>
-    <!--Modal reporte -->
-    <div class="modal" id="modalReporte">
-        <div class="modal-dialog">
-            <div class="modal-content">
+  </div>
 
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">Reportes</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-
-                <!-- Modal body -->
-                <div class="modal-body">
-                    Modal body..
-                </div>
-
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                </div>
-
-            </div>
+  <div class="div-reportes">
+    <label class="texto-encabezado-nav">Generar Reporte</label>
+    <hr />
+    <br />
+    <form action="/reporte" method="POST">
+      <div class="form-group">
+        <label for="exampleFormControlInput1">Nombre Tarea</label>
+        <input
+          type="text"
+          class="form-control"
+          name="tarea"
+          id="exampleFormControlInput1"
+          placeholder="Nombre"
+        />
+      </div>
+      <div class="form-group">
+        <label for="exampleFormControlInput1">Cliente</label>
+        <input
+          type="text"
+          class="form-control"
+          name="tarea"
+          id="exampleFormControlInput1"
+          placeholder="Cliente"
+        />
+      </div>
+      <div class="form-group">
+        <label for="exampleFormControlInput1">Contacto</label>
+        <input
+          type="text"
+          class="form-control"
+          name="tarea"
+          id="exampleFormControlInput1"
+          placeholder="Contacto"
+        />
+      </div>
+      <div class="form-group">
+        <label for="exampleFormControlInput1">Correo Electrónico</label>
+        <input
+          type="email"
+          class="form-control"
+          name="tarea"
+          id="exampleFormControlInput1"
+          placeholder="Correo Electrónico"
+        />
+      </div>
+      <div class="form-group">
+        <label for="exampleFormControlInput1">Hora Ingreso</label>
+        <input
+          type="datetime"
+          class="form-control"
+          name="tarea"
+          id="exampleFormControlInput1"
+          placeholder="Hora Ingreso"
+        />
+      </div>
+      <div class="form-group">
+        <label for="exampleFormControlInput1">Hora Egreso</label>
+        <input
+          type="datetime"
+          class="form-control"
+          name="tarea"
+          id="exampleFormControlInput1"
+          placeholder="Hora Egreso"
+        />
+      </div>
+      <div class="form-group">
+        <label for="exampleFormControlInput1">Porcentaje Completado</label>
+        <input
+          type="number"
+          class="form-control"
+          name="porcentaje"
+          id="exampleFormControlInput1"
+          placeholder="Porcentaje"
+        />
+      </div>
+      <div class="form-group">
+        <label for="exampleFormControlTextarea1">Descripción</label>
+        <textarea
+          class="form-control"
+          name="descripcion"
+          id="exampleFormControlTextarea1"
+          rows="3"
+        ></textarea>
+      </div>
+      <div class="form-group">
+        <label for="exampleFormControlFile1"
+          >Insertar Imagen de los Avances</label
+        >
+        <input
+          type="file"
+          class="form-control-file"
+          name="imagen"
+          id="exampleFormControlFile1"
+        />
+      </div>
+      <button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
+  </div>
+  <!--Modal reporte -->
+  <div class="modal" id="modalReporte">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Reportes</h4>
+          <button type="button" class="close" data-dismiss="modal">
+            &times;
+          </button>
         </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          Modal body..
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">
+            Close
+          </button>
+        </div>
+      </div>
     </div>
+  </div>
 </main>
 {% endif%}{% endif%}
-
-
-
 
 <!----===== FIN HOME ===== -->
 {% endblock %}

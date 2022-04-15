@@ -3,80 +3,76 @@
 <title>SCISA-Ejecución</title>
 
 <nav class="div-encabezado">
-    <label class="texto-encabezado-nav">EJECUCION</label>
-
+  <label class="texto-encabezado-nav">EJECUCION</label>
 </nav>
 
 <nav class="div-encabezado-opciones">
-    <div class="barra-busqueda">
-        <form action="#">
-            <button>
-                <box-icon name='search'></box-icon>
-            </button>
-            <input type="text" placeholder=" Busqueda de Proyecto" name="busqueda">
-
-        </form>
-    </div>
-    <span class="btn_menu1">
-            <ul class="menu-barratop-opciones-items">
-    <box-icon type='solid' onclick="solicitud()" name='bell'></box-icon>
-    
-   
-
+  <div class="barra-busqueda">
+    <form action="#">
+      <button>
+        <box-icon name="search"></box-icon>
+      </button>
+      <input type="text" placeholder=" Busqueda de Proyecto" name="busqueda" />
+    </form>
+  </div>
+  <span class="btn_menu1">
+    <ul class="menu-barratop-opciones-items">
+      <box-icon type="solid" onclick="solicitud()" name="bell"></box-icon>
     </ul>
-    </span>
-
+  </span>
 </nav>
 <main class="main-cont">
-    <div class="div-ejecucion">
-        <label class="texto-encabezado-nav">Tareas</label>
-        <hr>
-        <div class="sele-mes">
-
-            <form class="form-bot-lat" action="/home" method="POST">
-                <div class="grupo">
-                    <button class="boton-invisible" type="submit"> <label class="text-sele" for="inputGroupSelect01">Elegir</label></button>
-
-                </div>
-                <select class="custom-select" id="inputGroupSelect01" name="selec-mes">
-                <option value="todo" selected="true">Todos</option>
-                <option value="01">Enero</option>
-                <option value="02">Febrero</option>
-                <option value="03">Marzo</option>
-                <option value="04">Abril</option>
-                <option value="05">Mayo</option>
-                <option value="06">Junio</option>
-                <option value="07">Julio</option>
-                <option value="08">Agosto</option>
-                <option value="09">Septiembre</option>
-                <option value="10">Octubre</option>
-                <option value="11">Noviembre</option>
-                <option value="12">Diciembre</option>
-                </select>
-            </form>
-
+  <div class="div-ejecucion">
+    <label class="texto-encabezado-nav">Tareas</label>
+    <hr />
+    <div class="sele-mes">
+      <form class="form-bot-lat" action="/home" method="POST">
+        <div class="grupo">
+          <button class="boton-invisible" type="submit">
+            <label class="text-sele" for="inputGroupSelect01"
+              >Elegir</label
+            ></button
+          >
         </div>
-
-        <div class="ejecucion-imp">
-            <div class="ejecucion-imp-tareas-detalle">
-                <h2>Proyectos:</h2>
-                <p>Proyecto 1</p>
-                <p>Proyecto 2</p>
-                <p>Proyecto 3</p>
-            </div>
-            <div class="ejecucion-imp-tareas-detalle">
-                <h2>Tareas:</h2>
-                <p>Tarea 1 del Proyecto 1</p>
-                <p>Tarea 2 del Proyecto 1</p>
-                <p>Tarea 3 del Proyecto 1</p>
-            </div>
-            <div class="ejecucion-imp-tareas-detalle">
-                <h2>Informacion de la Tarea</h2>
-                <p>Aqui se mostrara toda la informacion de la tarea con sus empleados correspondientes</p>
-            </div>
-        </div>
+        <select class="custom-select" id="inputGroupSelect01" name="selec-mes">
+          <option value="todo" selected="true">Todos</option>
+          <option value="01">Enero</option>
+          <option value="02">Febrero</option>
+          <option value="03">Marzo</option>
+          <option value="04">Abril</option>
+          <option value="05">Mayo</option>
+          <option value="06">Junio</option>
+          <option value="07">Julio</option>
+          <option value="08">Agosto</option>
+          <option value="09">Septiembre</option>
+          <option value="10">Octubre</option>
+          <option value="11">Noviembre</option>
+          <option value="12">Diciembre</option>
+        </select>
+      </form>
     </div>
 
-
+    <div class="ejecucion-imp">
+      <div class="ejecucion-imp-tareas-detalle">
+        <h2>Proyectos:</h2>
+        {%for fila in pro%}
+        <p>{{fila.Nombre}}</p>
+        {%endfor%}
+      </div>
+      <div class="ejecucion-imp-tareas-detalle">
+        <h2>Tareas:</h2>
+        <p>Tarea 1 del Proyecto 1</p>
+        <p>Tarea 2 del Proyecto 1</p>
+        <p>Tarea 3 del Proyecto 1</p>
+      </div>
+      <div class="ejecucion-imp-tareas-detalle">
+        <h2>Informacion de la Tarea</h2>
+        <p
+          >Aqui se mostrara toda la informacion de la tarea con sus empleados
+          correspondientes</p
+        >
+      </div>
+    </div>
+  </div>
 </main>
 {% endblock %}
