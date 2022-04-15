@@ -23,8 +23,16 @@ function reportes() {
     }
 }
 
-function solicitud() {
+function notificacion() {
     var solicitud = document.querySelector(".div-notificacion");
+    if (solicitud.style.display === "none") {
+        solicitud.style.display = "block";
+    } else {
+        solicitud.style.display = "none";
+    }
+}
+function solicitud() {
+    var solicitud = document.querySelector(".div-solicitud");
     if (solicitud.style.display === "none") {
         solicitud.style.display = "block";
     } else {

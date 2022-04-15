@@ -19,23 +19,24 @@
   </div>
   <span class="btn_menu1">
     <ul class="menu-barratop-opciones-items">
-      {% if session.user_id %} {% if session.userrole == 1%}
+      {% if session.user %} {% if session.userrole == 1%}
       <!-- admin -->
-      {% if soli%} {%set var = [] %} {% for list in soli %} {% if list.Estado ==
-      "Pendiente"%} {%do var.append(1)%} {% endif%} {%endfor%} {% if var %}
-      <box-icon type="solid" onclick="solicitud()" name="bell"></box-icon
+      {% if soli%} {%set var = [] %} {% for list in soli %} {% if
+      list.NombreEstado == "Pendiente"%} {%do var.append(1)%} {% endif%}
+      {%endfor%} {% if var %}
+      <box-icon type="solid" onclick="notificacion()" name="bell"></box-icon
       ><span id="burbuja1"></span>
       <li>
-        <a href="#" onclick="solicitud()"
+        <a href="#" onclick="notificacion()"
           >Notificaciones<span id="burbuja"></span
         ></a>
       </li>
       {%else%}
-      <box-icon type="solid" onclick="solicitud()" name="bell"></box-icon>
-      <li><a href="#" onclick="solicitud()">Notificaciones</a></li>
+      <box-icon type="solid" onclick="notificacion()" name="bell"></box-icon>
+      <li><a href="#" onclick="notificacion()">Notificaciones</a></li>
       {% endif%} {%else%}
-      <box-icon type="solid" onclick="solicitud()" name="bell"></box-icon>
-      <li><a href="#" onclick="solicitud()">Notificaciones</a></li>
+      <box-icon type="solid" onclick="notificacion()" name="bell"></box-icon>
+      <li><a href="#" onclick="notificacion()">Notificaciones</a></li>
       {% endif%}
       <box-icon type="solid" onclick="reportes()" name="report"></box-icon>
       <li><a href="#" onclick="reportes()">Reportes</a></li>
@@ -56,20 +57,21 @@
       </li>
       {%else%}
       <!-- Empleado -->
-      {% if soli%} {%set var = [] %} {% for list in soli %} {% if list.Estado ==
-      "Aprobado"%} {%do var.append(1)%} {% endif%} {%endfor%} {% if var %}
-      <box-icon type="solid" onclick="solicitud()" name="bell"></box-icon
+      {% if soli%} {%set var = [] %} {% for list in soli %} {% if
+      list.NombreEstado == "Aceptado"%} {%do var.append(1)%} {% endif%}
+      {%endfor%} {% if var %}
+      <box-icon type="solid" onclick="notificacion()" name="bell"></box-icon
       ><span id="burbuja1"></span>
       <li>
-        <a href="#" onclick="solicitud()"
+        <a href="#" onclick="notificacion()"
           >Notificaciones<span id="burbuja"></span
         ></a>
       </li>
       {%else%}
-      <box-icon type="solid" onclick="solicitud()" name="bell"></box-icon>
-      <li><a href="#">Notificaciones</a></li>
+      <box-icon type="solid" onclick="notificacion()" name="bell"></box-icon>
+      <li><a href="#" onclick="notificacion()">Notificaciones</a></li>
       {% endif%} {%else%}
-      <box-icon type="solid" onclick="solicitud()" name="bell"></box-icon>
+      <box-icon type="solid" onclick="notificacion()" name="bell"></box-icon>
       <li><a href="#">Notificaciones</a></li>
       {% endif%}
       <box-icon name="spreadsheet"></box-icon>
@@ -78,7 +80,7 @@
     </ul>
   </span>
 </nav>
-{% if session.user_id %} {% if session.userrole == 1%}
+{% if session.user %} {% if session.userrole == 1%}
 <main class="main-cont">
   <div class="div-listaproyecto">
     <label class="texto-encabezado-nav">Proyectos</label>
@@ -112,7 +114,7 @@
       <div class="tabla">
         <!-- aqui va cuando selecciona un mes -->
         {% if indice == "todo"%}
-        <form action="/home1" method="GET">
+        <form action="/home1" method="POST">
           <table class="custab">
             <thead>
               <tr>
@@ -130,28 +132,28 @@
 
               <tr>
                 <td>{{ fila.Id_Proyecto }}</td>
-                <td>{{ fila.Nombre}}</td>
-                <td>{{ fila.FechaInicio}}</td>
-                {% if fila.FechaFin == "NULL"%}
+                <td>{{ fila.NombreProyecto}}</td>
+                <td>{{ fila.FechaHoraInicio}}</td>
+                {% if fila.FechaHoraFin == "NULL"%}
                 <td>--</td>
                 {%else%}
-                <td>{{ fila.FechaFin}}</td>
-                {% endif%} {% if fila.Estado == "Completado"%}
+                <td>{{ fila.FechaHoraFin}}</td>
+                {% endif%} {% if fila.NombreEstado == "Completado"%}
                 <td class="completo">
-                  <text class="textoc">{{ fila.Estado}}</text>
+                  <text class="textoc">{{ fila.NombreEstado}}</text>
                 </td>
-                {% elif fila.Estado == "Incompleto"%}
+                {% elif fila.NombreEstado == "Incompleto"%}
                 <td class="incompleto">
-                  <text class="textoi">{{ fila.Estado}}</text>
+                  <text class="textoi">{{ fila.NombreEstado}}</text>
                 </td>
                 {%else%}
                 <td class="progreso">
-                  <text class="textop">{{ fila.Estado}}</text>
+                  <text class="textop">{{ fila.NombreEstado}}</text>
                 </td>
                 {% endif%}
-                <td>{{ fila.Empleado}}</td>
+                <td>{{ fila.Nombre}}</td>
                 <td class="text-center">
-                  <a href="{{ url_for( 'home1' ,info=fila.Empleado) }}">
+                  <a href="{{ url_for( 'home1' ,info=fila.Id_Proyecto) }}">
                     <box-icon
                       name="show"
                       type="solid"
@@ -159,7 +161,6 @@
                     ></box-icon>
                   </a>
                 </td>
-                <td></td>
               </tr>
 
               {% endfor %}
@@ -186,26 +187,26 @@
               {% for fila in pro_espe %}
               <tr>
                 <td>{{ fila.Id_Proyecto }}</td>
-                <td>{{ fila.Nombre}}</td>
-                <td>{{ fila.FechaInicio}}</td>
-                {% if fila.FechaFin == "NULL"%}
+                <td>{{ fila.NombreProyecto}}</td>
+                <td>{{ fila.FechaHoraInicio}}</td>
+                {% if fila.FechaHoraFin == "NULL"%}
                 <td>--</td>
                 {%else%}
-                <td>{{ fila.FechaFin}}</td>
-                {% endif%} {% if fila.Estado == "Completado"%}
+                <td>{{ fila.FechaHoraFin}}</td>
+                {% endif%} {% if fila.NombreEstado == "Completado"%}
                 <td class="completo">
-                  <text class="textoc">{{ fila.Estado}}</text>
+                  <text class="textoc">{{ fila.NombreEstado}}</text>
                 </td>
-                {% elif fila.Estado == "Incompleto"%}
+                {% elif fila.NombreEstado == "Incompleto"%}
                 <td class="incompleto">
-                  <text class="textoi">{{ fila.Estado}}</text>
+                  <text class="textoi">{{ fila.NombreEstado}}</text>
                 </td>
                 {%else%}
                 <td class="progreso">
-                  <text class="textop">{{ fila.Estado}}</text>
+                  <text class="textop">{{ fila.NombreEstado}}</text>
                 </td>
                 {% endif%}
-                <td>{{ fila.Empleado}}</td>
+                <td>{{ fila.Nombre}}</td>
                 <td class="text-center">
                   <box-icon
                     name="show"
@@ -238,26 +239,26 @@
               {% for fila in pro %}
               <tr>
                 <td>{{ fila.Id_Proyecto }}</td>
-                <td>{{ fila.Nombre}}</td>
-                <td>{{ fila.FechaInicio}}</td>
-                {% if fila.FechaFin == "NULL"%}
+                <td>{{ fila.NombreProyecto}}</td>
+                <td>{{ fila.FechaHoraInicio}}</td>
+                {% if fila.FechaHoraFin == "NULL"%}
                 <td>--</td>
                 {%else%}
-                <td>{{ fila.FechaFin}}</td>
-                {% endif%} {% if fila.Estado == "Completado"%}
+                <td>{{ fila.FechaHoraFin}}</td>
+                {% endif%} {% if fila.NombreEstado == "Completado"%}
                 <td class="completo">
-                  <text class="textoc">{{ fila.Estado}}</text>
+                  <text class="textoc">{{ fila.NombreEstado}}</text>
                 </td>
-                {% elif fila.Estado == "Incompleto"%}
+                {% elif fila.NombreEstado == "Incompleto"%}
                 <td class="incompleto">
-                  <text class="textoi">{{ fila.Estado}}</text>
+                  <text class="textoi">{{ fila.NombreEstado}}</text>
                 </td>
                 {%else%}
                 <td class="progreso">
-                  <text class="textop">{{ fila.Estado}}</text>
+                  <text class="textop">{{ fila.NombreEstado}}</text>
                 </td>
                 {% endif%}
-                <td>{{ fila.Empleado}}</td>
+                <td>{{ fila.Nombre}}</td>
                 <td class="text-center">
                   <box-icon
                     name="show"
@@ -408,7 +409,7 @@
                 <td>{{ fila.titulo}}</td>
                 <td>{{ fila.Justificacion}}</td>
                 <td>{{ fila.FechaSoli}}</td>
-                <td>{{ fila.Estado}}</td>
+                <td>{{ fila.NombreEstado}}</td>
                 <td class="text-center">
                   <button
                     class="boton-invisible"
@@ -487,8 +488,8 @@
     </div>
     {%else%}
     <div class="tareas">
-      <h2>Proyecto: {{var1[0].Nombre}}</h2>
-      <p>Empleado a Cargo: {{var1[0].Empleado}}</p>
+      <h2>Proyecto: {{var1[0].NombreProyecto}}</h2>
+      <p>Empleado a Cargo: {{var1[0].Nombre}}</p>
       <a href="{{url_for( 'ejecucion')}}">Ver mas</a>
     </div>
     {%endif%}
@@ -546,20 +547,26 @@
               {% for fila in proUser %}
               <tr>
                 <td>{{ fila.Id_Proyecto }}</td>
-                <td>{{ fila.Nombre}}</td>
-                <td>{{ fila.FechaInicio}}</td>
-                {% if fila.FechaFin == "NULL"%}
+                <td>{{ fila.NombreProyecto}}</td>
+                <td>{{ fila.FechaHoraInicio}}</td>
+                {% if fila.FechaHoraFin == "NULL"%}
                 <td>--</td>
                 {%else%}
-                <td>{{ fila.FechaFin}}</td>
-                {% endif%} {% if fila.Estado == "Completado"%}
-                <td id="estado1"><text id="emp1">1</text></td>
-                {% elif fila.Estado == "Incompleto"%}
-                <td id="celda2"><text id="text">2</text></td>
+                <td>{{ fila.FechaHoraFin}}</td>
+                {% endif%} {% if fila.NombreEstado == "Completado"%}
+                <td class="completo">
+                  <text class="textoc">{{ fila.NombreEstado}}</text>
+                </td>
+                {% elif fila.NombreEstado == "Incompleto"%}
+                <td class="incompleto">
+                  <text class="textoi">{{fila.NombreEstado}}</text>
+                </td>
                 {%else%}
-                <td id="celda3"><text id="emp3">3</text></td>
+                <td class="progreso">
+                  <text class="textop">{{fila.NombreEstado}}</text>
+                </td>
                 {% endif%}
-                <td>{{ fila.Empleado}}</td>
+                <td>{{ fila.Nombre}}</td>
                 <td class="text-center">
                   <a href="{{url_for('modal')}}">
                     <box-icon
@@ -651,7 +658,7 @@
                 <td>{{ fila.Titulo}}</td>
                 <td>{{ fila.Justificacion}}</td>
                 <td>{{ fila.FechaSoli}}</td>
-                <td>{{ fila.Estado}}</td>
+                <td>{{ fila.NombreEstado}}</td>
                 <td class="text-center">
                   <!-- <button class="boton-invisible" name="resp" value="{{fila.Id_Solicitud}}" type="submit">
                                         <box-icon name='show' type="solid" color='#3075c9'></box-icon>
