@@ -675,7 +675,7 @@ p {
 
 /*notificaciones*/
 
-.div-notificacion {
+.div-notificacion1 {
   display: none;
   position: fixed;
   top: 45%;
@@ -687,8 +687,24 @@ p {
   width: 60%;
   height: 60%;
   background-color: #fff;
-  z-index: 2;
+  z-index: 3;
 }
+.div-notificacion {
+  display: none;
+  position: fixed;
+  overflow: scroll;
+  top: 260px;
+  left: 80%;
+  transform: translate(-50%, -50%);
+  padding: 10px 20px 10px 10px;
+  border: 2px solid #000;
+  border-radius: 10px;
+  width: 350px;
+  height: 50%;
+  background-color: #fff;
+  z-index: 3;
+}
+
 .div-solicitud {
   display: none;
   position: fixed;

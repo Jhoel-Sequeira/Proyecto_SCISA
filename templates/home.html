@@ -385,7 +385,26 @@
 
   <div class="div-notificacion" style="display: none;">
     <label class="texto-encabezado-nav">Notificaciones</label>
-    <a class="close" href="#" onclick="solicitud()">&times;</a>
+    <a class="close" href="#" onclick="notificacion()">&times;</a>
+    <hr />
+    <div class="container">
+      {% if soli%} {%set mostrarnot = [] %} {%set solicitador = []%}{% for list
+      in soli %} {% if list.NombreEstado == "Pendiente"%} {%do
+      mostrarnot.append(1)%}{%do solicitador.append(list.Nombre) %} {% endif%}
+      {%endfor%} {% if mostrarnot %}
+      <a href="#" OnClick="notificacion1()"
+        >Tiene una Solicitud Pendiente de {{solicitador[0]}}</a
+      >
+      {%else%}
+      <p>sin notificaciones</p>
+      {% endif%} {%else%}
+      <p>sin notificaciones</p>
+      {% endif%}
+    </div>
+  </div>
+  <div class="div-notificacion1" style="display: none;">
+    <label class="texto-encabezado-nav">Notificaciones</label>
+    <a class="close" href="#" onclick="notificacion1()">&times;</a>
     <div class="container">
       <div class="tabla">
         <form action="/AceptarSoli" method="POST">
@@ -402,7 +421,8 @@
               </tr>
             </thead>
             <tbody class="cuerpo-tabla">
-              {% for fila in soli %}
+              {% for fila in soli %} {%if fila.Nombre == solicitador[0] and
+              fila.NombreEstado == "Pendiente" %}
               <tr>
                 <td>{{ fila.Id_Solicitud }}</td>
                 <td>{{ fila.Nombre}}</td>
@@ -425,14 +445,13 @@
                   </button>
                 </td>
               </tr>
-              {% endfor %}
+              {%endif%} {% endfor %}
             </tbody>
           </table>
         </form>
       </div>
     </div>
   </div>
-
   <div class="div-reportes">
     <label class="texto-encabezado-nav">Reportes</label>
     <hr />
@@ -480,19 +499,50 @@
     <label class="texto-encabezado-nav">Tarea</label>
 
     <hr />
-    {%if var1 == ""%}
     <div class="tareas">
-      <h2>Nombre Proyecto:</h2>
-      <p>Tareas</p>
-      <a href="{{url_for( 'ejecucion')}}">Ver mas</a>
-    </div>
-    {%else%}
-    <div class="tareas">
+      {%if var1 %}
       <h2>Proyecto: {{var1[0].NombreProyecto}}</h2>
       <p>Empleado a Cargo: {{var1[0].Nombre}}</p>
+      <table class="custab">
+        <thead>
+          <tr>
+            <th>Nombre Tarea</th>
+            <th>Fecha Inicio</th>
+            <th>Fecha Fin</th>
+            <th>Descripcion</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody class="cuerpo-tabla">
+          {%for fila in var1%} {%if fila%}
+          <tr>
+            <td>{{ fila.Titulo }}</td>
+            <td>{{ fila.FechaInicioEstimado}}</td>
+            <td>{{ fila.FechaFinEstimado}}</td>
+            <td>{{ fila.Descripcion}}</td>
+            {% if fila.NombreEstado == "Completado"%}
+            <td class="completo">
+              <text class="textoc">{{ fila.NombreEstado}}</text>
+            </td>
+            {% elif fila.NombreEstado == "Incompleto"%}
+            <td class="incompleto">
+              <text class="textoi">{{ fila.NombreEstado}}</text>
+            </td>
+            {%else%}
+            <td class="progreso">
+              <text class="textop">{{ fila.NombreEstado}}</text>
+            </td>
+            {% endif%}
+          </tr>
+          {%else%} {%endif%}{% endfor %}
+        </tbody>
+      </table>
       <a href="{{url_for( 'ejecucion')}}">Ver mas</a>
+
+      {%else%}
+      <h2>No se encontraron tareas</h2>
+      <a href="{{url_for( 'ejecucion')}}">Ver mas</a> {%endif%}
     </div>
-    {%endif%}
   </div>
   {%block modal%}{% endblock %}
   <!--Modal reporte -->

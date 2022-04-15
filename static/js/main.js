@@ -31,6 +31,14 @@ function notificacion() {
         solicitud.style.display = "none";
     }
 }
+function notificacion1() {
+    var solicitud = document.querySelector(".div-notificacion1");
+    if (solicitud.style.display === "none") {
+        solicitud.style.display = "block";
+    } else {
+        solicitud.style.display = "none";
+    }
+}
 function solicitud() {
     var solicitud = document.querySelector(".div-solicitud");
     if (solicitud.style.display === "none") {
