@@ -39,6 +39,14 @@ function notificacion1() {
         solicitud.style.display = "none";
     }
 }
+function notificacion1emp() {
+    var solicitud = document.querySelector(".div-notificacion1emp");
+    if (solicitud.style.display === "none") {
+        solicitud.style.display = "block";
+    } else {
+        solicitud.style.display = "none";
+    }
+}
 function solicitud() {
     var solicitud = document.querySelector(".div-solicitud");
     if (solicitud.style.display === "none") {
@@ -47,7 +55,22 @@ function solicitud() {
         solicitud.style.display = "none";
     }
 }
-
+function reporte() {
+    var solicitud = document.querySelector(".div-reportes");
+    if (solicitud.style.display === "none") {
+        solicitud.style.display = "block";
+    } else {
+        solicitud.style.display = "none";
+    }
+}
+function reportellen() {
+    var solicitud = document.querySelector(".div-reportes-llenar");
+    if (solicitud.style.display === "none") {
+        solicitud.style.display = "block";
+    } else {
+        solicitud.style.display = "none";
+    }
+}
 
 function tareas() {
     var tareas = document.querySelector(".div-tareas");

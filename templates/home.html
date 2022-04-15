@@ -58,8 +58,8 @@
       {%else%}
       <!-- Empleado -->
       {% if soli%} {%set var = [] %} {% for list in soli %} {% if
-      list.NombreEstado == "Aceptado"%} {%do var.append(1)%} {% endif%}
-      {%endfor%} {% if var %}
+      list.NombreEstado == "Aceptado" and list.Vigencia == 1%} {%do
+      var.append(1)%} {% endif%} {%endfor%} {% if var %}
       <box-icon type="solid" onclick="notificacion()" name="bell"></box-icon
       ><span id="burbuja1"></span>
       <li>
@@ -76,6 +76,7 @@
       {% endif%}
       <box-icon name="spreadsheet"></box-icon>
       <li><a href="#" onclick="solicitud()">Solicitud</a></li>
+      <li><a href="#" onclick="reporte()">Reportes</a></li>
       {% endif%} {% endif%}
     </ul>
   </span>
@@ -454,6 +455,9 @@
   </div>
   <div class="div-reportes">
     <label class="texto-encabezado-nav">Reportes</label>
+    <a class="close" href="#" onclick="reporte()">&times;</a>
+    <a class="opc-reporte" href="#" onclick="reportellen()">Generar</a>
+
     <hr />
     <div class="div-card">
       {%if rep %} {%for list in rep %}
@@ -473,6 +477,114 @@
       {%endfor%} {%else%}
       <h2>No se encontraron Reportes</h2> {%endif%}
     </div>
+  </div>
+  <div class="div-reportes-llenar" style="display: none;">
+    <label class="texto-encabezado-nav">Generar Reporte</label>
+    <a class="close" href="#" onclick="reportellen()">&times;</a>
+    <hr />
+    <br />
+    <form action="/reporte" method="POST">
+      <div class="form-group">
+        <label for="exampleFormControlInput1">Nombre Tarea</label>
+        <input
+          type="text"
+          class="form-control"
+          name="tarea"
+          id="exampleFormControlInput1"
+          placeholder="Nombre"
+          value=""
+        />
+      </div>
+      <div class="form-group">
+        <label for="exampleFormControlInput1">Cliente</label>
+        <input
+          type="text"
+          class="form-control"
+          name="cliente"
+          id="exampleFormControlInput1"
+          placeholder="Cliente"
+          value=""
+        />
+      </div>
+      <div class="form-group">
+        <label for="exampleFormControlInput1">Contacto</label>
+        <input
+          type="text"
+          class="form-control"
+          name="contacto"
+          id="exampleFormControlInput1"
+          placeholder="Contacto"
+          value=""
+        />
+      </div>
+      <div class="form-group">
+        <label for="exampleFormControlInput1">Correo Electrónico</label>
+        <input
+          type="email"
+          class="form-control"
+          name="correo"
+          id="exampleFormControlInput1"
+          placeholder="Correo Electrónico"
+          value=""
+        />
+      </div>
+      <div class="form-group">
+        <label for="exampleFormControlInput1">Hora Ingreso</label>
+        <input
+          type="datetime"
+          class="form-control"
+          name="horaent"
+          id="exampleFormControlInput1"
+          placeholder="Hora Ingreso"
+          value=""
+        />
+      </div>
+      <div class="form-group">
+        <label for="exampleFormControlInput1">Hora Egreso</label>
+        <input
+          type="datetime"
+          class="form-control"
+          name="horasal"
+          id="exampleFormControlInput1"
+          placeholder="Hora Egreso"
+          value=""
+        />
+      </div>
+      <div class="form-group">
+        <label for="exampleFormControlInput1">Porcentaje Completado</label>
+        <input
+          type="number"
+          class="form-control"
+          name="porcentaje"
+          id="exampleFormControlInput1"
+          placeholder="Porcentaje"
+          value=""
+        />
+      </div>
+      <div class="form-group">
+        <label for="exampleFormControlTextarea1">Descripción</label>
+        <textarea
+          class="form-control"
+          name="descripcion"
+          id="exampleFormControlTextarea1"
+          rows="3"
+          value=""
+        ></textarea>
+      </div>
+      <div class="form-group">
+        <label for="exampleFormControlFile1"
+          >Insertar Imagen de los Avances</label
+        >
+        <input
+          type="file"
+          class="form-control-file"
+          name="imagen"
+          id="exampleFormControlFile1"
+          value=""
+        />
+      </div>
+      <button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
   </div>
   <div class="div-tareas">
     <label class="texto-encabezado-nav">Tarea</label>
@@ -623,6 +735,9 @@
     </div>
   </div>
   <div class="div-solicitud">
+    <label class="texto-encabezado-nav">Solicitud</label>
+    <a class="close" href="#" onclick="solicitud()">&times;</a>
+    <hr />
     <form action="/solicitud" method="POST">
       <div class="form-group">
         <label for="exampleFormControlInput1">Nombre</label>
@@ -661,12 +776,28 @@
       </div>
     </form>
   </div>
-  <div class="div-notificacion">
+  <div class="div-notificacion" style="display: none;">
     <label class="texto-encabezado-nav">Notificaciones</label>
+    <a class="close" href="#" onclick="notificacion()">&times;</a>
     <hr />
     <div class="container">
+      {% if soli%} {%set mostrarnotemp = [] %} {% for list in soli %} {% if
+      list.NombreEstado == "Aceptado" and list.Vigencia == 1%} {%do
+      mostrarnotemp.append(1)%}{% endif%} {%endfor%} {% if mostrarnotemp %}
+      <a href="#" OnClick="notificacion1emp()">Tiene una Solicitud Aprobada</a>
+      {%else%}
+      <p>sin notificaciones</p>
+      {% endif%} {%else%}
+      <p>sin notificaciones</p>
+      {% endif%}
+    </div>
+  </div>
+  <div class="div-notificacion1emp" style="display: none;">
+    <label class="texto-encabezado-nav">Notificaciones</label>
+    <a class="close" href="#" onclick="notificacion1emp()">&times;</a>
+    <div class="container">
       <div class="tabla">
-        <form action="/borrarSoli" method="POST">
+        <form action="/Vernot" method="POST">
           <table class="custab">
             <thead>
               <tr>
@@ -680,21 +811,31 @@
               </tr>
             </thead>
             <tbody class="cuerpo-tabla">
-              {% for fila in soli %}
+              {% for fila in soli %} {%if fila.NombreEstado == "Aceptado" and
+              fila.Vigencia == 1 %}
               <tr>
                 <td>{{ fila.Id_Solicitud }}</td>
                 <td>{{ fila.Nombre}}</td>
-                <td>{{ fila.Titulo}}</td>
+                <td>{{ fila.titulo}}</td>
                 <td>{{ fila.Justificacion}}</td>
                 <td>{{ fila.FechaSoli}}</td>
                 <td>{{ fila.NombreEstado}}</td>
                 <td class="text-center">
-                  <!-- <button class="boton-invisible" name="resp" value="{{fila.Id_Solicitud}}" type="submit">
-                                        <box-icon name='show' type="solid" color='#3075c9'></box-icon>
-                                    </button> -->
+                  <button
+                    class="boton-invisible"
+                    name="resp"
+                    value="0"
+                    type="submit"
+                  >
+                    <box-icon
+                      name="show"
+                      type="solid"
+                      color="#3075c9"
+                    ></box-icon>
+                  </button>
                 </td>
               </tr>
-              {% endfor %}
+              {%endif%} {% endfor %}
             </tbody>
           </table>
         </form>
@@ -702,8 +843,9 @@
     </div>
   </div>
 
-  <div class="div-reportes">
+  <div class="div-reportes" style="display: none;">
     <label class="texto-encabezado-nav">Generar Reporte</label>
+    <a class="close" href="#" onclick="reporte()">&times;</a>
     <hr />
     <br />
     <form action="/reporte" method="POST">

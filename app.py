@@ -291,7 +291,21 @@ def AceptarSoli():
         id = request.form['resp']
 
         db1.execute('UPDATE Solicitudes SET IdEstado = :est,Vigencia = :vi WHERE Id_Solicitud = :Id',
-                    est=4, vi=0, Id=id)
+                    est=4, vi=1, Id=id)
+        return redirect(url_for('home'))
+
+    else:
+
+        return redirect(url_for("index"))
+
+
+@ app.route('/Vernot', methods=["GET", "POST"])
+def Vernot():
+    if request.method == "POST":
+        vigencia = request.form['resp']
+        db1.execute("UPDATE Solicitudes SET Vigencia = :vi where Vigencia = 1",
+                    vi=int(vigencia))
+
         return redirect(url_for('home'))
 
     else:
@@ -398,7 +412,6 @@ def home1(info):
                 "select p.NombreProyecto, e.Nombre,at.Titulo,at.FechaInicioEstimado,at.FechaFinEstimado,at.Descripcion,est.NombreEstado  from Proyecto as p INNER join Planeacion as pla ON pla.IdProyecto=p.Id_Proyecto INNER JOIN Empleado as e On pla.IdEmpleado=e.Id_Empleado INNER Join Usuario as u On e.Id_Empleado=u.IdEmpleado INNER JOIN AsignacionTarea as at ON pla.Id_Planeacion = at.IdPlaneacion INNER JOIN Estado as est ON at.IdEstado = est.Id_Estado WHERE p.Id_Proyecto= :user", user=info)
             reporte = db1.execute(
                 "select r.*, em.Nombre from Reporte as r INNER JOIN Usuario as u ON r.IdUsuario= u.Id_Usuario INNER JOIN Empleado as em ON u.IdEmpleado = em.Id_Empleado")
-
             return render_template('home.html', rep=reporte, var1=variable, completo=cuentaComp[0]['calc'], progreso=cuentaPro[0]['calc'],
                                    incompleto=cuentaInc[0]['calc'], pro=proyectos, proUser=proyectos_user,
                                    soli=solicitudes, comp=completado[0]["COUNT(IdEstado)"], inco=Incompleto[
