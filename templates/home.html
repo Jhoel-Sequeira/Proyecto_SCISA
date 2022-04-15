@@ -456,43 +456,22 @@
     <label class="texto-encabezado-nav">Reportes</label>
     <hr />
     <div class="div-card">
+      {%if rep %} {%for list in rep %}
       <div class="cartas">
         <img src="..." alt="Card image cap" />
         <div class="card">
-          <h5>Titulo Proyecto:</h5>
-          <p>Titulo Tarea:</p>
-          <p>Porcentaje:</p>
-          <p>Descripcion</p>
+          <p>Titulo Reporte:{{list.Titulo}}</p>
+          <p>Porcentaje:{{list.Porcentaje}}</p>
+          <p>Descripcion: {{list.Descripcion}}</p>
+          <p>Cliente:{{list.Cliente}}</p>
+          <p>Correo:{{list.Correo}}</p>
+          <p>Hora Ingreso: {{list.HoraIngreso}}</p>
+          <p>Hora Egreso: {{list.HoraEgreso}}</p>
+          <p>Empleado: {{list.Nombre}}</p>
         </div>
       </div>
-
-      <div class="cartas">
-        <img src="..." alt="Card image cap" />
-        <div class="card">
-          <h5>Titulo Proyecto:</h5>
-          <p>Titulo Tarea:</p>
-          <p>Porcentaje:</p>
-          <p>Descripcion</p>
-        </div>
-      </div>
-      <div class="cartas">
-        <img src="..." alt="Card image cap" />
-        <div class="card">
-          <h5>Titulo Proyecto:</h5>
-          <p>Titulo Tarea:</p>
-          <p>Porcentaje:</p>
-          <p>Descripcion</p>
-        </div>
-      </div>
-      <div class="cartas">
-        <img src="..." alt="Card image cap" />
-        <div class="card">
-          <h5>Titulo Proyecto:</h5>
-          <p>Titulo Tarea:</p>
-          <p>Porcentaje:</p>
-          <p>Descripcion</p>
-        </div>
-      </div>
+      {%endfor%} {%else%}
+      <h2>No se encontraron Reportes</h2> {%endif%}
     </div>
   </div>
   <div class="div-tareas">
@@ -736,6 +715,7 @@
           name="tarea"
           id="exampleFormControlInput1"
           placeholder="Nombre"
+          value=""
         />
       </div>
       <div class="form-group">
@@ -743,9 +723,10 @@
         <input
           type="text"
           class="form-control"
-          name="tarea"
+          name="cliente"
           id="exampleFormControlInput1"
           placeholder="Cliente"
+          value=""
         />
       </div>
       <div class="form-group">
@@ -753,9 +734,10 @@
         <input
           type="text"
           class="form-control"
-          name="tarea"
+          name="contacto"
           id="exampleFormControlInput1"
           placeholder="Contacto"
+          value=""
         />
       </div>
       <div class="form-group">
@@ -763,9 +745,10 @@
         <input
           type="email"
           class="form-control"
-          name="tarea"
+          name="correo"
           id="exampleFormControlInput1"
           placeholder="Correo Electrónico"
+          value=""
         />
       </div>
       <div class="form-group">
@@ -773,9 +756,10 @@
         <input
           type="datetime"
           class="form-control"
-          name="tarea"
+          name="horaent"
           id="exampleFormControlInput1"
           placeholder="Hora Ingreso"
+          value=""
         />
       </div>
       <div class="form-group">
@@ -783,9 +767,10 @@
         <input
           type="datetime"
           class="form-control"
-          name="tarea"
+          name="horasal"
           id="exampleFormControlInput1"
           placeholder="Hora Egreso"
+          value=""
         />
       </div>
       <div class="form-group">
@@ -796,6 +781,7 @@
           name="porcentaje"
           id="exampleFormControlInput1"
           placeholder="Porcentaje"
+          value=""
         />
       </div>
       <div class="form-group">
@@ -805,6 +791,7 @@
           name="descripcion"
           id="exampleFormControlTextarea1"
           rows="3"
+          value=""
         ></textarea>
       </div>
       <div class="form-group">
@@ -816,6 +803,7 @@
           class="form-control-file"
           name="imagen"
           id="exampleFormControlFile1"
+          value=""
         />
       </div>
       <button type="submit" class="btn btn-primary">Enviar</button>
