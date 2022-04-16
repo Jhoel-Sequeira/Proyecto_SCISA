@@ -724,6 +724,50 @@
         </form>
       </div>
     </div>
+    <div class="tareas-emp">
+      <label class="texto-encabezado-nav">Tareas Pendiente</label>
+      <hr />
+      <div class="container-emp">
+        <div class="tabla-emp">
+          <form action="/modals" method="POST">
+            <table class="custab">
+              <thead>
+                <tr>
+                  <th>Nombre Tarea</th>
+                  <th>Fecha Inicio</th>
+                  <th>Fecha Fin</th>
+                  <th>Descripcion</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
+              <tbody class="cuerpo-tabla">
+                {%for fila in tar%} {%if fila%}
+                <tr>
+                  <td>{{ fila.Titulo }}</td>
+                  <td>{{ fila.FechaInicioEstimado}}</td>
+                  <td>{{ fila.FechaFinEstimado}}</td>
+                  <td>{{ fila.Descripcion}}</td>
+                  {% if fila.NombreEstado == "Completado"%}
+                  <td class="completo">
+                    <text class="textoc">{{ fila.NombreEstado}}</text>
+                  </td>
+                  {% elif fila.NombreEstado == "Incompleto"%}
+                  <td class="incompleto">
+                    <text class="textoi">{{ fila.NombreEstado}}</text>
+                  </td>
+                  {%else%}
+                  <td class="progreso">
+                    <text class="textop">{{ fila.NombreEstado}}</text>
+                  </td>
+                  {% endif%}
+                </tr>
+                {%else%} {%endif%}{% endfor %}
+              </tbody>
+            </table>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="div-grafico">
     <label class="texto-encabezado-nav">Mis Estadísticas</label>
@@ -951,6 +995,7 @@
       <button type="submit" class="btn btn-primary">Enviar</button>
     </form>
   </div>
+
   <!--Modal reporte -->
   <div class="modal" id="modalReporte">
     <div class="modal-dialog">
