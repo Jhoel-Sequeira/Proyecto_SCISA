@@ -481,11 +481,51 @@ def planificacion():
     return render_template('planificacion.html')
 
 
+contador = 0
+
+
 @app.route('/ejecucion')
 def ejecucion():
-    proyectos = db.execute("SELECT * FROM Proyectos")
+    proyectos = db1.execute(
+        "SELECT p.*,est.NombreEstado FROM Proyecto as p INNER JOIN Estado as est ON p.IdEstado = est.Id_Estado")
 
-    return render_template('ejecucion.html', pro=proyectos)
+    return render_template('ejecucion.html', pro=proyectos, tarea="", tarea1="")
+
+
+@app.route('/ejecucion1/Proyecto:<string:id>')
+def ejecucion1(id):
+    if request.method == "POST":
+        proyectos = db1.execute(
+            "SELECT p.*,est.NombreEstado FROM Proyecto as p INNER JOIN Estado as est ON p.IdEstado = est.Id_Estado")
+        tareas = db1.execute("select at.*, est.NombreEstado, em.Nombre from AsignacionTarea as at INNER JOIN Empleado as em ON at.IdEmpleado=em.Id_Empleado INNER JOIN Estado as est ON at.IdEstado=est.Id_Estado INNER JOIN Planeacion as pl ON at.IdPlaneacion=pl.Id_Planeacion INNER JOIN Proyecto as pro ON pro.Id_Proyecto=pl.IdProyecto WHERE pro.Id_Proyecto=:idp", idp=id)
+
+        return render_template('ejecucion.html', pro=proyectos, tarea=tareas, tarea1="")
+    else:
+        proyectos = db1.execute(
+            "SELECT p.*,est.NombreEstado FROM Proyecto as p INNER JOIN Estado as est ON p.IdEstado = est.Id_Estado")
+        tareas = db1.execute("select at.*, est.NombreEstado, em.Nombre from AsignacionTarea as at INNER JOIN Empleado as em ON at.IdEmpleado=em.Id_Empleado INNER JOIN Estado as est ON at.IdEstado=est.Id_Estado INNER JOIN Planeacion as pl ON at.IdPlaneacion=pl.Id_Planeacion INNER JOIN Proyecto as pro ON pro.Id_Proyecto=pl.IdProyecto WHERE pro.Id_Proyecto=:idp", idp=id)
+        return render_template('ejecucion.html', pro=proyectos, tarea=tareas, tarea1="")
+
+
+@app.route('/ejecucion2/Tarea:<string:id>')
+def ejecucion2(id):
+    if request.method == "POST":
+        proyectos = db1.execute(
+            "SELECT p.*,est.NombreEstado FROM Proyecto as p INNER JOIN Estado as est ON p.IdEstado = est.Id_Estado")
+        tareasdesc = db1.execute("select at.*, est.NombreEstado, em.Nombre from AsignacionTarea as at INNER JOIN Empleado as em ON at.IdEmpleado=em.Id_Empleado INNER JOIN Estado as est ON at.IdEstado=est.Id_Estado INNER JOIN Planeacion as pl ON at.IdPlaneacion=pl.Id_Planeacion INNER JOIN Proyecto as pro ON pro.Id_Proyecto=pl.IdProyecto WHERE at.Id_Asignacion=:idt", idt=id)
+        proyecid = db1.execute("select pro.Id_Proyecto from AsignacionTarea as at INNER JOIN Empleado as em ON at.IdEmpleado=em.Id_Empleado INNER JOIN Estado as est ON at.IdEstado=est.Id_Estado INNER JOIN Planeacion as pl ON at.IdPlaneacion=pl.Id_Planeacion INNER JOIN Proyecto as pro ON pro.Id_Proyecto=pl.IdProyecto WHERE at.Id_Asignacion=:idt", idt=id)
+        print(proyecid)
+        tareas = db1.execute("select at.*, est.NombreEstado, em.Nombre from AsignacionTarea as at INNER JOIN Empleado as em ON at.IdEmpleado=em.Id_Empleado INNER JOIN Estado as est ON at.IdEstado=est.Id_Estado INNER JOIN Planeacion as pl ON at.IdPlaneacion=pl.Id_Planeacion INNER JOIN Proyecto as pro ON pro.Id_Proyecto=pl.IdProyecto WHERE pro.Id_Proyecto=:idp", idp=proyecid)
+        return render_template('ejecucion.html', pro=proyectos, tarea=tareas, tarea1=tareasdesc)
+    else:
+        proyectos = db1.execute(
+            "SELECT p.*,est.NombreEstado FROM Proyecto as p INNER JOIN Estado as est ON p.IdEstado = est.Id_Estado")
+        tareasdesc = db1.execute("select at.*, est.NombreEstado, em.Nombre from AsignacionTarea as at INNER JOIN Empleado as em ON at.IdEmpleado=em.Id_Empleado INNER JOIN Estado as est ON at.IdEstado=est.Id_Estado INNER JOIN Planeacion as pl ON at.IdPlaneacion=pl.Id_Planeacion INNER JOIN Proyecto as pro ON pro.Id_Proyecto=pl.IdProyecto WHERE at.Id_Asignacion=:idt", idt=id)
+        proyecid = db1.execute("select pro.Id_Proyecto from AsignacionTarea as at INNER JOIN Empleado as em ON at.IdEmpleado=em.Id_Empleado INNER JOIN Estado as est ON at.IdEstado=est.Id_Estado INNER JOIN Planeacion as pl ON at.IdPlaneacion=pl.Id_Planeacion INNER JOIN Proyecto as pro ON pro.Id_Proyecto=pl.IdProyecto WHERE at.Id_Asignacion=:idt", idt=id)
+        print(proyecid[0]['Id_Proyecto'])
+        tareas = db1.execute(
+            "select at.*, est.NombreEstado, em.Nombre from AsignacionTarea as at INNER JOIN Empleado as em ON at.IdEmpleado=em.Id_Empleado INNER JOIN Estado as est ON at.IdEstado=est.Id_Estado INNER JOIN Planeacion as pl ON at.IdPlaneacion=pl.Id_Planeacion INNER JOIN Proyecto as pro ON pro.Id_Proyecto=pl.IdProyecto WHERE pro.Id_Proyecto=:idp", idp=proyecid[0]['Id_Proyecto'])
+        return render_template('ejecucion.html', pro=proyectos, tarea=tareas, tarea1=tareasdesc)
 
 
 @app.route('/ayuda')

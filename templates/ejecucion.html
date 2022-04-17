@@ -1,7 +1,8 @@
 {% extends "layout.html" %} {% block content %}
 
 <title>SCISA-Ejecución</title>
-
+<!----===== CSS ===== -->
+<link rel="stylesheet" href="../static/diseño.css" />
 <nav class="div-encabezado">
   <label class="texto-encabezado-nav">EJECUCION</label>
 </nav>
@@ -51,26 +52,44 @@
         </select>
       </form>
     </div>
-
     <div class="ejecucion-imp">
-      <div class="ejecucion-imp-tareas-detalle">
+      <form
+        class="ejecucion-imp-tareas-detalle"
+        action="/ejecucion1"
+        method="POST"
+      >
         <h2>Proyectos:</h2>
         {%for fila in pro%}
-        <p>{{fila.Nombre}}</p>
+        <a href="{{ url_for( 'ejecucion1' ,id=fila.Id_Proyecto) }}"
+          >{{fila.NombreProyecto}}
+        </a>
         {%endfor%}
-      </div>
-      <div class="ejecucion-imp-tareas-detalle">
+      </form>
+
+      <form
+        class="ejecucion-imp-tareas-detalle"
+        action="/ejecucion2"
+        method="POST"
+      >
         <h2>Tareas:</h2>
-        <p>Tarea 1 del Proyecto 1</p>
-        <p>Tarea 2 del Proyecto 1</p>
-        <p>Tarea 3 del Proyecto 1</p>
-      </div>
+        {%if tarea%} {%for fila in tarea%}
+        <a href="{{ url_for( 'ejecucion2' ,id=fila.Id_Asignacion) }}"
+          >{{fila.Titulo}}
+        </a>
+        {%endfor%} {%else%}
+        <p>No hay tareas</p>
+        {%endif%}
+      </form>
       <div class="ejecucion-imp-tareas-detalle">
-        <h2>Informacion de la Tarea</h2>
+        <h2>Detalle:</h2>
+        {%if tarea1%} {%for fila in tarea1%}
+        <a href="#">{{fila.Descripcion}} </a>
+        {%endfor%} {%else%}
         <p
           >Aqui se mostrara toda la informacion de la tarea con sus empleados
           correspondientes</p
         >
+        {%endif%}
       </div>
     </div>
   </div>

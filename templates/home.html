@@ -738,6 +738,7 @@
                   <th>Fecha Fin</th>
                   <th>Descripcion</th>
                   <th>Estado</th>
+                  <th>Accion</th>
                 </tr>
               </thead>
               <tbody class="cuerpo-tabla">
@@ -760,6 +761,15 @@
                     <text class="textop">{{ fila.NombreEstado}}</text>
                   </td>
                   {% endif%}
+                  <td class="text-center">
+                    <a href="{{url_for('modal')}}">
+                      <box-icon
+                        name="show"
+                        type="solid"
+                        color="#3075c9"
+                      ></box-icon>
+                    </a>
+                  </td>
                 </tr>
                 {%else%} {%endif%}{% endfor %}
               </tbody>
