@@ -462,7 +462,12 @@
     <div class="div-card">
       {%if rep %} {%for list in rep %}
       <div class="cartas">
-        <img src="..." alt="Card image cap" />
+        <img
+          src="{{list.Imagen}}"
+          alt="Card image cap"
+          width="412px"
+          height="200px"
+        />
         <div class="card">
           <p>Titulo Reporte:{{list.Titulo}}</p>
           <p>Porcentaje:{{list.Porcentaje}}</p>
@@ -483,7 +488,7 @@
     <a class="close" href="#" onclick="reportellen()">&times;</a>
     <hr />
     <br />
-    <form action="/reporte" method="POST">
+    <form action="/reporte" method="POST" enctype="multipart/form-data">
       <div class="form-group">
         <label for="exampleFormControlInput1">Nombre Tarea</label>
         <input
