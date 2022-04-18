@@ -58,11 +58,17 @@
         action="/ejecucion1"
         method="POST"
       >
-        <h2>Proyectos:</h2>
+        <label class="texto-encabezado-nav">Proyecto</label>
+        <hr />
         {%for fila in pro%}
-        <a href="{{ url_for( 'ejecucion1' ,id=fila.Id_Proyecto) }}"
-          >{{fila.NombreProyecto}}
-        </a>
+        <ul class="menu-vista-eje">
+          <li
+            ><a href="{{ url_for( 'ejecucion1' ,id=fila.Id_Proyecto) }}"
+              >{{fila.NombreProyecto}}
+            </a></li
+          >
+        </ul>
+
         {%endfor%}
       </form>
 
@@ -71,19 +77,32 @@
         action="/ejecucion2"
         method="POST"
       >
-        <h2>Tareas:</h2>
+        <label class="texto-encabezado-nav">Tareas</label>
+        <hr />
         {%if tarea%} {%for fila in tarea%}
-        <a href="{{ url_for( 'ejecucion2' ,id=fila.Id_Asignacion) }}"
-          >{{fila.Titulo}}
-        </a>
+        <ul class="menu-vista-eje">
+          <li
+            ><a href="{{ url_for( 'ejecucion2' ,id=fila.Id_Asignacion) }}"
+              >{{fila.Titulo}}
+            </a></li
+          >
+        </ul>
         {%endfor%} {%else%}
         <p>No hay tareas</p>
         {%endif%}
       </form>
       <div class="ejecucion-imp-tareas-detalle">
-        <h2>Detalle:</h2>
+        <label class="texto-encabezado-nav">Detalles</label>
+        <hr />
         {%if tarea1%} {%for fila in tarea1%}
-        <a href="#">{{fila.Descripcion}} </a>
+        <ul class="menu-vista-eje">
+          <li>Descripción:<a href="#">{{fila.Descripcion}} </a></li>
+          <li>Fecha Inicio:<a href="#">{{fila.FechaInicioEstimado}} </a></li>
+          <li>Fecha Fin:<a href="#">{{fila.FechaFinEstimado}} </a></li>
+          <li>Estado:<a href="#">{{fila.NombreEstado}} </a></li>
+          <li>Encargado:<a href="#">{{fila.Nombre}} </a></li>
+        </ul>
+
         {%endfor%} {%else%}
         <p
           >Aqui se mostrara toda la informacion de la tarea con sus empleados

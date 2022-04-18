@@ -629,10 +629,27 @@ p {
 .ejecucion-imp {
   display: flex;
   flex-direction: row;
+  list-style: none;
   padding: 10px 0 10px 20px;
   width: 100%;
   height: calc(100% - 120px);
 }
+.menu-vista-eje {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  margin-top: 10px;
+  margin-right: 80px;
+}
+
+.menu-vista-eje li a {
+  padding: 0px 13px;
+  text-decoration: none;
+  font-size: 20px;
+  display: block;
+  color: rgb(141, 141, 141);
+}
+
 .ejecucion-imp p {
   margin: 0;
   padding: 0;
