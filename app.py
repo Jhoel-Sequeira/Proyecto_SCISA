@@ -293,7 +293,7 @@ def reporte():
 def reporteprint(rep):
     reporteesp = db1.execute(
         "select r.*, em.Nombre from Reporte as r INNER JOIN Usuario as u ON r.IdUsuario= u.Id_Usuario INNER JOIN Empleado as em ON u.IdEmpleado = em.Id_Empleado WHERE r.Id_Reporte = :i", i=rep)
-    print(reporteesp)
+    print("rep conbsulta: ", reporteesp)
 
     if request.method == "POST":
         print(reporteesp)
@@ -395,7 +395,7 @@ def reporteprint(rep):
         tareas = db1.execute(
             "select p.NombreProyecto, e.Nombre,at.Titulo,at.FechaInicioEstimado,at.FechaFinEstimado,at.Descripcion,est.NombreEstado  from Proyecto as p INNER join Planeacion as pla ON pla.IdProyecto=p.Id_Proyecto INNER JOIN Empleado as e On pla.IdEmpleado=e.Id_Empleado INNER Join Usuario as u On e.Id_Empleado=u.IdEmpleado INNER JOIN AsignacionTarea as at ON pla.Id_Planeacion = at.IdPlaneacion INNER JOIN Estado as est ON at.IdEstado = est.Id_Estado WHERE e.Nombre = :user1", user1=session["usercom"])
         reporteesp = db1.execute(
-            "select r.*, em.Nombre from Reporte as r INNER JOIN Usuario as u ON r.IdUsuario= u.Id_Usuario INNER JOIN Empleado as em ON u.IdEmpleado = em.Id_Empleado WHERE r.Id_Reporte = :i", i=1)
+            "select r.*, em.Nombre from Reporte as r INNER JOIN Usuario as u ON r.IdUsuario= u.Id_Usuario INNER JOIN Empleado as em ON u.IdEmpleado = em.Id_Empleado WHERE r.Id_Reporte = :i", i=rep)
         print(reporteesp)
         hi = datetime.now()
         return render_template('home.html', fecha=datetime.date(hi),  repesp=reporteesp, tar=tareas, rep=reporte, var1="", completo=cuentaComp[0]['calc'], progreso=cuentaPro[0]['calc'],

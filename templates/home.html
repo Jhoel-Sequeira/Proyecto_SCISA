@@ -469,6 +469,7 @@
       {%if rep %} {%for list in rep %}
       <div class="cartas">
         <img
+          class="imagen-rep"
           src="{{list.Imagen}}"
           alt="Card image cap"
           width="412px"
@@ -1094,49 +1095,44 @@
     <p>Hora Ingreso: {{list.HoraIngreso}}</p>
     <p>Hora Egreso: {{list.HoraEgreso}}</p>
     <p>Empleado: {{list.Nombre}}</p>
+    <p>Imagen:</p>
+    <img src="{{list.Imagen}}" alt="" width="200px" height="100px" />
+    {%endfor%}
+    <script language="JavaScript" type="text/javascript">
+      elemtovalidar = document.getElementById("p1").innerHTML;
+      alert(elemtovalidar);
+      if (elemtovalidar === "") {
+        alert("entro");
+      } else {
+        elementoParaConvertir = document.querySelector(".div-verpdf"); // <-- Aquí puedes elegir cualquier elemento del DOM
+        elementoParaConvertir.style.display = "block";
+        html2pdf()
+          .set({
+            margin: 0.5,
+            filename: "Reporte.pdf",
+            image: {
+              type: "jpeg",
+              quality: 0.98,
+            },
+            html2canvas: {
+              scale: 3, // A mayor escala, mejores gráficos, pero más peso
+              letterRendering: true,
+            },
+            jsPDF: {
+              unit: "in",
+              format: "a3",
+              orientation: "portrait", // landscape o portrait
+            },
+          })
 
-    <label class="titulo" for="">TRABAJO </label>
-    <hr class="hr-titulo" />
-    <label class="titulo" for="">FINAL </label>
-    <hr class="hr-titulo" />
+          .from(elementoParaConvertir)
+          .save();
+      }
+      setTimeout(() => {
+        elementoParaConvertir.style.display = "none";
+      }, 400);
+    </script>
   </div>
-  {%endfor%}
-  <script language="JavaScript" type="text/javascript">
-    elementoParaConvertir = document.querySelector(".div-verpdf"); // <-- Aquí puedes elegir cualquier elemento del DOM
-    elementoParaConvertir.style.display = "block";
-    elemtovalidar = document.getElementById("p1").innerHTML;
-    alert(elemtovalidar);
-    if (elemtovalidar === "") {
-      alert("entro");
-    } else {
-      elementoParaConvertir = document.querySelector(".div-verpdf"); // <-- Aquí puedes elegir cualquier elemento del DOM
-      elementoParaConvertir.style.display = "block";
-      html2pdf()
-        .set({
-          margin: 0.5,
-          filename: "documento.pdf",
-          image: {
-            type: "jpeg",
-            quality: 0.98,
-          },
-          html2canvas: {
-            scale: 3, // A mayor escala, mejores gráficos, pero más peso
-            letterRendering: true,
-          },
-          jsPDF: {
-            unit: "in",
-            format: "a3",
-            orientation: "portrait", // landscape o portrait
-          },
-        })
-
-        .from(elementoParaConvertir)
-        .save();
-    }
-    setTimeout(() => {
-      elementoParaConvertir.style.display = "none";
-    }, 400);
-  </script>
+  <!----===== FIN HOME ===== -->
+  {% endblock %}
 </div>
-<!----===== FIN HOME ===== -->
-{% endblock %}
