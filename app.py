@@ -155,7 +155,7 @@ def home():
                 tareas = db1.execute(
                     "select p.NombreProyecto, e.Nombre,at.Titulo,at.FechaInicioEstimado,at.FechaFinEstimado,at.Descripcion,est.NombreEstado  from Proyecto as p INNER join Planeacion as pla ON pla.IdProyecto=p.Id_Proyecto INNER JOIN Empleado as e On pla.IdEmpleado=e.Id_Empleado INNER Join Usuario as u On e.Id_Empleado=u.IdEmpleado INNER JOIN AsignacionTarea as at ON pla.Id_Planeacion = at.IdPlaneacion INNER JOIN Estado as est ON at.IdEstado = est.Id_Estado WHERE e.Nombre = :user1", user1=session["usercom"])
 
-                return render_template('home.html', tar=tareas, rep=reporte, var1="", completo=cuentaComp[0]['calc'], progreso=cuentaPro[0]['calc'],
+                return render_template('home.html', fecha="", repesp="", tar=tareas, rep=reporte, var1="", completo=cuentaComp[0]['calc'], progreso=cuentaPro[0]['calc'],
                                        incompleto=cuentaInc[0]['calc'], pro=proyectos, proUser=proyectos_user, soli=solicitudes,
                                        comp=completado[0]["COUNT(IdEstado)"], inco=Incompleto[0][
                     "COUNT(IdEstado)"], prog=Progreso[0]["COUNT(IdEstado)"], img=imagen,
@@ -190,7 +190,7 @@ def home():
                 tareas = db1.execute(
                     "select p.NombreProyecto, e.Nombre,at.Titulo,at.FechaInicioEstimado,at.FechaFinEstimado,at.Descripcion,est.NombreEstado  from Proyecto as p INNER join Planeacion as pla ON pla.IdProyecto=p.Id_Proyecto INNER JOIN Empleado as e On pla.IdEmpleado=e.Id_Empleado INNER Join Usuario as u On e.Id_Empleado=u.IdEmpleado INNER JOIN AsignacionTarea as at ON pla.Id_Planeacion = at.IdPlaneacion INNER JOIN Estado as est ON at.IdEstado = est.Id_Estado WHERE e.Nombre = :user1", user1=session["usercom"])
 
-                return render_template('home.html', tar=tareas, rep=reporte, var1="", completo=cuentaComp[0]['calc'], progreso=cuentaPro[0]['calc'], incompleto=cuentaInc[0]['calc'], pro=0, proUser=proyectos_user, soli=solicitudes, comp=completado[0]["COUNT(IdEstado)"], inco=Incompleto[0]["COUNT(IdEstado)"], prog=Progreso[0]["COUNT(IdEstado)"],
+                return render_template('home.html', fecha="", repesp="", tar=tareas, rep=reporte, var1="", completo=cuentaComp[0]['calc'], progreso=cuentaPro[0]['calc'], incompleto=cuentaInc[0]['calc'], pro=0, proUser=proyectos_user, soli=solicitudes, comp=completado[0]["COUNT(IdEstado)"], inco=Incompleto[0]["COUNT(IdEstado)"], prog=Progreso[0]["COUNT(IdEstado)"],
                                        img=imagen, pro_espe=proyectos_especificos, indice="mes")
         else:
             print("afuera del if de todo")
@@ -220,7 +220,7 @@ def home():
             tareas = db1.execute(
                 "select p.NombreProyecto, e.Nombre,at.Titulo,at.FechaInicioEstimado,at.FechaFinEstimado,at.Descripcion,est.NombreEstado  from Proyecto as p INNER join Planeacion as pla ON pla.IdProyecto=p.Id_Proyecto INNER JOIN Empleado as e On pla.IdEmpleado=e.Id_Empleado INNER Join Usuario as u On e.Id_Empleado=u.IdEmpleado INNER JOIN AsignacionTarea as at ON pla.Id_Planeacion = at.IdPlaneacion INNER JOIN Estado as est ON at.IdEstado = est.Id_Estado WHERE e.Nombre = :user1", user1=session["usercom"])
 
-            return render_template('home.html', tar=tareas, rep=reporte, var1="", completo=cuentaComp[0]['calc'], progreso=cuentaPro[0]['calc'],
+            return render_template('home.html', fecha="", repesp="", tar=tareas, rep=reporte, var1="", completo=cuentaComp[0]['calc'], progreso=cuentaPro[0]['calc'],
                                    incompleto=cuentaInc[0]['calc'], pro=proyectos, proUser=proyectos_user,
                                    soli=solicitudes, comp=completado[0]["COUNT(IdEstado)"], inco=Incompleto[
                 0]["COUNT(IdEstado)"],
@@ -254,7 +254,7 @@ def home():
         tareas = db1.execute(
             "select p.NombreProyecto, e.Nombre,at.Titulo,at.FechaInicioEstimado,at.FechaFinEstimado,at.Descripcion,est.NombreEstado  from Proyecto as p INNER join Planeacion as pla ON pla.IdProyecto=p.Id_Proyecto INNER JOIN Empleado as e On pla.IdEmpleado=e.Id_Empleado INNER Join Usuario as u On e.Id_Empleado=u.IdEmpleado INNER JOIN AsignacionTarea as at ON pla.Id_Planeacion = at.IdPlaneacion INNER JOIN Estado as est ON at.IdEstado = est.Id_Estado WHERE e.Nombre = :user1", user1=session["usercom"])
 
-        return render_template('home.html', tar=tareas, rep=reporte, var1="", completo=cuentaComp[0]['calc'], progreso=cuentaPro[0]['calc'], incompleto=cuentaInc[0]['calc'], pro=proyectos, proUser=proyectos_user, soli=solicitudes, comp=completado[0]["COUNT(IdEstado)"], inco=Incompleto[0]["COUNT(IdEstado)"], prog=Progreso[0]["COUNT(IdEstado)"], img=imagen)
+        return render_template('home.html', fecha="", repesp="", tar=tareas, rep=reporte, var1="", completo=cuentaComp[0]['calc'], progreso=cuentaPro[0]['calc'], incompleto=cuentaInc[0]['calc'], pro=proyectos, proUser=proyectos_user, soli=solicitudes, comp=completado[0]["COUNT(IdEstado)"], inco=Incompleto[0]["COUNT(IdEstado)"], prog=Progreso[0]["COUNT(IdEstado)"], img=imagen)
 
 
 # mostrar los modals segun su seleccion
@@ -287,6 +287,122 @@ def reporte():
         return redirect(url_for('home'))
     else:
         return redirect(url_for("index"))
+
+
+@app.route('/reporteprint/<string:rep>', methods=["GET", "POST"])
+def reporteprint(rep):
+    reporteesp = db1.execute(
+        "select r.*, em.Nombre from Reporte as r INNER JOIN Usuario as u ON r.IdUsuario= u.Id_Usuario INNER JOIN Empleado as em ON u.IdEmpleado = em.Id_Empleado WHERE r.Id_Reporte = :i", i=rep)
+    print(reporteesp)
+
+    if request.method == "POST":
+        print(reporteesp)
+        sele = request.form['selec-mes']
+        if sele:
+            if sele == 'todo':
+                print("todo")
+                proyectos = db1.execute(
+                    "SELECT * FROM Proyecto as p INNER JOIN Estado as e ON p.IdEstado = e.Id_Estado INNER JOIN Planeacion as pl ON pl.IdProyecto = p.Id_Proyecto INNER JOIN Empleado as em ON pl.IdEmpleado = em.Id_Empleado ORDER By p.Id_Proyecto")
+                proyectos_user = db1.execute(
+                    "select * from Proyecto as p INNER join Planeacion as pla ON pla.IdProyecto=p.Id_Proyecto INNER JOIN Empleado as e On pla.IdEmpleado=e.Id_Empleado INNER Join Usuario as u On e.Id_Empleado=u.IdEmpleado WHERE U.Id_Usuario=:user", user=session["user_Id"])
+                solicitudes = db1.execute("SELECT soli.Id_Solicitud,e.Nombre, soli.Justificacion, soli.FechaSoli, soli.Titulo, est.NombreEstado, soli.Vigencia from Solicitudes as soli INNER JOIN Usuario as u On soli.IdUsuario = u.Id_Usuario INNER JOIN Empleado as e ON u.IdEmpleado = e.Id_Empleado INNER JOIN Estado as est ON soli.IdEstado = est.Id_Estado")
+                # contar los proyectos aprobados, incompletos y en progreso
+                completado = db1.execute(
+                    "SELECT COUNT(IdEstado)From Proyecto as p INNER JOIN Estado as e On p.IdEstado = e.Id_Estado WHERE e.NombreEstado = :estado", estado="Completado")
+                Incompleto = db1.execute(
+                    "SELECT COUNT(IdEstado)From Proyecto as p INNER JOIN Estado as e On p.IdEstado = e.Id_Estado WHERE e.NombreEstado = :estado", estado="Incompleto")
+                Progreso = db1.execute(
+                    "SELECT COUNT(IdEstado)From Proyecto as p INNER JOIN Estado as e On p.IdEstado=e.Id_Estado WHERE e.NombreEstado= :estado", estado="Progreso")
+                imagen = db.execute(
+                    "SELECT Imagen From Reportes WHERE Id_reporte = :estado", estado=1)
+                total = db1.execute("SELECT COUNT(*) FROM Proyecto")
+                cuentaComp = db1.execute(
+                    "SELECT count(*)*100 / :to AS calc From Proyecto as p INNER JOIN Estado as e On p.IdEstado = e.Id_Estado WHERE e.NombreEstado = :est", est="Completado", to=total[0]['COUNT(*)'])
+                cuentaPro = db1.execute(
+                    "SELECT count(*)*100 / :to AS calc From Proyecto as p INNER JOIN Estado as e On p.IdEstado = e.Id_Estado WHERE e.NombreEstado = :est", est="Progreso", to=total[0]['COUNT(*)'])
+                cuentaInc = db1.execute(
+                    "SELECT count(*)*100 / :to AS calc From Proyecto as p INNER JOIN Estado as e On p.IdEstado = e.Id_Estado WHERE e.NombreEstado = :est", est="Incompleto", to=total[0]['COUNT(*)'])
+                reporte = db1.execute(
+                    "select r.*, em.Nombre from Reporte as r INNER JOIN Usuario as u ON r.IdUsuario= u.Id_Usuario INNER JOIN Empleado as em ON u.IdEmpleado = em.Id_Empleado")
+                tareas = db1.execute(
+                    "select p.NombreProyecto, e.Nombre,at.Titulo,at.FechaInicioEstimado,at.FechaFinEstimado,at.Descripcion,est.NombreEstado  from Proyecto as p INNER join Planeacion as pla ON pla.IdProyecto=p.Id_Proyecto INNER JOIN Empleado as e On pla.IdEmpleado=e.Id_Empleado INNER Join Usuario as u On e.Id_Empleado=u.IdEmpleado INNER JOIN AsignacionTarea as at ON pla.Id_Planeacion = at.IdPlaneacion INNER JOIN Estado as est ON at.IdEstado = est.Id_Estado WHERE e.Nombre = :user1", user1=session["usercom"])
+
+                return render_template('home.html', fecha="", repesp="", tar=tareas, rep=reporte, var1="", completo=cuentaComp[0]['calc'], progreso=cuentaPro[0]['calc'],
+                                       incompleto=cuentaInc[0]['calc'], pro=proyectos, proUser=proyectos_user, soli=solicitudes,
+                                       comp=completado[0]["COUNT(IdEstado)"], inco=Incompleto[0][
+                    "COUNT(IdEstado)"], prog=Progreso[0]["COUNT(IdEstado)"], img=imagen,
+                    indice="todo")
+
+            else:
+                print("meses")
+                proyectos_especificos = db1.execute(
+                    "SELECT * FROM Proyecto as p INNER JOIN Estado as e ON p.IdEstado = e.Id_Estado INNER JOIN Planeacion as pl ON pl.IdProyecto = p.Id_Proyecto INNER JOIN Empleado as em ON pl.IdEmpleado = em.Id_Empleado WHERE strftime('%m', p.FechaHoraInicio) = :mes", mes=sele)
+                proyectos_user = db1.execute(
+                    "select p.NombreProyecto, e.Nombre from Proyecto as p INNER join Planeacion as pla ON pla.IdProyecto=p.Id_Proyecto INNER JOIN Empleado as e On pla.IdEmpleado=e.Id_Empleado INNER Join Usuario as u On e.Id_Empleado=u.IdEmpleado WHERE U.Id_Usuario=:user", user=session["user_Id"])
+                solicitudes = db1.execute("SELECT * FROM Solicitudes")
+                # contar los proyectos aprobados, incompletos y en progreso
+                completado = db1.execute(
+                    "SELECT COUNT(IdEstado)From Proyecto as p INNER JOIN Estado as e On p.IdEstado = e.Id_Estado WHERE e.NombreEstado = :estado", estado="Completado")
+                Incompleto = db1.execute(
+                    "SELECT COUNT(IdEstado)From Proyecto as p INNER JOIN Estado as e On p.IdEstado = e.Id_Estado WHERE e.NombreEstado = :estado", estado="Incompleto")
+                Progreso = db1.execute(
+                    "SELECT COUNT(IdEstado)From Proyecto as p INNER JOIN Estado as e On p.IdEstado=e.Id_Estado WHERE e.NombreEstado=:estado", estado="Progreso")
+                imagen = db.execute(
+                    "SELECT Imagen From Reportes WHERE Id_reporte = :estado", estado=1)
+                total = db1.execute("SELECT COUNT(*) FROM Proyecto")
+                cuentaComp = db1.execute(
+                    "SELECT count(*)*100 / :to AS calc From Proyecto as p INNER JOIN Estado as e On p.IdEstado = e.Id_Estado WHERE e.NombreEstado = :est", est="Completado", to=total[0]['COUNT(*)'])
+                cuentaPro = db1.execute(
+                    "SELECT count(*)*100 / :to AS calc From Proyecto as p INNER JOIN Estado as e On p.IdEstado = e.Id_Estado WHERE e.NombreEstado = :est", est="Progreso", to=total[0]['COUNT(*)'])
+                cuentaInc = db1.execute(
+                    "SELECT count(*)*100 / :to AS calc From Proyecto as p INNER JOIN Estado as e On p.IdEstado = e.Id_Estado WHERE e.NombreEstado = :est", est="Incompleto", to=total[0]['COUNT(*)'])
+                indice = "mes"
+                reporte = db1.execute(
+                    "select r.*, em.Nombre from Reporte as r INNER JOIN Usuario as u ON r.IdUsuario= u.Id_Usuario INNER JOIN Empleado as em ON u.IdEmpleado = em.Id_Empleado")
+                tareas = db1.execute(
+                    "select p.NombreProyecto, e.Nombre,at.Titulo,at.FechaInicioEstimado,at.FechaFinEstimado,at.Descripcion,est.NombreEstado  from Proyecto as p INNER join Planeacion as pla ON pla.IdProyecto=p.Id_Proyecto INNER JOIN Empleado as e On pla.IdEmpleado=e.Id_Empleado INNER Join Usuario as u On e.Id_Empleado=u.IdEmpleado INNER JOIN AsignacionTarea as at ON pla.Id_Planeacion = at.IdPlaneacion INNER JOIN Estado as est ON at.IdEstado = est.Id_Estado WHERE e.Nombre = :user1", user1=session["usercom"])
+                reporteesp = db1.execute(
+                    "select r.*, em.Nombre from Reporte as r INNER JOIN Usuario as u ON r.IdUsuario= u.Id_Usuario INNER JOIN Empleado as em ON u.IdEmpleado = em.Id_Empleado WHERE r.Id_Reporte = :i", i=1)
+
+                return render_template('home.html', fecha="", repesp="", tar=tareas, rep=reporte, var1="", completo=cuentaComp[0]['calc'], progreso=cuentaPro[0]['calc'], incompleto=cuentaInc[0]['calc'], pro=0, proUser=proyectos_user, soli=solicitudes, comp=completado[0]["COUNT(IdEstado)"], inco=Incompleto[0]["COUNT(IdEstado)"], prog=Progreso[0]["COUNT(IdEstado)"],
+                                       img=imagen, pro_espe=proyectos_especificos, indice="mes")
+    else:
+        print("afuera del if de todo")
+        print(reporteesp)
+        proyectos = db1.execute(
+            "SELECT * FROM Proyecto as p INNER JOIN Estado as e ON p.IdEstado = e.Id_Estado INNER JOIN Planeacion as pl ON pl.IdProyecto = p.Id_Proyecto INNER JOIN Empleado as em ON pl.IdEmpleado = em.Id_Empleado ORDER By p.Id_Proyecto")
+        proyectos_user = db1.execute(
+            "select p.NombreProyecto, e.Nombre from Proyecto as p INNER join Planeacion as pla ON pla.IdProyecto=p.Id_Proyecto INNER JOIN Empleado as e On pla.IdEmpleado=e.Id_Empleado INNER Join Usuario as u On e.Id_Empleado=u.IdEmpleado WHERE U.Id_Usuario=:user", user=session["user_Id"])
+        solicitudes = db1.execute("SELECT * FROM Solicitudes")
+        # contar los proyectos aprobados, incompletos y en progreso
+        completado = db1.execute(
+            "SELECT COUNT(IdEstado)From Proyecto as p INNER JOIN Estado as e On p.IdEstado = e.Id_Estado WHERE e.NombreEstado = :estado", estado="Completado")
+        Incompleto = db1.execute(
+            "SELECT COUNT(IdEstado)From Proyecto as p INNER JOIN Estado as e On p.IdEstado = e.Id_Estado WHERE e.NombreEstado = :estado", estado="Incompleto")
+        Progreso = db1.execute(
+            "SELECT COUNT(IdEstado)From Proyecto as p INNER JOIN Estado as e On p.IdEstado=e.Id_Estado WHERE e.NombreEstado=:estado", estado="Progreso")
+        imagen = db.execute(
+            "SELECT Imagen From Reportes WHERE Id_reporte = :estado", estado=1)
+        total = db1.execute("SELECT COUNT(*) FROM Proyecto")
+        cuentaComp = db1.execute(
+            "SELECT count(*)*100 / :to AS calc From Proyecto as p INNER JOIN Estado as e On p.IdEstado = e.Id_Estado WHERE e.NombreEstado = :est", est="Completado", to=total[0]['COUNT(*)'])
+        cuentaPro = db1.execute(
+            "SELECT count(*)*100 / :to AS calc From Proyecto as p INNER JOIN Estado as e On p.IdEstado = e.Id_Estado WHERE e.NombreEstado = :est", est="Progreso", to=total[0]['COUNT(*)'])
+        cuentaInc = db1.execute(
+            "SELECT count(*)*100 / :to AS calc From Proyecto as p INNER JOIN Estado as e On p.IdEstado = e.Id_Estado WHERE e.NombreEstado = :est", est="Incompleto", to=total[0]['COUNT(*)'])
+        reporte = db1.execute(
+            "select r.*, em.Nombre from Reporte as r INNER JOIN Usuario as u ON r.IdUsuario= u.Id_Usuario INNER JOIN Empleado as em ON u.IdEmpleado = em.Id_Empleado")
+        tareas = db1.execute(
+            "select p.NombreProyecto, e.Nombre,at.Titulo,at.FechaInicioEstimado,at.FechaFinEstimado,at.Descripcion,est.NombreEstado  from Proyecto as p INNER join Planeacion as pla ON pla.IdProyecto=p.Id_Proyecto INNER JOIN Empleado as e On pla.IdEmpleado=e.Id_Empleado INNER Join Usuario as u On e.Id_Empleado=u.IdEmpleado INNER JOIN AsignacionTarea as at ON pla.Id_Planeacion = at.IdPlaneacion INNER JOIN Estado as est ON at.IdEstado = est.Id_Estado WHERE e.Nombre = :user1", user1=session["usercom"])
+        reporteesp = db1.execute(
+            "select r.*, em.Nombre from Reporte as r INNER JOIN Usuario as u ON r.IdUsuario= u.Id_Usuario INNER JOIN Empleado as em ON u.IdEmpleado = em.Id_Empleado WHERE r.Id_Reporte = :i", i=1)
+        print(reporteesp)
+        hi = datetime.now()
+        return render_template('home.html', fecha=datetime.date(hi),  repesp=reporteesp, tar=tareas, rep=reporte, var1="", completo=cuentaComp[0]['calc'], progreso=cuentaPro[0]['calc'],
+                               incompleto=cuentaInc[0]['calc'], pro=proyectos, proUser=proyectos_user,
+                               soli=solicitudes, comp=completado[0]["COUNT(IdEstado)"], inco=Incompleto[
+            0]["COUNT(IdEstado)"],
+            prog=Progreso[0]["COUNT(IdEstado)"], img=imagen, indice="todo")
 
 
 @app.route('/solicitud', methods=["GET", "POST"])
@@ -367,7 +483,7 @@ def home1(info):
                 reporte = db1.execute(
                     "select r.*, em.Nombre from Reporte as r INNER JOIN Usuario as u ON r.IdUsuario= u.Id_Usuario INNER JOIN Empleado as em ON u.IdEmpleado = em.Id_Empleado")
 
-                return render_template('home.html', tar="", rep=reporte, var1=variable, completo=cuentaComp[0]['calc'], progreso=cuentaPro[0]['calc'],
+                return render_template('home.html', fecha="", tar="", rep=reporte, var1=variable, completo=cuentaComp[0]['calc'], progreso=cuentaPro[0]['calc'],
                                        incompleto=cuentaInc[0]['calc'], pro=proyectos, proUser=proyectos_user, soli=solicitudes,
                                        comp=completado[0]["COUNT(IdEstado)"], inco=Incompleto[0][
                     "COUNT(IdEstado)"], prog=Progreso[0]["COUNT(IdEstado)"], img=imagen,
@@ -403,7 +519,7 @@ def home1(info):
                 reporte = db1.execute(
                     "select r.*, em.Nombre from Reporte as r INNER JOIN Usuario as u ON r.IdUsuario= u.Id_Usuario INNER JOIN Empleado as em ON u.IdEmpleado = em.Id_Empleado")
 
-                return render_template('home.html', tar="", rep=reporte, var1=variable, completo=cuentaComp[0]['calc'], progreso=cuentaPro[0]['calc'], incompleto=cuentaInc[0]['calc'], pro=0, proUser=proyectos_user, soli=solicitudes, comp=completado[0]["COUNT(IdEstado)"], inco=Incompleto[0]["COUNT(IdEstado)"], prog=Progreso[0]["COUNT(IdEstado)"],
+                return render_template('home.html', fecha="", tar="", rep=reporte, var1=variable, completo=cuentaComp[0]['calc'], progreso=cuentaPro[0]['calc'], incompleto=cuentaInc[0]['calc'], pro=0, proUser=proyectos_user, soli=solicitudes, comp=completado[0]["COUNT(IdEstado)"], inco=Incompleto[0]["COUNT(IdEstado)"], prog=Progreso[0]["COUNT(IdEstado)"],
                                        img=imagen, pro_espe=proyectos_especificos, indice="mes")
         else:
             print("afuera del if de todo")
@@ -432,7 +548,7 @@ def home1(info):
                 "select p.NombreProyecto, e.Nombre,at.Titulo,at.FechaInicioEstimado,at.FechaFinEstimado,at.Descripcion,est.NombreEstado  from Proyecto as p INNER join Planeacion as pla ON pla.IdProyecto=p.Id_Proyecto INNER JOIN Empleado as e On pla.IdEmpleado=e.Id_Empleado INNER Join Usuario as u On e.Id_Empleado=u.IdEmpleado INNER JOIN AsignacionTarea as at ON pla.Id_Planeacion = at.IdPlaneacion INNER JOIN Estado as est ON at.IdEstado = est.Id_Estado WHERE p.Id_Proyecto= :user", user=info)
             reporte = db1.execute(
                 "select r.*, em.Nombre from Reporte as r INNER JOIN Usuario as u ON r.IdUsuario= u.Id_Usuario INNER JOIN Empleado as em ON u.IdEmpleado = em.Id_Empleado")
-            return render_template('home.html', tar="", rep=reporte, var1=variable, completo=cuentaComp[0]['calc'], progreso=cuentaPro[0]['calc'],
+            return render_template('home.html', fecha="", tar="", rep=reporte, var1=variable, completo=cuentaComp[0]['calc'], progreso=cuentaPro[0]['calc'],
                                    incompleto=cuentaInc[0]['calc'], pro=proyectos, proUser=proyectos_user,
                                    soli=solicitudes, comp=completado[0]["COUNT(IdEstado)"], inco=Incompleto[
                 0]["COUNT(IdEstado)"],
@@ -465,7 +581,7 @@ def home1(info):
             "select p.NombreProyecto, e.Nombre,at.Titulo,at.FechaInicioEstimado,at.FechaFinEstimado,at.Descripcion,est.NombreEstado  from Proyecto as p INNER join Planeacion as pla ON pla.IdProyecto=p.Id_Proyecto INNER JOIN Empleado as e On pla.IdEmpleado=e.Id_Empleado INNER Join Usuario as u On e.Id_Empleado=u.IdEmpleado INNER JOIN AsignacionTarea as at ON pla.Id_Planeacion = at.IdPlaneacion INNER JOIN Estado as est ON at.IdEstado = est.Id_Estado WHERE p.Id_Proyecto= :user", user=info)
         reporte = db1.execute(
             "select r.*, em.Nombre from Reporte as r INNER JOIN Usuario as u ON r.IdUsuario= u.Id_Usuario INNER JOIN Empleado as em ON u.IdEmpleado = em.Id_Empleado")
-        return render_template('home.html', tar="", rep=reporte, var1=variable, completo=cuentaComp[0]['calc'], progreso=cuentaPro[0]['calc'], incompleto=cuentaInc[0]['calc'], pro=proyectos, proUser=proyectos_user, soli=solicitudes, comp=completado[0]["COUNT(IdEstado)"], inco=Incompleto[0]["COUNT(IdEstado)"], prog=Progreso[0]["COUNT(IdEstado)"], img=imagen)
+        return render_template('home.html', fecha="", tar="", rep=reporte, var1=variable, completo=cuentaComp[0]['calc'], progreso=cuentaPro[0]['calc'], incompleto=cuentaInc[0]['calc'], pro=proyectos, proUser=proyectos_user, soli=solicitudes, comp=completado[0]["COUNT(IdEstado)"], inco=Incompleto[0]["COUNT(IdEstado)"], prog=Progreso[0]["COUNT(IdEstado)"], img=imagen)
 
 
 @app.route('/facturacion')
