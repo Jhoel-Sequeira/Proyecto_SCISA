@@ -433,7 +433,7 @@
               <tr>
                 <td>{{ fila.Id_Solicitud }}</td>
                 <td>{{ fila.Nombre}}</td>
-                <td>{{ fila.titulo}}</td>
+                <td>{{ fila.Titulo}}</td>
                 <td>{{ fila.Justificacion}}</td>
                 <td>{{ fila.FechaSoli}}</td>
                 <td>{{ fila.NombreEstado}}</td>
@@ -445,9 +445,15 @@
                     type="submit"
                   >
                     <box-icon
-                      name="show"
+                      name="check-circle"
                       type="solid"
-                      color="#3075c9"
+                      color="#58a257"
+                    ></box-icon
+                    ><box-icon
+                      name="x-circle"
+                      type="solid"
+                      flip="vertical"
+                      color="#da1717"
                     ></box-icon>
                   </button>
                 </td>
@@ -802,6 +808,20 @@
       <p>Tareas Pendientes:</p>
       <p>Horas Logeadas:</p>
     </div>
+    <label class="texto-encabezado-nav">Mis Reportes</label>
+    <hr />
+    <div class="tareas">
+      <p>Reporte 1:</p>
+      <p>Reporte 2:</p>
+      <p>Reporte 3:</p>
+    </div>
+    <label class="texto-encabezado-nav">Mis Solicitudes</label>
+    <hr />
+    <div class="tareas">
+      <p>Solicitud 1:</p>
+      <p>Solicitud 2:</p>
+      <p>Solicitud 3:</p>
+    </div>
   </div>
   <div class="div-solicitud">
     <label class="texto-encabezado-nav">Solicitud</label>
@@ -897,9 +917,9 @@
                     type="submit"
                   >
                     <box-icon
-                      name="show"
+                      name="check-circle"
                       type="solid"
-                      color="#3075c9"
+                      color="#58a257"
                     ></box-icon>
                   </button>
                 </td>
@@ -917,7 +937,7 @@
     <a class="close" href="#" onclick="reporte()">&times;</a>
     <hr />
     <br />
-    <form action="/reporte" method="POST">
+    <form action="/reporte" method="POST" enctype="multipart/form-data">
       <div class="form-group">
         <label for="exampleFormControlInput1">Nombre Tarea</label>
         <input
@@ -1100,7 +1120,6 @@
     {%endfor%}
     <script language="JavaScript" type="text/javascript">
       elemtovalidar = document.getElementById("p1").innerHTML;
-      alert(elemtovalidar);
       if (elemtovalidar === "") {
         alert("entro");
       } else {
