@@ -10,6 +10,9 @@
   crossorigin="anonymous"
   referrerpolicy="no-referrer"
 ></script>
+ 
+<script src="../static/js/app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
 <nav class="div-encabezado">
   <label class="texto-encabezado-nav">HOME</label>
 </nav>
@@ -604,6 +607,16 @@
           value=""
         />
       </div>
+      <label for="exampleFormControlFile1"
+          >Firma Digital</label
+        >
+      <canvas id="signature" style="border: 1px solid black;"></canvas>
+      
+      <br>
+      <div style="text-align:center;">
+        <input type="button" id="export" value="Export"/>
+        <input type="button" id="reset" value="Reset"/>
+      </div>
       <button type="submit" class="btn btn-primary">Enviar</button>
     </form>
   </div>
@@ -1037,6 +1050,14 @@
           value=""
         />
       </div>
+      <div class="form-group">
+        <label for="exampleFormControlFile1">Firma digital</label>
+        <div class="signature mb-2" style="width: 100%; height: 200px;">
+          <canvas
+            id="signature-canvas"
+            style="border: 1px dashed red; width: 100%; height: 200px;"
+          ></canvas>
+      </div>
       <button type="submit" class="btn btn-primary">Enviar</button>
     </form>
   </div>
@@ -1118,39 +1139,11 @@
     <p>Imagen:</p>
     <img src="{{list.Imagen}}" alt="" width="200px" height="100px" />
     {%endfor%}
-    <script language="JavaScript" type="text/javascript">
-      elemtovalidar = document.getElementById("p1").innerHTML;
-      if (elemtovalidar === "") {
-        alert("entro");
-      } else {
-        elementoParaConvertir = document.querySelector(".div-verpdf"); // <-- Aquí puedes elegir cualquier elemento del DOM
-        elementoParaConvertir.style.display = "block";
-        html2pdf()
-          .set({
-            margin: 0.5,
-            filename: "Reporte.pdf",
-            image: {
-              type: "jpeg",
-              quality: 0.98,
-            },
-            html2canvas: {
-              scale: 3, // A mayor escala, mejores gráficos, pero más peso
-              letterRendering: true,
-            },
-            jsPDF: {
-              unit: "in",
-              format: "a3",
-              orientation: "portrait", // landscape o portrait
-            },
-          })
-
-          .from(elementoParaConvertir)
-          .save();
-      }
-      setTimeout(() => {
-        elementoParaConvertir.style.display = "none";
-      }, 400);
-    </script>
+    
+    <p>Firma:</p>
+    <img id="preview" />
+    
+    
   </div>
   <!----===== FIN HOME ===== -->
   {% endblock %}
