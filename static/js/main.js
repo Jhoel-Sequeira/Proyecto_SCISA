@@ -12,30 +12,7 @@ addEventListener('DOMContentLoaded', () => {
 $(Document).ready(function() {
     $("#exampleModal").modal("show")
 })
-var canvas = document.getElementById("signature");
-var w = window.innerWidth;
-var h = window.innerHeight;
 
-// Como el lienzo no tiene ningún tamaño, lo especificaremos con JS
-// El ancho del canvas será el ancho del dispositivo.
-canvas.width = w;
-// La altura del lienzo será (casi) la tercera parte de la altura de la pantalla.
-canvas.height = h/2.5;
-
-var signaturePad = new SignaturePad(canvas,{
-    dotSize: 1
-});
-document.getElementById("export").addEventListener("click",function(e){
-    // Siéntete libre de hacer lo que quieras con la imagen
-    // como exportar a un servidor o incluso guardarlo en el dispositivo.
-    var imageURI = signaturePad.toDataURL();    
-    document.getElementById("preview").src = imageURI;
-},false);
-
-document.getElementById("reset").addEventListener("click",function(e){
-    // Limpia el lienzo
-    signaturePad.clear();
-},false);
 
 function reportes() {
     var reportes = document.querySelector(".div-reportes");
@@ -149,3 +126,27 @@ const myChart = new Chart(ctx, {
         }
     }
 });
+var canvas1 = document.getElementById("signature");
+var w = window.innerWidth;
+var h = window.innerHeight;
+
+// Como el lienzo no tiene ningún tamaño, lo especificaremos con JS
+// El ancho del canvas será el ancho del dispositivo.
+canvas1.width = w;
+// La altura del lienzo será (casi) la tercera parte de la altura de la pantalla.
+canvas1.height = h/2.5;
+
+var signaturePad = new SignaturePad(canvas1,{
+    dotSize: 1
+});
+document.getElementById("export").addEventListener("click",function(e){
+    // Siéntete libre de hacer lo que quieras con la imagen
+    // como exportar a un servidor o incluso guardarlo en el dispositivo.
+    var imageURI = signaturePad.toDataURL();    
+    document.getElementById("preview").src = imageURI;
+},false);
+
+document.getElementById("reset").addEventListener("click",function(e){
+    // Limpia el lienzo
+    signaturePad.clear();
+},false);
