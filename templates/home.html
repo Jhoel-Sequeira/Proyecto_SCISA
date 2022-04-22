@@ -507,7 +507,7 @@
     <a class="close" href="#" onclick="reportellen()">&times;</a>
     <hr />
     <br />
-    <form action="/reporte" method="POST" enctype="multipart/form-data">
+    <form id="addReport" enctype="multipart/form-data">
       <div class="form-group">
         <label for="exampleFormControlInput1">Nombre Tarea</label>
         <input
@@ -619,7 +619,7 @@
         <input type="button" onclick="pdf()" value="Guardar firma"/>
       </div>
       
-      <button type="submit" class="btn btn-primary">Enviar</button>
+      <button type="button" class="btn btn-primary" onclick="saveReport(event);">Enviar</button>
     </form>
   </div>
   <div class="div-tareas">
@@ -1093,7 +1093,7 @@
 </main>
 {% endif%}{% endif%}
 <!-- AQUI ESTA EL DIV PARA IMPRIMIR LOS PDFS -->
-<div class="div-verpdf" style="display: none;">
+<div class="div-verpdf" style="display: block;">
   <div class="encabezado-pdf">
     <img
       src="../static/imagenes/Logo SCISA V2.png"

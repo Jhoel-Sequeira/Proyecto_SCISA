@@ -1,8 +1,11 @@
 
 from asyncio.windows_events import NULL
+import base64
+from base64 import b64encode
+
 import os
 from re import S
-from flask import Flask, flash, redirect, render_template, request, url_for, session
+from flask import Flask, jsonify, flash, redirect, render_template, request, url_for, session
 from datetime import datetime
 import cs50
 from cs50 import SQL
@@ -276,20 +279,24 @@ def reporte():
         horasal = request.form['horasal']
         porcentaje = request.form['porcentaje']
         descripcion = request.form['descripcion']
-        imagen = request.files['imagen']
+        firma = request.form['signature']
+
+        imagen = request.files['imagen']  # SE CAMBIO IMAGEN POR SIGNATURE
         nombreimagen = imagen.filename
         imagen.save(os.path.join(app.config["UPLOAD_FOLDER"], nombreimagen))
         ruta = "../static/Imagenes/Reportes/" + nombreimagen
+        print(firma)
         # db.execute("INSERT INTO Reportes VALUES(NULL,:nom,:porcen,:desc,:img)",
         #            nom=tarea, porcen=porcentaje, desc=descripcion, img=imagen)
-        db1.execute("INSERT INTO Reporte VALUES(NULL,:porcen,:Contacto,:Cliente,:user,:correo,:horaent,:horasal,:nom,:desc,:img)",
-                    porcen=porcentaje, Contacto=contacto, Cliente=cliente, user=session["user_Id"], correo=correo, horaent=horae, horasal=horasal, nom=tarea, desc=descripcion, img=ruta)
-        return redirect(url_for('home'))
+        db1.execute("INSERT INTO Reporte VALUES(NULL,:porcen,:Contacto,:Cliente,:user,:correo,:horaent,:horasal,:nom,:desc,:img,:signa)",
+                    porcen=porcentaje, Contacto=contacto, Cliente=cliente, user=session[
+                        "user_Id"], correo=correo, horaent=horae, horasal=horasal, nom=tarea, desc=descripcion, img=ruta, signa=firma)
+        return jsonify({'status': 200})
     else:
         return redirect(url_for("index"))
 
 
-@app.route('/reporteprint/<string:rep>', methods=["GET", "POST"])
+@ app.route('/reporteprint/<string:rep>', methods=["GET", "POST"])
 def reporteprint(rep):
     reporteesp = db1.execute(
         "select r.*, em.Nombre from Reporte as r INNER JOIN Usuario as u ON r.IdUsuario= u.Id_Usuario INNER JOIN Empleado as em ON u.IdEmpleado = em.Id_Empleado WHERE r.Id_Reporte = :i", i=rep)
@@ -405,7 +412,7 @@ def reporteprint(rep):
             prog=Progreso[0]["COUNT(IdEstado)"], img=imagen, indice="todo")
 
 
-@app.route('/solicitud', methods=["GET", "POST"])
+@ app.route('/solicitud', methods=["GET", "POST"])
 def solicitud():
     if request.method == "POST":
         hi = datetime.now()
@@ -447,7 +454,7 @@ def Vernot():
         return redirect(url_for("index"))
 
 
-@app.route('/home1/<string:info>')
+@ app.route('/home1/<string:info>')
 def home1(info):
     if request.method == "POST":
         sele = request.form['selec-mes']
@@ -584,19 +591,19 @@ def home1(info):
         return render_template('home.html', fecha="", tar="", rep=reporte, var1=variable, completo=cuentaComp[0]['calc'], progreso=cuentaPro[0]['calc'], incompleto=cuentaInc[0]['calc'], pro=proyectos, proUser=proyectos_user, soli=solicitudes, comp=completado[0]["COUNT(IdEstado)"], inco=Incompleto[0]["COUNT(IdEstado)"], prog=Progreso[0]["COUNT(IdEstado)"], img=imagen)
 
 
-@app.route('/facturacion')
+@ app.route('/facturacion')
 def facturacion():
 
     return render_template('facturacion.html')
 
 
-@app.route('/RRHH')
+@ app.route('/RRHH')
 def rrhh():
 
     return render_template('RRHH.html')
 
 
-@app.route('/planificacion')
+@ app.route('/planificacion')
 def planificacion():
 
     return render_template('planificacion.html')
@@ -605,7 +612,7 @@ def planificacion():
 contador = 0
 
 
-@app.route('/ejecucion')
+@ app.route('/ejecucion')
 def ejecucion():
     proyectos = db1.execute(
         "SELECT p.*,est.NombreEstado FROM Proyecto as p INNER JOIN Estado as est ON p.IdEstado = est.Id_Estado")
@@ -613,7 +620,7 @@ def ejecucion():
     return render_template('ejecucion.html', pro=proyectos, tarea="", tarea1="")
 
 
-@app.route('/ejecucion1/Proyecto:<string:id>')
+@ app.route('/ejecucion1/Proyecto:<string:id>')
 def ejecucion1(id):
     if request.method == "POST":
         proyectos = db1.execute(
@@ -628,7 +635,7 @@ def ejecucion1(id):
         return render_template('ejecucion.html', pro=proyectos, tarea=tareas, tarea1="")
 
 
-@app.route('/ejecucion2/Tarea:<string:id>')
+@ app.route('/ejecucion2/Tarea:<string:id>')
 def ejecucion2(id):
     if request.method == "POST":
         proyectos = db1.execute(
@@ -649,7 +656,7 @@ def ejecucion2(id):
         return render_template('ejecucion.html', pro=proyectos, tarea=tareas, tarea1=tareasdesc)
 
 
-@app.route('/ayuda')
+@ app.route('/ayuda')
 def ayuda():
 
     return render_template('ayuda.html')

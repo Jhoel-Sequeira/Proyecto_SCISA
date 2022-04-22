@@ -139,10 +139,11 @@ canvas1.height = h/2.5;
 var signaturePad = new SignaturePad(canvas1,{
     dotSize: 1
 });
+var imageURI;
 document.getElementById("export").addEventListener("click",function(e){
     // Siéntete libre de hacer lo que quieras con la imagen
     // como exportar a un servidor o incluso guardarlo en el dispositivo.
-    var imageURI = signaturePad.toDataURL();    
+    imageURI = signaturePad.toDataURL();    
     document.getElementById("preview").src = imageURI;
 },false);
 
@@ -180,3 +181,32 @@ function pdf(){
         elementoParaConvertir.style.display = "block";
       }, 400);
 }
+
+document.onreadystatechange = function () {
+    if (document.readyState === 'complete') {
+    }
+}
+
+const saveReport = (event) => {
+    event.preventDefault();
+    const formData = new FormData(document.getElementById('addReport'));
+    /*CREAR EL INPUT CON LA IMAGEN*/
+    document.getElementById("export").click();
+    const image = document.createElement('input');
+    image.setAttribute('type', 'image');
+    image.src = imageURI; 
+    image.value = imageURI;
+    formData.append('signature',image.value);
+    const request = new XMLHttpRequest();}
+    request.open('POST', '/reporte');
+    request.onload = () => {
+        const data=JSON.parse(request.responseText);
+        if(data.status == 200){
+            alert('Reporte creado');
+            window.location.replace = '/home/';
+        }
+        else{
+            alert('Error al crear el reporte, revise los datos');
+        }
+    }
+    request.send(formData);
