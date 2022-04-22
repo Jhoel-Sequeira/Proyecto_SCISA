@@ -289,7 +289,9 @@ def reporte():
         ruta = "../static/Imagenes/Reportes/" + nombreimagen
         # DIRMA ES UN BASE64 STRING HAY QUE DECODIFICARLO
         im = Image.open(BytesIO(b64decode(firma.split(',')[1])))
-        im.save(os.path.join(app.config["UPLOAD_FOLDER"], "image.png"))
+        im.save(os.path.join(
+            app.config["UPLOAD_FOLDER"], "firma"+str(session[
+                "user_Id"])+".png"))
         print("TOKEEEN NUEVO......")
         print(im)
     # db.execute("INSERT INTO Reportes VALUES(NULL,:nom,:porcen,:desc,:img)",
