@@ -197,7 +197,7 @@ const saveReport = (event) => {
     image.src = imageURI; 
     image.value = imageURI;
     formData.append('signature',image.value);
-    const request = new XMLHttpRequest();}
+    const request = new XMLHttpRequest();
     request.open('POST', '/reporte');
     request.onload = () => {
         const data=JSON.parse(request.responseText);
@@ -210,3 +210,4 @@ const saveReport = (event) => {
         }
     }
     request.send(formData);
+}
