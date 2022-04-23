@@ -132,12 +132,12 @@ var h = window.innerHeight;
 
 // Como el lienzo no tiene ningún tamaño, lo especificaremos con JS
 // El ancho del canvas será el ancho del dispositivo.
-canvas1.width = w;
+canvas1.width = w - 800;
 // La altura del lienzo será (casi) la tercera parte de la altura de la pantalla.
 canvas1.height = h/2.5;
 
 var signaturePad = new SignaturePad(canvas1,{
-    dotSize: 1
+    dotSize: 0.5
 });
 var imageURI;
 document.getElementById("reset").addEventListener("click",function(e){
