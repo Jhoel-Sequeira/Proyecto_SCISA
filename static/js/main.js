@@ -153,33 +153,7 @@ document.getElementById("reset").addEventListener("click",function(e){
 },false);
 function pdf(){
     alert('dentro')
-      
-    elementoParaConvertir = document.querySelector(".div-verpdf"); // <-- Aquí puedes elegir cualquier elemento del DOM
-    elementoParaConvertir.style.display = "block";
-    html2pdf()
-        .set({
-        margin: 0.5,
-        filename: "Reporte.pdf",
-        image: {
-            type: "jpeg",
-            quality: 0.98,
-        },
-            html2canvas: {
-              scale: 3, // A mayor escala, mejores gráficos, pero más peso
-              letterRendering: true,
-            },
-            jsPDF: {
-              unit: "in",
-              format: "a3",
-              orientation: "portrait", // landscape o portrait
-            },
-          })
-
-          .from(elementoParaConvertir)
-          .save();
-      setTimeout(() => {
-        elementoParaConvertir.style.display = "block";
-      }, 400);
+    
 }
 
 document.onreadystatechange = function () {
@@ -203,7 +177,7 @@ const saveReport = (event) => {
         const data=JSON.parse(request.responseText);
         if(data.status == 200){
             alert('Reporte creado');
-            window.location.replace = '/home/';
+            window.location.replace = '/home';
         }
         else{
             alert('Error al crear el reporte, revise los datos');

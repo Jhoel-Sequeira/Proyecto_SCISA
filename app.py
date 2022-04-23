@@ -14,9 +14,12 @@ from cs50 import SQL
 from sqlalchemy import null
 from werkzeug.exceptions import default_exceptions
 from werkzeug.security import check_password_hash, generate_password_hash
+
 UPLOAD_FOLDER = os.path.abspath("./static/Imagenes/Reportes/")
+UPLOAD_FOLDER1 = os.path.abspath("./static/Imagenes/Reportes/Firmas")
 app = Flask(__name__)
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+app.config["UPLOAD_FOLDER1"] = UPLOAD_FOLDER1
 app.jinja_env.add_extension('jinja2.ext.loopcontrols')
 app.jinja_env.add_extension('jinja2.ext.do')
 db = cs50.SQL("sqlite:///base.db")
@@ -290,15 +293,15 @@ def reporte():
         # DIRMA ES UN BASE64 STRING HAY QUE DECODIFICARLO
         im = Image.open(BytesIO(b64decode(firma.split(',')[1])))
         im.save(os.path.join(
-            app.config["UPLOAD_FOLDER"], "firma"+str(session[
+            app.config["UPLOAD_FOLDER1"], "firma"+str(session[
                 "user_Id"])+".png"))
-        print("TOKEEEN NUEVO......")
-        print(im)
+        rutafirma = "../static/Imagenes/Reportes/Firmas/" + "firma"+str(session[
+            "user_Id"])+".png"
     # db.execute("INSERT INTO Reportes VALUES(NULL,:nom,:porcen,:desc,:img)",
     #            nom=tarea, porcen=porcentaje, desc=descripcion, img=imagen)
         db1.execute("INSERT INTO Reporte VALUES(NULL,:porcen,:Contacto,:Cliente,:user,:correo,:horaent,:horasal,:nom,:desc,:img,:signa)",
                     porcen=porcentaje, Contacto=contacto, Cliente=cliente, user=session[
-                        "user_Id"], correo=correo, horaent=horae, horasal=horasal, nom=tarea, desc=descripcion, img=ruta, signa=firma)
+                        "user_Id"], correo=correo, horaent=horae, horasal=horasal, nom=tarea, desc=descripcion, img=ruta, signa=rutafirma)
         return jsonify({'status': 200})
     else:
         return redirect(url_for("index"))

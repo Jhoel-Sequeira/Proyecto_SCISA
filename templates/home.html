@@ -481,7 +481,7 @@
           class="imagen-rep"
           src="{{list.Imagen}}"
           alt="Card image cap"
-          width="412px"
+          width="365px"
           height="200px"
         />
         <div class="card">
@@ -494,7 +494,7 @@
           <p>Hora Egreso: {{list.HoraEgreso}}</p>
           <p>Empleado: {{list.Nombre}}</p>
           <a href="{{ url_for( 'reporteprint' ,rep=list.Id_Reporte) }}">
-            <box-icon type="solid" onclick="pdf()" name="file-pdf"></box-icon
+            <box-icon type="solid"  name="file-pdf"></box-icon
           ></a>
         </div>
       </div>
@@ -1093,7 +1093,7 @@
 </main>
 {% endif%}{% endif%}
 <!-- AQUI ESTA EL DIV PARA IMPRIMIR LOS PDFS -->
-<div class="div-verpdf" style="display: block;">
+<div class="div-verpdf" style="display: none;">
   <div class="encabezado-pdf">
     <img
       src="../static/imagenes/Logo SCISA V2.png"
@@ -1129,7 +1129,7 @@
   <div class="info">
     <label class="titulo" for="">EQUIPO </label>
     <hr class="hr-titulo" />
-    <label id="p1" class="invisible">{{list.Id_Reporte}}</label>
+    <label id="p1">{{list.Id_Reporte}}</label>
     <p>Titulo Reporte:{{list.Titulo}}</p>
     <p>Porcentaje:{{list.Porcentaje}}</p>
     <p>Descripcion: {{list.Descripcion}}</p>
@@ -1140,10 +1140,50 @@
     <p>Empleado: {{list.Nombre}}</p>
     <p>Imagen:</p>
     <img src="{{list.Imagen}}" alt="" width="200px" height="100px" />
-    {%endfor%}
-    
     <p>Firma:</p>
-    <img id="preview" />
+    <img src="{{list.Firma}}" />
+    {%endfor%}
+    <script>
+      addEventListener('DOMContentLoaded', () => {
+      validar = document.getElementById('p1').innerHTML;
+      alert(validar)
+      if (validar == ""){
+
+      }
+      else{
+        elementoParaConvertir = document.querySelector(".div-verpdf"); // <-- Aquí puedes elegir cualquier elemento del DOM
+          elementoParaConvertir.style.display = "block";
+          html2pdf()
+              .set({
+              margin: 0.5,
+              filename: "Reporte.pdf",
+              image: {
+                  type: "jpeg",
+                  quality: 0.98,
+              },
+                  html2canvas: {
+                    scale: 3, // A mayor escala, mejores gráficos, pero más peso
+                    letterRendering: true,
+                  },
+                  jsPDF: {
+                    unit: "in",
+                    format: "a3",
+                    orientation: "portrait", // landscape o portrait
+                  },
+                })
+
+                .from(elementoParaConvertir)
+                .save();
+            setTimeout(() => {
+              elementoParaConvertir.style.display = "block";
+            }, 400);
+            validar1 = document.getElementById('p1').innerHTML= '';
+            alert(validar1)
+      }
+    })
+         
+    </script>
+    
     
     
     
