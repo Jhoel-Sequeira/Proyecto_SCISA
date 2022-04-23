@@ -140,13 +140,6 @@ var signaturePad = new SignaturePad(canvas1,{
     dotSize: 1
 });
 var imageURI;
-document.getElementById("export").addEventListener("click",function(e){
-    // Siéntete libre de hacer lo que quieras con la imagen
-    // como exportar a un servidor o incluso guardarlo en el dispositivo.
-    imageURI = signaturePad.toDataURL();    
-    document.getElementById("preview").src = imageURI;
-},false);
-
 document.getElementById("reset").addEventListener("click",function(e){
     // Limpia el lienzo
     signaturePad.clear();
