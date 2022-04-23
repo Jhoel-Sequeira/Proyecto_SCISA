@@ -177,7 +177,7 @@ const saveReport = (event) => {
         const data=JSON.parse(request.responseText);
         if(data.status == 200){
             alert('Reporte creado');
-            window.location.replace = '/home';
+            window.location.replace('/home');
         }
         else{
             alert('Error al crear el reporte, revise los datos');
