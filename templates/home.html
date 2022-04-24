@@ -10,7 +10,11 @@
   crossorigin="anonymous"
   referrerpolicy="no-referrer"
 ></script>
-
+<script
+  src="https://code.jquery.com/jquery-3.6.0.js"
+  integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+  crossorigin="anonymous"
+></script>
 <script src="../static/js/app.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
 <nav class="div-encabezado">
@@ -1199,7 +1203,6 @@
     <script>
       addEventListener("DOMContentLoaded", () => {
         validar = document.getElementById("p1").innerHTML;
-        alert(validar);
         if (validar == "") {
         } else {
           elementoParaConvertir = document.querySelector(".div-verpdf"); // <-- Aquí puedes elegir cualquier elemento del DOM
@@ -1229,7 +1232,6 @@
             elementoParaConvertir.style.display = "none";
           }, 400);
           validar1 = document.getElementById("p1").innerHTML = "";
-          alert(validar1);
         }
       });
     </script>

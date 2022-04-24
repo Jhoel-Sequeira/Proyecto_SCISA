@@ -6,7 +6,7 @@ from PIL import Image
 from io import BytesIO
 import os
 from re import S
-from flask import Flask, jsonify, flash, redirect, render_template, request, url_for, session
+from flask import Flask, jsonify, json, flash, redirect, render_template, request, url_for, session
 from datetime import datetime
 import cs50
 from cs50 import SQL
@@ -300,7 +300,7 @@ def reporte():
         db1.execute("INSERT INTO Reporte VALUES(NULL,:porcen,:Contacto,:Cliente,:user,:correo,:horaent,:horasal,:nom,:desc,:img,:signa)",
                     porcen=porcentaje, Contacto=contacto, Cliente=cliente, user=session[
                         "user_Id"], correo=correo, horaent=horae, horasal=horasal, nom=tarea, desc=descripcion, img=ruta, signa=rutafirma)
-        return redirect(url_for('home'))
+        return jsonify({'status': 200})
     else:
         return redirect(url_for("index"))
 
@@ -333,7 +333,7 @@ def reporteemp():
         db1.execute("INSERT INTO Reporte VALUES(NULL,:porcen,:Contacto,:Cliente,:user,:correo,:horaent,:horasal,:nom,:desc,:img,:signa)",
                     porcen=porcentaje, Contacto=contacto, Cliente=cliente, user=session[
                         "user_Id"], correo=correo, horaent=horae, horasal=horasal, nom=tarea, desc=descripcion, img=ruta, signa=rutafirma)
-        return redirect(url_for('home'))
+        return jsonify({'status': 200})
     else:
         return redirect(url_for("index"))
 

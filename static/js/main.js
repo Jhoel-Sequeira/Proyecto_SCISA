@@ -9,9 +9,7 @@ addEventListener('DOMContentLoaded', () => {
 
 })
 
-$(Document).ready(function () {
-    $("#exampleModal").modal("show")
-})
+
 
 
 function reportes() {
@@ -174,11 +172,10 @@ const saveReport = (event) => {
     image.src = imageURI;
     image.value = imageURI;
     formData.append('signature', image.value);
-    const request = new XMLHttpRequest();
+    let request = new XMLHttpRequest();
     request.open('POST', '/reporte');
     request.onload = () => {
         const data = JSON.parse(request.responseText);
-        alert(request.responseText)
         if (data.status == 200) {
             alert('Reporte creado');
         }
