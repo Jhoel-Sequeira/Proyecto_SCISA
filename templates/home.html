@@ -1109,9 +1109,9 @@
         request.open("POST", "/reporteemp");
         request.onload = () => {
           const data = JSON.parse(request.responseText);
-          alert(request.responseText);
           if (data.status == 200) {
             alert("Reporte creado");
+            window.location = "home";
           } else {
             alert("Error al crear el reporte, revise los datos");
           }

@@ -174,10 +174,12 @@ const saveReport = (event) => {
     formData.append('signature', image.value);
     let request = new XMLHttpRequest();
     request.open('POST', '/reporte');
+    
     request.onload = () => {
         const data = JSON.parse(request.responseText);
         if (data.status == 200) {
             alert('Reporte creado');
+            window.location = ('home');
         }
         else {
             alert('Error al crear el reporte, revise los datos');
