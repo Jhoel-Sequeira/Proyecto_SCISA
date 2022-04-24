@@ -6,7 +6,6 @@ from PIL import Image
 from io import BytesIO
 import os
 from re import S
-import zlib
 from flask import Flask, jsonify, flash, redirect, render_template, request, url_for, session
 from datetime import datetime
 import cs50
@@ -285,6 +284,7 @@ def reporte():
         porcentaje = request.form['porcentaje']
         descripcion = request.form['descripcion']
         firma = request.form['signature']
+        print("firma va aqui*********")
         print(firma)
         imagen = request.files['imagen']  # SE CAMBIO IMAGEN POR SIGNATURE
         nombreimagen = imagen.filename

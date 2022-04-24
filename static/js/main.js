@@ -6,10 +6,10 @@ addEventListener('DOMContentLoaded', () => {
             menu_items.classList.toggle('show')
         })
     }
-    
+
 })
-    
-$(Document).ready(function() {
+
+$(Document).ready(function () {
     $("#exampleModal").modal("show")
 })
 
@@ -134,19 +134,20 @@ var h = window.innerHeight;
 // El ancho del canvas será el ancho del dispositivo.
 canvas1.width = w - 800;
 // La altura del lienzo será (casi) la tercera parte de la altura de la pantalla.
-canvas1.height = h/2.5;
+canvas1.height = h / 2.5;
 
-var signaturePad = new SignaturePad(canvas1,{
+var signaturePad = new SignaturePad(canvas1, {
     dotSize: 0.5
+
 });
-var imageURI;
-document.getElementById("reset").addEventListener("click",function(e){
+
+document.getElementById("reset").addEventListener("click", function (e) {
     // Limpia el lienzo
     signaturePad.clear();
-},false);
-function pdf(){
+}, false);
+function pdf() {
     alert('dentro')
-    
+
 }
 
 document.onreadystatechange = function () {
@@ -158,23 +159,30 @@ const saveReport = (event) => {
     event.preventDefault();
     const formData = new FormData(document.getElementById('addReport'));
     /*CREAR EL INPUT CON LA IMAGEN*/
-    document.getElementById("export").click();
+    var imageURI = signaturePad.toDataURL();
+    alert(imageURI)
     const image = document.createElement('input');
     image.setAttribute('type', 'image');
-    image.src = imageURI; 
+    image.src = imageURI;
     image.value = imageURI;
-    formData.append('signature',image.value);
+    formData.append('signature', image.value);
     const request = new XMLHttpRequest();
     request.open('POST', '/reporte');
     request.onload = () => {
-        const data=JSON.parse(request.responseText);
-        if(data.status == 200){
+        const data = JSON.parse(request.responseText);
+        alert(request.responseText)
+        if (data.status == 200) {
             alert('Reporte creado');
-            window.location.replace('/home');
         }
-        else{
+        else {
             alert('Error al crear el reporte, revise los datos');
         }
     }
     request.send(formData);
 }
+
+/*empleados*/
+
+
+
+
