@@ -71,6 +71,14 @@ function reportellen() {
         solicitud.style.display = "none";
     }
 }
+function reportellen1() {
+    var solicitud = document.querySelector(".div-reportes-llenar1");
+    if (solicitud.style.display === "none") {
+        solicitud.style.display = "block";
+    } else {
+        solicitud.style.display = "none";
+    }
+}
 
 function tareas() {
     var tareas = document.querySelector(".div-tareas");
@@ -145,6 +153,7 @@ document.getElementById("reset").addEventListener("click", function (e) {
     // Limpia el lienzo
     signaturePad.clear();
 }, false);
+
 function pdf() {
     alert('dentro')
 
@@ -160,7 +169,6 @@ const saveReport = (event) => {
     const formData = new FormData(document.getElementById('addReport'));
     /*CREAR EL INPUT CON LA IMAGEN*/
     var imageURI = signaturePad.toDataURL();
-    alert(imageURI)
     const image = document.createElement('input');
     image.setAttribute('type', 'image');
     image.src = imageURI;

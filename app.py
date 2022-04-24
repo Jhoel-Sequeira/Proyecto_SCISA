@@ -284,8 +284,39 @@ def reporte():
         porcentaje = request.form['porcentaje']
         descripcion = request.form['descripcion']
         firma = request.form['signature']
-        print("firma va aqui*********")
-        print(firma)
+        imagen = request.files['imagen']  # SE CAMBIO IMAGEN POR SIGNATURE
+        nombreimagen = imagen.filename
+        imagen.save(os.path.join(app.config["UPLOAD_FOLDER"], nombreimagen))
+        ruta = "../static/Imagenes/Reportes/" + nombreimagen
+        # DIRMA ES UN BASE64 STRING HAY QUE DECODIFICARLO
+        im = Image.open(BytesIO(b64decode(firma.split(',')[1])))
+        im.save(os.path.join(
+            app.config["UPLOAD_FOLDER1"], "firma"+str(session[
+                "user_Id"])+".png"))
+        rutafirma = "../static/Imagenes/Reportes/Firmas/" + "firma"+str(session[
+            "user_Id"])+".png"
+        # db.execute("INSERT INTO Reportes VALUES(NULL,:nom,:porcen,:desc,:img)",
+        #            nom=tarea, porcen=porcentaje, desc=descripcion, img=imagen)
+        db1.execute("INSERT INTO Reporte VALUES(NULL,:porcen,:Contacto,:Cliente,:user,:correo,:horaent,:horasal,:nom,:desc,:img,:signa)",
+                    porcen=porcentaje, Contacto=contacto, Cliente=cliente, user=session[
+                        "user_Id"], correo=correo, horaent=horae, horasal=horasal, nom=tarea, desc=descripcion, img=ruta, signa=rutafirma)
+        return redirect(url_for('home'))
+    else:
+        return redirect(url_for("index"))
+
+
+@app.route('/reporteemp', methods=["GET", "POST"])
+def reporteemp():
+    if request.method == "POST":
+        tarea = request.form['tarea']
+        cliente = request.form['cliente']
+        contacto = request.form['contacto']
+        correo = request.form['correo']
+        horae = request.form['horaent']
+        horasal = request.form['horasal']
+        porcentaje = request.form['porcentaje']
+        descripcion = request.form['descripcion']
+        firma = request.form['firma']
         imagen = request.files['imagen']  # SE CAMBIO IMAGEN POR SIGNATURE
         nombreimagen = imagen.filename
         imagen.save(os.path.join(app.config["UPLOAD_FOLDER"], nombreimagen))
@@ -302,7 +333,7 @@ def reporte():
         db1.execute("INSERT INTO Reporte VALUES(NULL,:porcen,:Contacto,:Cliente,:user,:correo,:horaent,:horasal,:nom,:desc,:img,:signa)",
                     porcen=porcentaje, Contacto=contacto, Cliente=cliente, user=session[
                         "user_Id"], correo=correo, horaent=horae, horasal=horasal, nom=tarea, desc=descripcion, img=ruta, signa=rutafirma)
-        return jsonify({'status': 200})
+        return redirect(url_for('home'))
     else:
         return redirect(url_for("index"))
 
