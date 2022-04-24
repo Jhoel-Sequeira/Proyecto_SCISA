@@ -823,6 +823,7 @@
   <div class="div-grafico">
     <label class="texto-encabezado-nav">Mis Estadísticas</label>
     <hr />
+
     <div class="tareas">
       <p>Tareas Completadas:</p>
       <p>Tareas Pendientes:</p>
@@ -831,16 +832,19 @@
     <label class="texto-encabezado-nav">Mis Reportes</label>
     <hr />
     <div class="tareas">
-      <p>Reporte 1:</p>
-      <p>Reporte 2:</p>
-      <p>Reporte 3:</p>
+      {%for fila in repemp%}
+
+      <p>Reporte {{fila.Id_Reporte}}: {{fila.Titulo}}</p>
+
+      {%endfor%}
     </div>
     <label class="texto-encabezado-nav">Mis Solicitudes</label>
     <hr />
+
     <div class="tareas">
-      <p>Solicitud 1:</p>
-      <p>Solicitud 2:</p>
-      <p>Solicitud 3:</p>
+      {%for fila in soliemp%}
+      <p>Solicitud {{fila.Id_Solicitud}}: {{fila.Titulo}}</p>
+      {%endfor%}
     </div>
   </div>
   <div class="div-solicitud">

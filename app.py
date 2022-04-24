@@ -226,8 +226,12 @@ def home():
                 "select r.*, em.Nombre from Reporte as r INNER JOIN Usuario as u ON r.IdUsuario= u.Id_Usuario INNER JOIN Empleado as em ON u.IdEmpleado = em.Id_Empleado")
             tareas = db1.execute(
                 "select p.NombreProyecto, e.Nombre,at.Titulo,at.FechaInicioEstimado,at.FechaFinEstimado,at.Descripcion,est.NombreEstado  from Proyecto as p INNER join Planeacion as pla ON pla.IdProyecto=p.Id_Proyecto INNER JOIN Empleado as e On pla.IdEmpleado=e.Id_Empleado INNER Join Usuario as u On e.Id_Empleado=u.IdEmpleado INNER JOIN AsignacionTarea as at ON pla.Id_Planeacion = at.IdPlaneacion INNER JOIN Estado as est ON at.IdEstado = est.Id_Estado WHERE e.Nombre = :user1", user1=session["usercom"])
+            reportesemp = db1.execute(
+                "SELECT * FROM Reporte WHERE IdUsuario = :u", u=session["user_Id"])
+            solicitudemp = db1.execute(
+                "SELECT * FROM Solicitudes WHERE IdUsuario = :u", u=session["user_Id"])
 
-            return render_template('home.html', fecha="", repesp="", tar=tareas, rep=reporte, var1="", completo=cuentaComp[0]['calc'], progreso=cuentaPro[0]['calc'],
+            return render_template('home.html', soliemp=solicitudemp, repemp=reportesemp, fecha="", repesp="", tar=tareas, rep=reporte, var1="", completo=cuentaComp[0]['calc'], progreso=cuentaPro[0]['calc'],
                                    incompleto=cuentaInc[0]['calc'], pro=proyectos, proUser=proyectos_user,
                                    soli=solicitudes, comp=completado[0]["COUNT(IdEstado)"], inco=Incompleto[
                 0]["COUNT(IdEstado)"],
@@ -260,8 +264,12 @@ def home():
             "select r.*, em.Nombre from Reporte as r INNER JOIN Usuario as u ON r.IdUsuario= u.Id_Usuario INNER JOIN Empleado as em ON u.IdEmpleado = em.Id_Empleado")
         tareas = db1.execute(
             "select p.NombreProyecto, e.Nombre,at.Titulo,at.FechaInicioEstimado,at.FechaFinEstimado,at.Descripcion,est.NombreEstado  from Proyecto as p INNER join Planeacion as pla ON pla.IdProyecto=p.Id_Proyecto INNER JOIN Empleado as e On pla.IdEmpleado=e.Id_Empleado INNER Join Usuario as u On e.Id_Empleado=u.IdEmpleado INNER JOIN AsignacionTarea as at ON pla.Id_Planeacion = at.IdPlaneacion INNER JOIN Estado as est ON at.IdEstado = est.Id_Estado WHERE e.Nombre = :user1", user1=session["usercom"])
+        reportesemp = db1.execute(
+            "SELECT * FROM Reporte WHERE IdUsuario = :u", u=session["user_Id"])
+        solicitudemp = db1.execute(
+            "SELECT * FROM Solicitudes WHERE IdUsuario = :u", u=session["user_Id"])
 
-        return render_template('home.html', fecha="", repesp="", tar=tareas, rep=reporte, var1="", completo=cuentaComp[0]['calc'], progreso=cuentaPro[0]['calc'], incompleto=cuentaInc[0]['calc'], pro=proyectos, proUser=proyectos_user, soli=solicitudes, comp=completado[0]["COUNT(IdEstado)"], inco=Incompleto[0]["COUNT(IdEstado)"], prog=Progreso[0]["COUNT(IdEstado)"], img=imagen)
+        return render_template('home.html', soliemp=solicitudemp, repemp=reportesemp, fecha="", repesp="", tar=tareas, rep=reporte, var1="", completo=cuentaComp[0]['calc'], progreso=cuentaPro[0]['calc'], incompleto=cuentaInc[0]['calc'], pro=proyectos, proUser=proyectos_user, soli=solicitudes, comp=completado[0]["COUNT(IdEstado)"], inco=Incompleto[0]["COUNT(IdEstado)"], prog=Progreso[0]["COUNT(IdEstado)"], img=imagen)
 
 
 # mostrar los modals segun su seleccion

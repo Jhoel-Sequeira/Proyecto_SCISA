@@ -601,8 +601,9 @@ p {
 /*tareas*/
 
 .tareas {
+  height: 100px;
+  overflow: scroll;
   display: flex;
-  flex-wrap: wrap;
   flex-direction: column;
   align-items: 0;
   color: #858796;
