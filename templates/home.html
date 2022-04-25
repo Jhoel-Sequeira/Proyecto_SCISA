@@ -864,7 +864,9 @@
       {%for fila in repemp%}
 
       <p>Reporte {{fila.Id_Reporte}}: {{fila.Titulo}}</p>
-
+      <a href="{{ url_for( 'reporteprint' ,rep=fila.Id_Reporte) }}">
+        <box-icon type="solid" name="file-pdf"></box-icon
+      ></a>
       {%endfor%}
     </div>
     <label class="texto-encabezado-nav">Mis Solicitudes</label>

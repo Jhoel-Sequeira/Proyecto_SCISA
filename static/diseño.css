@@ -601,7 +601,7 @@ p {
 /*tareas*/
 
 .tareas {
-  height: 100px;
+  height: 115px;
   overflow: scroll;
   display: flex;
   flex-direction: column;
@@ -748,6 +748,7 @@ p {
 }
 .div-reportes-llenar {
   display: none;
+
   text-align: center;
   overflow: scroll;
   position: fixed;
