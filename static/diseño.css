@@ -599,7 +599,11 @@ p {
 }
 
 /*tareas*/
-
+.imp {
+  display: absolute;
+  margin-left: 450px;
+  padding-top: 15px;
+}
 .tareas {
   height: 115px;
   overflow: scroll;

@@ -690,6 +690,12 @@ def facturacion():
     return render_template('facturacion.html')
 
 
+@ app.route('/admin')
+def admin():
+
+    return render_template('administracion.html')
+
+
 @ app.route('/RRHH')
 def rrhh():
 

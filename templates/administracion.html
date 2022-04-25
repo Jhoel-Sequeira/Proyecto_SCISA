@@ -1,0 +1,38 @@
+{% extends "layout.html" %} {% block content %}
+<nav class="div-encabezado">
+  <label class="texto-encabezado-nav">Administración</label>
+</nav>
+
+<nav class="div-encabezado-opciones">
+  <div class="barra-busqueda"> </div>
+  <span class="btn_menu1">
+    <ul class="menu-barratop-opciones-items">
+      <!-- admin -->
+      <box-icon type="solid" name="bell"></box-icon>
+      <li><a href="#">Cotizaciones</a></li>
+      <box-icon type="solid" name="report"></box-icon>
+      <li><a href="#">Usuarios</a></li>
+      <box-icon
+        name="calendar"
+        data-toggle="modal"
+        data-target="#myModal"
+      ></box-icon>
+      <li>
+        <a href="#" data-toggle="modal" data-target="#myModal">Materiales</a>
+      </li>
+      <li><a href="#">Asistencia</a></li>
+      <box-icon
+        name="calendar"
+        data-toggle="modal"
+        data-target="#myModal"
+      ></box-icon>
+      <li><a href="#">Clientes</a></li>
+      <box-icon
+        name="calendar"
+        data-toggle="modal"
+        data-target="#myModal"
+      ></box-icon>
+    </ul>
+  </span>
+</nav>
+{% endblock %}
