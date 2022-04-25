@@ -763,6 +763,7 @@ p {
 }
 .div-reportes-llenar1 {
   display: none;
+  text-align: center;
   overflow: scroll;
   position: fixed;
   top: 45%;
