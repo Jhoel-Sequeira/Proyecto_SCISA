@@ -4,6 +4,7 @@
 <title>SCISA-Home</title>
 <!----===== CSS ===== -->
 <link rel="stylesheet" href="../static/diseño.css" />
+<link rel="stylesheet" href="../static/formularios.css" />
 <script
   src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
   integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
@@ -956,115 +957,144 @@
     </div>
   </div>
 
-  <div class="div-reportes-llenar1" style="display: none;">
+  <div class="div-reportes-llenar1">
     <label class="texto-encabezado-nav">Generar Reporte</label>
     <a class="close" href="#" onclick="reportellen1()">&times;</a>
     <hr />
     <br />
     <form id="addReport1" enctype="multipart/form-data">
-      <div class="form-group">
-        <label for="exampleFormControlInput1">Nombre Tarea</label>
+      <div class="contenedor-input">
+        <label class="labels" for="exampleFormControlInput1"
+          >Nombre Tarea:</label
+        >
+        <br />
         <input
           type="text"
-          class="form-control"
+          class="cajas"
           name="tarea"
           id="exampleFormControlInput1"
+          required
           placeholder="Nombre"
           value=""
         />
       </div>
-      <div class="form-group">
-        <label for="exampleFormControlInput1">Cliente</label>
+      <div class="contenedor-input">
+        <label class="labels" for="exampleFormControlInput1">Cliente:</label>
+        <br />
         <input
           type="text"
-          class="form-control"
+          class="cajas"
           name="cliente"
           id="exampleFormControlInput1"
+          required
           placeholder="Cliente"
           value=""
         />
       </div>
-      <div class="form-group">
-        <label for="exampleFormControlInput1">Contacto</label>
+      <div class="contenedor-input">
+        <label class="labels" for="exampleFormControlInput1">Contacto:</label>
+        <br />
         <input
           type="text"
-          class="form-control"
+          class="cajas"
           name="contacto"
           id="exampleFormControlInput1"
+          required
           placeholder="Contacto"
           value=""
         />
       </div>
-      <div class="form-group">
-        <label for="exampleFormControlInput1">Correo Electrónico</label>
+      <div class="contenedor-input">
+        <label class="labels" for="exampleFormControlInput1"
+          >Correo Electrónico:</label
+        >
+        <br />
         <input
           type="email"
-          class="form-control"
+          class="cajas"
           name="correo"
           id="exampleFormControlInput1"
+          required
           placeholder="Correo Electrónico"
           value=""
         />
       </div>
-      <div class="form-group">
-        <label for="exampleFormControlInput1">Hora Ingreso</label>
+      <div class="contenedor-input">
+        <label class="labels" for="exampleFormControlInput1"
+          >Hora Ingreso:</label
+        >
+        <br />
         <input
           type="datetime"
-          class="form-control"
+          class="cajas"
           name="horaent"
           id="exampleFormControlInput1"
+          required
           placeholder="Hora Ingreso"
           value=""
         />
       </div>
-      <div class="form-group">
-        <label for="exampleFormControlInput1">Hora Egreso</label>
+      <div class="contenedor-input">
+        <label class="labels" for="exampleFormControlInput1"
+          >Hora Egreso:</label
+        >
+        <br />
         <input
           type="datetime"
-          class="form-control"
+          class="cajas"
           name="horasal"
           id="exampleFormControlInput1"
+          required
           placeholder="Hora Egreso"
           value=""
         />
       </div>
-      <div class="form-group">
-        <label for="exampleFormControlInput1">Porcentaje Completado</label>
+      <div class="contenedor-input">
+        <label class="labels" for="exampleFormControlInput1"
+          >Porcentaje Completado:</label
+        >
+        <br />
         <input
           type="number"
-          class="form-control"
+          class="cajas"
           name="porcentaje"
           id="exampleFormControlInput1"
+          required
           placeholder="Porcentaje"
           value=""
         />
       </div>
-      <div class="form-group">
-        <label for="exampleFormControlTextarea1">Descripción</label>
+      <div class="contenedor-input">
+        <label class="labels" for="exampleFormControlTextarea1"
+          >Descripción:</label
+        >
+        <br />
         <textarea
-          class="form-control"
+          class="cajas"
           name="descripcion"
           id="exampleFormControlTextarea1"
+          required
           rows="3"
           value=""
         ></textarea>
       </div>
-      <div class="form-group">
+      <div class="contenedor-input">
         <label for="exampleFormControlFile1"
-          >Insertar Imagen de los Avances</label
-        >
+          >Insertar Imagen de los Avances:</label
+        ><br /><br />
         <input
           type="file"
-          class="form-control-file"
+          class="custom-file-input"
           name="imagen"
           id="exampleFormControlFile1"
           value=""
+          required
         />
       </div>
       <label for="firma">Firma Digital</label>
       <canvas
         id="firma"
-        style="display: block; border: 1px solid black; margin-left: 100px;"
+        style="display: block; border: 1px solid #3a90ad; margin-left: 100px;"
       ></canvas>
 
       <br />
@@ -1072,7 +1102,7 @@
         <input type="button" id="reset1" value="Limpiar" />
       </div>
 
-      <button type="button" class="btn btn-primary" onclick="saveReport1(event)"
+      <button type="button" onclick="saveReport1(event)" class="enviar"
         >Enviar</button
       >
     </form>
