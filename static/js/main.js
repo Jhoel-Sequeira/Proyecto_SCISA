@@ -138,7 +138,7 @@ var h = window.innerHeight;
 
 // Como el lienzo no tiene ningún tamaño, lo especificaremos con JS
 // El ancho del canvas será el ancho del dispositivo.
-canvas1.width = w - 800;
+canvas1.width = w - 900;
 // La altura del lienzo será (casi) la tercera parte de la altura de la pantalla.
 canvas1.height = h / 2.5;
 

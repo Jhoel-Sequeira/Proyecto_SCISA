@@ -748,6 +748,7 @@ p {
 }
 .div-reportes-llenar {
   display: none;
+  text-align: center;
   overflow: scroll;
   position: fixed;
   top: 45%;

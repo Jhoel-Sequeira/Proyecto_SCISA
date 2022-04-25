@@ -513,109 +513,137 @@
     <hr />
     <br />
     <form id="addReport" enctype="multipart/form-data">
-      <div class="form-group">
-        <label for="exampleFormControlInput1">Nombre Tarea</label>
+      <div class="contenedor-input">
+        <label class="labels" for="exampleFormControlInput1"
+          >Nombre Tarea:</label
+        >
+        <br />
         <input
           type="text"
-          class="form-control"
+          class="cajas"
           name="tarea"
           id="exampleFormControlInput1"
+          required
           placeholder="Nombre"
           value=""
         />
       </div>
-      <div class="form-group">
-        <label for="exampleFormControlInput1">Cliente</label>
+      <div class="contenedor-input">
+        <label class="labels" for="exampleFormControlInput1">Cliente:</label>
+        <br />
         <input
           type="text"
-          class="form-control"
+          class="cajas"
           name="cliente"
           id="exampleFormControlInput1"
+          required
           placeholder="Cliente"
           value=""
         />
       </div>
-      <div class="form-group">
-        <label for="exampleFormControlInput1">Contacto</label>
+      <div class="contenedor-input">
+        <label class="labels" for="exampleFormControlInput1">Contacto:</label>
+        <br />
         <input
           type="text"
-          class="form-control"
+          class="cajas"
           name="contacto"
           id="exampleFormControlInput1"
+          required
           placeholder="Contacto"
           value=""
         />
       </div>
-      <div class="form-group">
-        <label for="exampleFormControlInput1">Correo Electrónico</label>
+      <div class="contenedor-input">
+        <label class="labels" for="exampleFormControlInput1"
+          >Correo Electrónico:</label
+        >
+        <br />
         <input
           type="email"
-          class="form-control"
+          class="cajas"
           name="correo"
           id="exampleFormControlInput1"
+          required
           placeholder="Correo Electrónico"
           value=""
         />
       </div>
-      <div class="form-group">
-        <label for="exampleFormControlInput1">Hora Ingreso</label>
+      <div class="contenedor-input">
+        <label class="labels" for="exampleFormControlInput1"
+          >Hora Ingreso:</label
+        >
+        <br />
         <input
           type="datetime"
-          class="form-control"
+          class="cajas"
           name="horaent"
           id="exampleFormControlInput1"
+          required
           placeholder="Hora Ingreso"
           value=""
         />
       </div>
-      <div class="form-group">
-        <label for="exampleFormControlInput1">Hora Egreso</label>
+      <div class="contenedor-input">
+        <label class="labels" for="exampleFormControlInput1"
+          >Hora Egreso:</label
+        >
+        <br />
         <input
           type="datetime"
-          class="form-control"
+          class="cajas"
           name="horasal"
           id="exampleFormControlInput1"
+          required
           placeholder="Hora Egreso"
           value=""
         />
       </div>
-      <div class="form-group">
-        <label for="exampleFormControlInput1">Porcentaje Completado</label>
+      <div class="contenedor-input">
+        <label class="labels" for="exampleFormControlInput1"
+          >Porcentaje Completado:</label
+        >
+        <br />
         <input
           type="number"
-          class="form-control"
+          class="cajas"
           name="porcentaje"
           id="exampleFormControlInput1"
+          required
           placeholder="Porcentaje"
           value=""
         />
       </div>
-      <div class="form-group">
-        <label for="exampleFormControlTextarea1">Descripción</label>
+      <div class="contenedor-input">
+        <label class="labels" for="exampleFormControlTextarea1"
+          >Descripción:</label
+        >
+        <br />
         <textarea
-          class="form-control"
+          class="cajas"
           name="descripcion"
           id="exampleFormControlTextarea1"
+          required
           rows="3"
           value=""
         ></textarea>
       </div>
-      <div class="form-group">
+      <div class="contenedor-input">
         <label for="exampleFormControlFile1"
-          >Insertar Imagen de los Avances</label
-        >
+          >Insertar Imagen de los Avances:</label
+        ><br /><br />
         <input
           type="file"
-          class="form-control-file"
           name="imagen"
           id="exampleFormControlFile1"
           value=""
+          required
         />
       </div>
       <label for="signature">Firma Digital</label>
       <canvas
         id="signature"
-        style="display: block; border: 1px solid black; margin-left: 100px;"
+        style="display: block; border: 1px solid #3a90ad; margin-left: 200px;"
       ></canvas>
 
       <br />
@@ -623,7 +651,7 @@
         <input type="button" id="reset" value="Limpiar" />
       </div>
 
-      <button type="button" class="btn btn-primary" onclick="saveReport(event)"
+      <button type="button" onclick="saveReport(event)" class="enviar"
         >Enviar</button
       >
     </form>

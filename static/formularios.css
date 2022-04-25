@@ -57,6 +57,16 @@ body {
   text-align: center;
   font-size: 20px;
 }
+#reset {
+  align-items: center;
+  margin-left: 80px;
+  background-color: #275a6b; /* Green */
+  border: none;
+  color: white;
+  padding: 5px 30px;
+  text-align: center;
+  font-size: 20px;
+}
 .enviar {
   background-color: #3a90ad; /* Green */
   border: none;
